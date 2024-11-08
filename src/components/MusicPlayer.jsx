@@ -36,7 +36,7 @@ const MusicPlayer = () => {
   useEffect(() => {
     const handleUserInteraction = () => {
       if (!isPlaying) {
-        startMusic();
+        // startMusic();
       }
     };
 
@@ -65,7 +65,7 @@ const MusicPlayer = () => {
           variant="contained"
           color="primary"
           onClick={startMusic}
-          className="bg-main text-white mb-4"
+          className="bg-main text-white mb-0"
         >
           <PlayArrowIcon />
           Play Music

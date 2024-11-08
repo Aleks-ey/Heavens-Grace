@@ -1,253 +1,163 @@
-// import { useState, useEffect } from "react";
-// import PropTypes from "prop-types";
-// import ContainerComponent from "../../lowLevel/container/ContainerComponent";
-// import ImageComponent from "../../lowLevel/image/ImageComponent";
-// import ComponentRenderer from "../../ComponentRenderer"; // Import PageRenderer
-
-// const CarouselComponent = ({
-//   backgrounds,
-//   children,
-//   interval = 10000,
-//   style,
-//   leftArrow = { showLeftArrow: true },
-//   rightArrow = { showRightArrow: true },
-// }) => {
-//   const [currentIndex, setCurrentIndex] = useState(0);
-//   const totalSlides = Math.max(backgrounds.length, children.length);
-
-//   const prevSlide = () => {
-//     setCurrentIndex((prevIndex) =>
-//       prevIndex === 0 ? totalSlides - 1 : prevIndex - 1
-//     );
-//   };
-
-//   const nextSlide = () => {
-//     setCurrentIndex((prevIndex) =>
-//       prevIndex === totalSlides - 1 ? 0 : prevIndex + 1
-//     );
-//   };
-
-//   // Auto-advance the carousel and reset the timer when the index changes
-//   useEffect(() => {
-//     const timer = setInterval(() => {
-//       setCurrentIndex((prevIndex) => (prevIndex + 1) % totalSlides);
-//     }, interval);
-
-//     return () => clearInterval(timer);
-//   }, [totalSlides, interval, currentIndex]);
-
-//   // Default style for carousel container
-//   const defaultCarouselStyle = "relative flex w-full h-full overflow-hidden ";
-//   // Custom style for carousel container
-//   const carouselStyle = style ? Object.values(style).join(" ") : "";
-//   // default background style for background images
-//   const defaultBackgroundStyle =
-//     "absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ";
-//   // default container style for individual child containers
-//   const defaultContainerStyle =
-//     "absolute inset-0 flex flex-col justify-center items-center space-y-4 text-center ";
-//   // Default style for both arrows
-//   const defaultArrowStyle =
-//     "absolute z-20 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full ";
-
-//   return (
-//     <ContainerComponent
-//       style={{ className: defaultCarouselStyle + carouselStyle }}
-//     >
-//       {backgrounds.map((bg, index) => {
-//         const backgroundStyle = bg.customStyle
-//           ? Object.values(bg.customStyle).join(" ").concat(" ")
-//           : "";
-//         return (
-//           <ImageComponent
-//             key={index}
-//             src={bg.src}
-//             alt={`Background ${index + 1}`}
-//             style={{
-//               className:
-//                 defaultBackgroundStyle +
-//                 backgroundStyle +
-//                 (index === currentIndex ? "opacity-100" : "opacity-0"),
-//             }}
-//           />
-//         );
-//       })}
-//       {children.map((slide, slideIndex) => {
-//         const slideVisible = slideIndex === currentIndex % children.length;
-//         const containerStyle = slide.containerStyle
-//           ? Object.values(slide.containerStyle).join(" ")
-//           : "";
-//         return (
-//           slideVisible && (
-//             <ContainerComponent
-//               key={slideIndex}
-//               style={{
-//                 className: defaultContainerStyle + containerStyle,
-//               }}
-//             >
-//               <ComponentRenderer config={slide} />{" "}
-//               {/* Render slide using PageRenderer */}
-//             </ContainerComponent>
-//           )
-//         );
-//       })}
-//       {leftArrow.showLeftArrow && (
-//         <button
-//           onClick={prevSlide}
-//           className={`${defaultArrowStyle} left-2 ${
-//             leftArrow.leftArrowStyle?.className || ""
-//           }`}
-//         >
-//           {leftArrow.leftArrowContent ? leftArrow.leftArrowContent : "←"}
-//         </button>
-//       )}
-//       {rightArrow.showRightArrow && (
-//         <button
-//           onClick={nextSlide}
-//           className={`${defaultArrowStyle} right-2 ${
-//             rightArrow.rightArrowStyle?.className || ""
-//           }`}
-//         >
-//           {rightArrow.rightArrowContent ? rightArrow.rightArrowContent : "→"}
-//         </button>
-//       )}
-//     </ContainerComponent>
-//   );
-// };
-
-// CarouselComponent.propTypes = {
-//   backgrounds: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       src: PropTypes.string.isRequired,
-//       customStyle: PropTypes.shape({
-//         className: PropTypes.string,
-//       }),
-//     })
-//   ),
-//   children: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       type: PropTypes.string.isRequired,
-//       props: PropTypes.object,
-//       children: PropTypes.arrayOf(
-//         PropTypes.shape({
-//           type: PropTypes.string.isRequired,
-//           props: PropTypes.object,
-//           children: PropTypes.array,
-//         })
-//       ),
-//       containerStyle: PropTypes.shape({
-//         className: PropTypes.string,
-//       }),
-//     })
-//   ),
-//   interval: PropTypes.number,
-//   style: PropTypes.shape({
-//     className: PropTypes.string,
-//   }),
-//   leftArrow: PropTypes.shape({
-//     showLeftArrow: PropTypes.bool,
-//     leftArrowContent: PropTypes.node,
-//     leftArrowStyle: PropTypes.shape({
-//       className: PropTypes.string,
-//     }),
-//   }),
-//   rightArrow: PropTypes.shape({
-//     showRightArrow: PropTypes.bool,
-//     rightArrowContent: PropTypes.node,
-//     rightArrowStyle: PropTypes.shape({
-//       className: PropTypes.string,
-//     }),
-//   }),
-// };
-
-// export default CarouselComponent;
-// testing
-
-import { useState, useEffect, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
-import ContainerComponent from "../../lowLevel/container/ContainerComponent";
+import { twMerge } from "tailwind-merge";
+import { useIndexContext } from "../../helpers/useIndexContext";
+// Component Imports
+import ButtonComponent from "../../lowLevel/button/ButtonComponent";
+import ElementComponent from "../../lowLevel/element/ElementComponent";
 import ImageComponent from "../../lowLevel/image/ImageComponent";
 import ComponentRenderer from "../../ComponentRenderer";
 
 const CarouselComponent = ({
   backgrounds = [],
   carouselChildren = [],
-  interval = 10000,
-  autoAdvance = true,
-  autoAdvanceBackground = true,
-  autoAdvanceChildren = true,
-  displayBackground = true,
-  displayChildren = true,
+  backgroundSettings = {},
+  childrenSettings = {},
+  arrows = [],
   style,
-  leftArrow = { showLeftArrow: true },
-  rightArrow = { showRightArrow: true },
+  contextId,
+  syncSlides = false, // New prop for slide synchronization
 }) => {
-  const [backgroundIndex, setBackgroundIndex] = useState(0);
-  const [childIndex, setChildIndex] = useState(0);
+  const {
+    backgroundContextId = syncSlides
+      ? contextId
+      : contextId?.backgroundContextId,
+    displayBackground = true,
+    autoAdvanceBackground = true,
+    backgroundInterval = 10000,
+    backgroundTransition = "fade",
+    backgroundScrollDirection = "left",
+  } = backgroundSettings;
+
+  const {
+    childrenContextId = syncSlides ? contextId : contextId?.childrenContextId,
+    displayChildren = true,
+    autoAdvanceChildren = true,
+    childrenInterval = 10000,
+    childrenTransition = "fade",
+    childrenScrollDirection = "left",
+  } = childrenSettings;
+
+  const { index: backgroundIndex, setIndex: setBackgroundIndex } =
+    useIndexContext(backgroundContextId);
+  const { index: childIndex, setIndex: setChildIndex } =
+    useIndexContext(childrenContextId);
 
   const totalBackgrounds = backgrounds.length;
   const totalChildren = carouselChildren.length;
 
-  // Handlers for manual navigation
+  // Handlers for manual navigation, now correctly updating the index
   const prevBackground = useCallback(() => {
-    setBackgroundIndex((prevIndex) =>
-      prevIndex === 0 ? totalBackgrounds - 1 : prevIndex - 1
-    );
-  }, [totalBackgrounds]);
+    const newIndex =
+      backgroundIndex === 0 ? totalBackgrounds - 1 : backgroundIndex - 1;
+    setBackgroundIndex(newIndex);
+  }, [backgroundIndex, totalBackgrounds, setBackgroundIndex]);
 
   const nextBackground = useCallback(() => {
-    setBackgroundIndex((prevIndex) => (prevIndex + 1) % totalBackgrounds);
-  }, [totalBackgrounds]);
+    const newIndex = (backgroundIndex + 1) % totalBackgrounds;
+    setBackgroundIndex(newIndex);
+  }, [backgroundIndex, totalBackgrounds, setBackgroundIndex]);
 
   const prevChild = useCallback(() => {
-    setChildIndex((prevIndex) =>
-      prevIndex === 0 ? totalChildren - 1 : prevIndex - 1
-    );
-  }, [totalChildren]);
+    const newIndex = childIndex === 0 ? totalChildren - 1 : childIndex - 1;
+    setChildIndex(newIndex);
+  }, [childIndex, totalChildren, setChildIndex]);
 
   const nextChild = useCallback(() => {
-    setChildIndex((prevIndex) => (prevIndex + 1) % totalChildren);
-  }, [totalChildren]);
+    const newIndex = (childIndex + 1) % totalChildren;
+    setChildIndex(newIndex);
+  }, [childIndex, totalChildren, setChildIndex]);
 
-  // Auto-advance for backgrounds
   useEffect(() => {
-    if (!autoAdvance || !autoAdvanceBackground || totalBackgrounds <= 1) return;
-    const timer = setInterval(nextBackground, interval);
+    if (!autoAdvanceBackground || totalBackgrounds <= 1) return;
+    const timer = setInterval(nextBackground, backgroundInterval);
     return () => clearInterval(timer);
   }, [
-    interval,
-    autoAdvance,
+    backgroundInterval,
     autoAdvanceBackground,
     totalBackgrounds,
     nextBackground,
   ]);
 
-  // Auto-advance for children
   useEffect(() => {
-    if (!autoAdvance || !autoAdvanceChildren || totalChildren <= 1) return;
-    const timer = setInterval(nextChild, interval);
+    if (!autoAdvanceChildren || totalChildren <= 1) return;
+    const timer = setInterval(nextChild, childrenInterval);
     return () => clearInterval(timer);
-  }, [interval, autoAdvance, autoAdvanceChildren, totalChildren, nextChild]);
+  }, [childrenInterval, autoAdvanceChildren, totalChildren, nextChild]);
+
+  const handleArrowClick = (arrowFunction) => {
+    switch (arrowFunction) {
+      case "prevChild":
+        prevChild();
+        break;
+      case "nextChild":
+        nextChild();
+        break;
+      case "prevBackground":
+        prevBackground();
+        break;
+      case "nextBackground":
+        nextBackground();
+        break;
+      case "prev":
+        prevChild();
+        prevBackground();
+        break;
+      case "next":
+        nextChild();
+        nextBackground();
+        break;
+      default:
+        break;
+    }
+  };
 
   const defaultCarouselStyle = "relative flex w-full h-full overflow-hidden ";
   const carouselStyle = style ? Object.values(style).join(" ") : "";
 
   const defaultBackgroundStyle =
-    "absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ";
-  const defaultContainerStyle =
-    "absolute inset-0 flex flex-col justify-center items-center space-y-4 text-center ";
+    "absolute inset-0 w-full h-full object-cover transform transition-all duration-1000 ";
+  const defaultChildStyle =
+    "absolute inset-0 flex flex-col justify-center items-center space-y-4 text-center transform transition-all duration-1000 ";
   const defaultArrowStyle =
     "absolute z-20 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full ";
 
+  const getSlideTransition = (isVisible, transitionType, direction) => {
+    if (transitionType === "fade") {
+      return isVisible ? "opacity-100" : "opacity-0";
+    } else if (transitionType === "scroll") {
+      switch (direction) {
+        case "left":
+          return isVisible
+            ? "translate-x-0 opacity-100"
+            : "translate-x-full opacity-0";
+        case "right":
+          return isVisible
+            ? "translate-x-0 opacity-100"
+            : "-translate-x-full opacity-0";
+        case "up":
+          return isVisible
+            ? "translate-y-0 opacity-100"
+            : "translate-y-full opacity-0";
+        case "down":
+          return isVisible
+            ? "translate-y-0 opacity-100"
+            : "-translate-y-full opacity-0";
+        default:
+          return "opacity-0";
+      }
+    }
+    return "opacity-0";
+  };
+
   return (
-    <ContainerComponent
-      style={{ className: defaultCarouselStyle + carouselStyle }}
-    >
+    <ElementComponent className={twMerge(defaultCarouselStyle + carouselStyle)}>
       {/* Render Backgrounds */}
       {displayBackground &&
         backgrounds.map((bg, index) => {
+          const isVisible = index === backgroundIndex;
           const backgroundStyle = bg.customStyle
-            ? Object.values(bg.customStyle).join(" ").concat(" ")
+            ? Object.values(bg.customStyle).join(" ")
             : "";
           return (
             <ImageComponent
@@ -255,10 +165,16 @@ const CarouselComponent = ({
               src={bg.src}
               alt={`Background ${index + 1}`}
               style={{
-                className:
+                className: twMerge(
                   defaultBackgroundStyle +
-                  backgroundStyle +
-                  (index === backgroundIndex ? "opacity-100" : "opacity-0"),
+                    backgroundStyle +
+                    " " +
+                    getSlideTransition(
+                      isVisible,
+                      backgroundTransition,
+                      backgroundScrollDirection
+                    )
+                ),
               }}
             />
           );
@@ -267,57 +183,76 @@ const CarouselComponent = ({
       {/* Render Carousel Children */}
       {displayChildren &&
         carouselChildren.map((slide, slideIndex) => {
-          const slideVisible = slideIndex === childIndex;
-          const containerStyle = slide.containerStyle
-            ? Object.values(slide.containerStyle).join(" ")
+          const isVisible = slideIndex === childIndex;
+          const childStyle = slide.style
+            ? Object.values(slide.style).join(" ").concat(" ")
             : "";
           return (
-            <ContainerComponent
+            <ElementComponent
               key={`child-${slideIndex}`}
               style={{
-                className:
-                  defaultContainerStyle +
-                  containerStyle +
-                  (slideVisible ? " opacity-100" : " opacity-0"),
+                className: twMerge(
+                  defaultChildStyle +
+                    childStyle +
+                    getSlideTransition(
+                      isVisible,
+                      childrenTransition,
+                      childrenScrollDirection
+                    )
+                ),
               }}
             >
-              {slideVisible && <ComponentRenderer config={slide} />}
-            </ContainerComponent>
+              {isVisible && <ComponentRenderer config={slide} />}
+            </ElementComponent>
           );
         })}
 
       {/* Navigation Arrows */}
-      {leftArrow.showLeftArrow && (
-        <button
-          onClick={() => {
-            prevBackground();
-            prevChild();
-          }}
-          className={`${defaultArrowStyle} left-2 ${
-            leftArrow.leftArrowStyle?.className || ""
-          }`}
-        >
-          {leftArrow.leftArrowContent || "←"}
-        </button>
-      )}
-      {rightArrow.showRightArrow && (
-        <button
-          onClick={() => {
-            nextBackground();
-            nextChild();
-          }}
-          className={`${defaultArrowStyle} right-2 ${
-            rightArrow.rightArrowStyle?.className || ""
-          }`}
-        >
-          {rightArrow.rightArrowContent || "→"}
-        </button>
-      )}
-    </ContainerComponent>
+      {arrows.map((arrow, index) => {
+        const arrowStyle = arrow.style
+          ? Object.values(arrow.style).join(" ").concat(" ")
+          : "";
+        const defaultArrowSymbol =
+          arrow.type === "left"
+            ? "←"
+            : arrow.type === "right"
+            ? "→"
+            : arrow.type === "top"
+            ? "↑"
+            : arrow.type === "bottom"
+            ? "↓"
+            : "";
+        return (
+          <ButtonComponent
+            key={`arrow-${index}`}
+            className={
+              defaultArrowStyle +
+              arrowStyle +
+              `${
+                arrow.type === "left"
+                  ? "left-2"
+                  : arrow.type === "right"
+                  ? "right-2"
+                  : arrow.type === "top"
+                  ? "top-2"
+                  : arrow.type === "bottom"
+                  ? "bottom-2"
+                  : ""
+              }`
+            }
+            onClick={() => handleArrowClick(arrow.function)}
+            buttonChildren={arrow.arrowChildren}
+          >
+            {arrow.arrowChildren ? null : defaultArrowSymbol}
+          </ButtonComponent>
+        );
+      })}
+    </ElementComponent>
   );
 };
 
 CarouselComponent.propTypes = {
+  // Array of background images to display in the carousel and the background settings
   backgrounds: PropTypes.arrayOf(
     PropTypes.shape({
       src: PropTypes.string.isRequired,
@@ -326,6 +261,14 @@ CarouselComponent.propTypes = {
       }),
     })
   ),
+  backgroundSettings: PropTypes.shape({
+    displayBackground: PropTypes.bool,
+    autoAdvanceBackground: PropTypes.bool,
+    backgroundInterval: PropTypes.number,
+    backgroundTransition: PropTypes.oneOf(["fade", "scroll"]),
+    backgroundScrollDirection: PropTypes.oneOf(["left", "right", "up", "down"]),
+  }),
+  // Array of child components to display in the carousel and the children settings
   carouselChildren: PropTypes.arrayOf(
     PropTypes.shape({
       type: PropTypes.string.isRequired,
@@ -337,33 +280,50 @@ CarouselComponent.propTypes = {
           children: PropTypes.array,
         })
       ),
-      containerStyle: PropTypes.shape({
+      style: PropTypes.shape({
         className: PropTypes.string,
       }),
     })
   ),
-  interval: PropTypes.number,
-  autoAdvance: PropTypes.bool,
-  autoAdvanceBackground: PropTypes.bool,
-  autoAdvanceChildren: PropTypes.bool,
-  displayBackground: PropTypes.bool,
-  displayChildren: PropTypes.bool,
+  childrenSettings: PropTypes.shape({
+    displayChildren: PropTypes.bool,
+    autoAdvanceChildren: PropTypes.bool,
+    childrenInterval: PropTypes.number,
+    childrenTransition: PropTypes.oneOf(["fade", "scroll"]),
+    childrenScrollDirection: PropTypes.oneOf(["left", "right", "up", "down"]),
+  }),
+  // Array of arrow components to display in the carousel and the arrow settings
+  arrows: PropTypes.arrayOf(
+    PropTypes.shape({
+      type: PropTypes.oneOf(["left", "right", "top", "bottom"]).isRequired,
+      function: PropTypes.oneOf([
+        "prevChild",
+        "nextChild",
+        "prevBackground",
+        "nextBackground",
+        "prev",
+        "next",
+      ]).isRequired,
+      props: PropTypes.object,
+      arrowChildren: PropTypes.arrayOf(
+        PropTypes.shape({
+          type: PropTypes.string.isRequired,
+          props: PropTypes.object,
+          children: PropTypes.array,
+        })
+      ),
+      style: PropTypes.shape({
+        className: PropTypes.string,
+      }),
+    })
+  ),
+  syncSlides: PropTypes.bool,
+  contextId: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.objectOf(PropTypes.string),
+  ]),
   style: PropTypes.shape({
     className: PropTypes.string,
-  }),
-  leftArrow: PropTypes.shape({
-    showLeftArrow: PropTypes.bool,
-    leftArrowContent: PropTypes.node,
-    leftArrowStyle: PropTypes.shape({
-      className: PropTypes.string,
-    }),
-  }),
-  rightArrow: PropTypes.shape({
-    showRightArrow: PropTypes.bool,
-    rightArrowContent: PropTypes.node,
-    rightArrowStyle: PropTypes.shape({
-      className: PropTypes.string,
-    }),
   }),
 };
 

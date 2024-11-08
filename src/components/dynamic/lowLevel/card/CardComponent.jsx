@@ -1,48 +1,52 @@
 import PropTypes from "prop-types";
-import ContainerComponent from "../container/ContainerComponent";
+import { twMerge } from "tailwind-merge";
+import ElementComponent from "../element/ElementComponent";
 import ComponentRenderer from "../../ComponentRenderer";
 
 const CardComponent = ({ style, topContainer, bottomContainer }) => {
   // Default styles for the card and inner containers
-  const defaultCardStyle = "p-4 bg-white shadow-lg rounded-lg flex flex-col";
+  const defaultCardStyle =
+    "w-auto h-auto p-4 bg-white shadow-lg rounded-lg flex flex-col ";
   const cardStyle = style ? Object.values(style).join(" ") : "";
 
-  const defaultTopContainerStyle = "p-4 border-b";
+  const defaultTopContainerStyle = "rounded-t-lg h-1/2 overflow-none ";
   const topContainerStyle = topContainer?.style
     ? Object.values(topContainer.style).join(" ")
     : "";
 
-  const defaultBottomContainerStyle = "p-4";
+  const defaultBottomContainerStyle = "rounded-b-lg h-1/2 overflow-none ";
   const bottomContainerStyle = bottomContainer?.style
     ? Object.values(bottomContainer.style).join(" ")
     : "";
 
   return (
-    <ContainerComponent
-      style={{ className: defaultCardStyle + " " + cardStyle }}
+    <ElementComponent
+      style={{ className: twMerge(defaultCardStyle + cardStyle) }}
     >
       {/* Top Container */}
-      <ContainerComponent
+      <ElementComponent
         style={{
-          className: defaultTopContainerStyle + " " + topContainerStyle,
+          className: twMerge(defaultTopContainerStyle + topContainerStyle),
         }}
       >
         {topContainer?.children?.map((childConfig, index) => (
           <ComponentRenderer key={index} config={childConfig} />
         ))}
-      </ContainerComponent>
+      </ElementComponent>
 
       {/* Bottom Container */}
-      <ContainerComponent
+      <ElementComponent
         style={{
-          className: defaultBottomContainerStyle + " " + bottomContainerStyle,
+          className: twMerge(
+            defaultBottomContainerStyle + bottomContainerStyle
+          ),
         }}
       >
         {bottomContainer?.children?.map((childConfig, index) => (
           <ComponentRenderer key={index} config={childConfig} />
         ))}
-      </ContainerComponent>
-    </ContainerComponent>
+      </ElementComponent>
+    </ElementComponent>
   );
 };
 

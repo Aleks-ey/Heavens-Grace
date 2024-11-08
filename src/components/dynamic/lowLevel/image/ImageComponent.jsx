@@ -1,14 +1,22 @@
-import Element from "../element/ElementComponent";
 import PropTypes from "prop-types";
+import { twMerge } from "tailwind-merge";
 
-const ImageComponent = ({ src, alt, style, ...props }) => {
+const ImageComponent = ({ src, alt, style, ...restProps }) => {
+  // Destructure and omit non-HTML-standard props
+  const { contextId, ...filteredProps } = restProps;
+  if (contextId) {
+    filteredProps["data-context-id"] = contextId;
+  }
+
+  const defaultImageStyle = "object-cover w-full h-full ";
+  const imageStyle = style ? Object.values(style).join(" ") : "";
+
   return (
-    <Element
-      element={{
-        tag: "img",
-        style,
-        props: { ...props, src, alt },
-      }}
+    <img
+      src={src}
+      alt={alt}
+      className={twMerge(defaultImageStyle + imageStyle)}
+      {...filteredProps}
     />
   );
 };

@@ -1,6 +1,6 @@
 import AppBuilder from "../components/dynamic/AppBuilder";
 
-const Contact = () => {
+const Donate = () => {
   const CardStyle = {
     position: "relative",
     backgroundColor: "bg-transparent",
@@ -312,7 +312,7 @@ const Contact = () => {
     },
   ];
 
-  const contactPageConfig = {
+  const donatePageConfig = {
     type: "ElementComponent",
     props: {
       tag: "div",
@@ -393,7 +393,7 @@ const Contact = () => {
     ],
   };
 
-  return <AppBuilder config={contactPageConfig} />;
+  return <AppBuilder config={donatePageConfig} />;
 };
 
-export default Contact;
+export default Donate;

@@ -1,29 +1,28 @@
 import PropTypes from "prop-types";
-import Button from "./Button";
+import { twMerge } from "tailwind-merge";
+import ButtonComponent from "../button/ButtonComponent";
 
-const NavLinks = ({ links, linkStyle, style }) => {
-  // *** ALL DEFAULT STYLES NEED A SPACE AT THE END TO JOIN TOGETHER CORRECTLY WITH CUSTOM STYLES ***
-  // default tailwind style for navLinks container
+const NavLinksComponent = ({ links, linkStyle, style }) => {
   const defaultStyle =
     "flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 ";
-  // check for custom style for navLinks container
   const navStyle = style ? Object.values(style)?.join(" ") : null;
+  const buttonStyle = linkStyle ? Object.values(linkStyle).join(" ") : "";
 
   return (
     <div className={defaultStyle + navStyle}>
       {links.map((link, index) => {
         // use customStyle if provided for a button
-        const buttonStyle = link.customStyle ? link.customStyle : linkStyle;
+        const customButtonStyle = link.style
+          ? Object.values(link.style).join(" ")
+          : " ";
 
         return (
-          <Button
+          <ButtonComponent
             key={index}
-            buttonProps={{
-              text: link.text,
-              link: link.link,
-              onClick: link.onClick,
-              style: buttonStyle,
-            }}
+            text={link.text}
+            href={link.link}
+            onClick={link.onClick}
+            style={{ className: twMerge(buttonStyle + customButtonStyle) }}
           />
         );
       })}
@@ -31,13 +30,13 @@ const NavLinks = ({ links, linkStyle, style }) => {
   );
 };
 
-NavLinks.propTypes = {
+NavLinksComponent.propTypes = {
   links: PropTypes.arrayOf(
     PropTypes.shape({
       text: PropTypes.string.isRequired,
       link: PropTypes.string,
       onClick: PropTypes.func,
-      customStyle: PropTypes.shape({
+      style: PropTypes.shape({
         className: PropTypes.string,
       }),
     })
@@ -50,4 +49,4 @@ NavLinks.propTypes = {
   }),
 };
 
-export default NavLinks;
+export default NavLinksComponent;

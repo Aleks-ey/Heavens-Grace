@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import fullLogoWhite from "../assets/logos/full-logo-white.png";
 
 import AHSlogo from "./Slogo";
-import AHNavLinks from "./NavLinks";
+import AHNavLinks from "./dynamic/lowLevel/navLinks/NavLinksComponent";
 import AHContactInfo from "./ContactInfo";
 
 const Footer = ({ footer }) => {

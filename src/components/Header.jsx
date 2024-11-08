@@ -7,8 +7,8 @@ import logoDark from "../assets/logos/logo-dark.png";
 import logoWhite from "../assets/logos/logo-white.png";
 
 import AHSlogo from "./Slogo";
-import AHButton from "./Button";
-import AHNavLinks from "./NavLinks";
+import ButtonComponent from "./dynamic/lowLevel/button/ButtonComponent";
+import AHNavLinks from "./dynamic/lowLevel/navLinks/NavLinksComponent";
 
 const Header = ({ header }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -41,10 +41,10 @@ const Header = ({ header }) => {
 
   const navLinks = [
     { text: "About Us", link: "/about" },
-    { text: "Children", link: "/support" },
-    { text: "How Donate", link: "/" },
-    { text: "News & Media", link: "/board" },
-    { text: "Contact", link: "/" },
+    { text: "Children", link: "/children" },
+    { text: "How Donate", link: "/donate" },
+    { text: "News & Media", link: "/news" },
+    { text: "Contact", link: "/contact" },
   ];
 
   const linksStyle = {
@@ -150,7 +150,7 @@ const Header = ({ header }) => {
             {/* NavLinks */}
             <AHNavLinks links={navLinks} linkStyle={drawerLinksStyle} />
             {/* Donate Button */}
-            <AHButton buttonProps={AHButtonProps} />
+            <ButtonComponent buttonProps={AHButtonProps} />
           </div>
         </Drawer>
       </Toolbar>

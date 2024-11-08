@@ -1,26 +1,30 @@
-import Element from "../element/ElementComponent";
 import PropTypes from "prop-types";
+import { twMerge } from "tailwind-merge";
 
-const TextComponent = ({ text, tag = "p", style, ...props }) => {
+const TextComponent = ({ tag: Tag = "p", text, style, ...restProps }) => {
+  const defaultTextStyle = "text-gray-700 ";
+  const textStyle = style ? Object.values(style).join(" ") : "";
+
+  // Destructure and omit non-HTML-standard props
+  const { contextId, ...filteredProps } = restProps;
+  if (contextId) {
+    filteredProps["data-context-id"] = contextId;
+  }
+
   return (
-    <Element
-      element={{
-        tag,
-        style,
-        props,
-      }}
-    >
+    <Tag className={twMerge(defaultTextStyle + textStyle)} {...restProps}>
       {text}
-    </Element>
+    </Tag>
   );
 };
 
 TextComponent.propTypes = {
-  text: PropTypes.string.isRequired,
   tag: PropTypes.string,
+  text: PropTypes.string.isRequired,
   style: PropTypes.shape({
     className: PropTypes.string,
   }),
+  children: PropTypes.node,
 };
 
 export default TextComponent;
