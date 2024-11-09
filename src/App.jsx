@@ -14,7 +14,7 @@ import AppBuilder from "./components/dynamic/AppBuilder";
 
 function App() {
   const logo = {
-    src: "src/assets/logos/logo-white.png",
+    src: "/logos/logo-white.png",
     alt: "Heaven's Grace Logo",
     logoStyle: {
       height: "h-20 md:h-24 w-auto",
@@ -62,7 +62,7 @@ function App() {
   };
 
   const drawerLogo = {
-    src: "src/assets/logos/full-logo-dark.png",
+    src: "/logos/full-logo-dark.png",
     alt: "Heaven's Grace Logo",
     logoStyle: {
       height: "h-24 w-auto",
@@ -148,7 +148,7 @@ function App() {
       },
       slogo: {
         logo: {
-          src: "src/assets/logos/full-logo-white.png",
+          src: "/logos/full-logo-white.png",
           alt: "Heaven's Grace Logo",
           logoStyle: {
             className: "h-24 md:h-32 w-auto",

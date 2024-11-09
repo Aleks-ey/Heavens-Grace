@@ -143,7 +143,9 @@ const Children = () => {
               {
                 type: "ImageComponent",
                 props: {
-                  src: "src/assets/images/Arsen.jpg",
+                  // src: "src/assets/images/Arsen.jpg",
+                  bucketId: "board",
+                  supabaseId: "Arsen.jpg",
                   alt: "Laura Badasyan",
                   style: {
                     width: "w-full",
@@ -311,7 +313,9 @@ const Children = () => {
               {
                 type: "ImageComponent",
                 props: {
-                  src: "src/assets/images/Laura.jpg",
+                  // src: "src/assets/images/Laura.jpg",
+                  bucketId: "board",
+                  supabaseId: "Laura.jpg",
                   alt: "Laura Badasyan",
                   style: {
                     width: "w-full",
@@ -384,7 +388,7 @@ const Children = () => {
                       {
                         type: "ImageComponent",
                         props: {
-                          src: "src/assets/logos/logo-color.png",
+                          src: "/logos/logo-color.png",
                           alt: "Heaven's Grace Red Ladybug",
                           style: {
                             width: "w-28",
@@ -439,7 +443,7 @@ const Children = () => {
         {
           type: "ImageComponent",
           props: {
-            src: "src/assets/arrows/chevron-right.svg",
+            src: "/icons/arrows/chevron-right.svg",
             style: {
               className:
                 "w-16 h-16 p-1 invert-[95%] sepia-[5%] saturate-[0%] hue-rotate-[40deg] brightness-[104%] contrast-[107%]",
@@ -492,7 +496,9 @@ const Children = () => {
       {
         type: "ImageComponent",
         props: {
-          src: "src/assets/images/background1.jpg",
+          // src: "src/assets/images/background1.jpg",
+          bucketId: "backgrounds",
+          supabaseId: "background1.jpg",
           style: {
             className: "absolute w-full h-full object-cover object-center",
             opacity: "opacity-50",
