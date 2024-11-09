@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 
-import Footer from "./components/Footer";
 import MusicPlayer from "./components/MusicPlayer";
 
 import Home from "./pages/Home";
@@ -139,17 +138,70 @@ function App() {
   };
 
   const footer = {
-    style: {
-      backgroundColor: "bg-accent",
-      padding: "py-10",
-    },
-    container: {
-      display: "flex",
-      flexDirection: "flex-col md:flex-row",
-      center: "items-center",
-      spacing: "justify-between space-y-6 md:space-y-0",
-      padding: "px-4",
-      margin: "mx-auto",
+    type: "FooterComponent",
+    props: {
+      footer: {
+        style: {
+          backgroundColor: "bg-accent",
+          padding: "py-10 px-10",
+        },
+      },
+      slogo: {
+        logo: {
+          src: "src/assets/logos/full-logo-white.png",
+          alt: "Heaven's Grace Logo",
+          logoStyle: {
+            className: "h-24 md:h-32 w-auto",
+          },
+        },
+      },
+      navLinks: {
+        links: [
+          { text: "About Us", link: "/about" },
+          { text: "Children", link: "/children" },
+          { text: "How to Donate", link: "/donate" },
+          { text: "News & Media", link: "/news" },
+          { text: "Contact", link: "/contact" },
+        ],
+        linkStyle: {
+          font: "font-montserrat",
+          fontSize: "text-sm",
+          backgroundColor: "bg-transparent",
+          color: "text-white",
+          padding: "px-2 py-2",
+          border: "border-transparent",
+          hoverColors: "hover:text-main hover:border-b hover:border-b-main",
+          activeColors: "active:text-main active:border-main",
+          focusStyle: "focus:outline-none",
+        },
+        style: {
+          display:
+            "flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-2",
+        },
+      },
+      contactInfo: {
+        items: [
+          { text: "Mail: info@heavensgrace.org" },
+          { text: "Phone: +1 (234) 567-890" },
+          {
+            isLink: true,
+            link: "https://facebook.com/heavensgrace",
+            text: "Facebook",
+            icon: {
+              iconUrl: "/path/to/facebook-icon.png",
+              className: "w-4 h-4 mr-2",
+            },
+            customStyle: {
+              display: "flex",
+              direction: "flex-row",
+            },
+          },
+        ],
+        style: {
+          font: "font-montserrat text-sm",
+          display: "flex flex-col items-center space-y-2 text-white",
+        },
+      },
     },
   };
 
@@ -168,7 +220,8 @@ function App() {
           <Route path="/contact" element={<Contact />} />
         </Routes>
       </div>
-      <Footer footer={footer} />
+      {/* <Footer footer={footer} /> */}
+      <AppBuilder config={footer} />
       <MusicPlayer />
     </Router>
   );

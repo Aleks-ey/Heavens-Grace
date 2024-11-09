@@ -31,7 +31,8 @@ const About = () => {
           {
             type: "ImageComponent",
             props: {
-              src: "src/assets/images/Laura.jpg",
+              bucketId: "board",
+              supabaseId: "Laura.jpg",
               alt: "Laura Badasyan",
               style: {
                 width: "w-full",
@@ -70,7 +71,8 @@ const About = () => {
           {
             type: "ImageComponent",
             props: {
-              src: "src/assets/images/Arsen.jpg",
+              bucketId: "board",
+              supabaseId: "Arsen.jpg",
               alt: "Arsen Badasyan",
               style: {
                 width: "w-full",
@@ -109,7 +111,8 @@ const About = () => {
           {
             type: "ImageComponent",
             props: {
-              src: "src/assets/images/Tea.jpg",
+              bucketId: "board",
+              supabaseId: "Tea.jpg",
               alt: "Tea Todua",
               style: {
                 width: "w-full",
@@ -148,7 +151,8 @@ const About = () => {
           {
             type: "ImageComponent",
             props: {
-              src: "src/assets/images/Veronika.jpg",
+              bucketId: "board",
+              supabaseId: "Veronika.jpg",
               alt: "Veronika",
               style: {
                 width: "w-full",
@@ -187,7 +191,8 @@ const About = () => {
           {
             type: "ImageComponent",
             props: {
-              src: "src/assets/images/Narcia.jpg",
+              bucketId: "board",
+              supabaseId: "Narcia.jpg",
               alt: "Narcia",
               style: {
                 width: "w-full",
@@ -307,7 +312,9 @@ const About = () => {
       {
         type: "ImageComponent",
         props: {
-          src: "src/assets/images/background1.jpg",
+          // src: "src/assets/images/background1.jpg",
+          bucketId: "backgrounds",
+          supabaseId: "background1.jpg",
           style: {
             className: "absolute w-full h-full object-cover object-center",
             opacity: "opacity-50",

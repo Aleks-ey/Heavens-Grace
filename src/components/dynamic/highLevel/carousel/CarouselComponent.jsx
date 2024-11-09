@@ -163,6 +163,8 @@ const CarouselComponent = ({
             <ImageComponent
               key={`bg-${index}`}
               src={bg.src}
+              bucketId={bg.bucketId}
+              supabaseId={bg.supabaseId}
               alt={`Background ${index + 1}`}
               style={{
                 className: twMerge(
@@ -256,6 +258,8 @@ CarouselComponent.propTypes = {
   backgrounds: PropTypes.arrayOf(
     PropTypes.shape({
       src: PropTypes.string.isRequired,
+      bucketId: PropTypes.string,
+      supabseId: PropTypes.string,
       customStyle: PropTypes.shape({
         className: PropTypes.string,
       }),

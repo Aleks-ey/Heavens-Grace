@@ -94,13 +94,17 @@ const Home = () => {
         props: {
           backgrounds: [
             {
-              src: "src/assets/images/background1.jpg",
+              // src: "src/assets/images/background1.jpg",
+              bucketId: "backgrounds",
+              supabaseId: "background1.jpg",
               customStyle: {
                 reverse: "-scale-x-100",
               },
             },
             {
-              src: "src/assets/images/background2.jpg",
+              // src: "src/assets/images/background2.jpg",
+              bucketId: "backgrounds",
+              supabaseId: "background2.jpg",
               customStyle: {},
             },
           ],

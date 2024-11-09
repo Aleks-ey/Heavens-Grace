@@ -86,6 +86,9 @@ const CarouselMultiItemsComponent = React.lazy(() =>
 const ElementComponent = React.lazy(() =>
   import("./lowLevel/element/ElementComponent")
 );
+const FooterComponent = React.lazy(() =>
+  import("./highLevel/footer/FooterComponent")
+);
 const FormComponent = React.lazy(() => import("./lowLevel/form/FormComponent"));
 const GridComponent = React.lazy(() => import("./lowLevel/grid/GridComponent"));
 const HeaderComponent = React.lazy(() =>
@@ -112,6 +115,7 @@ const ComponentRenderer = ({ config }) => {
       CarouselComponent,
       CarouselMultiItemsComponent,
       ElementComponent,
+      FooterComponent,
       FormComponent,
       GridComponent,
       HeaderComponent,
