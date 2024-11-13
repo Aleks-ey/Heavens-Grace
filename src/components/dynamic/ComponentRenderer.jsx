@@ -83,6 +83,12 @@ const CarouselComponent = React.lazy(() =>
 const CarouselMultiItemsComponent = React.lazy(() =>
   import("./highLevel/carouselMultiItems/CarouselMultiItemsComponent")
 );
+const DialogComponent = React.lazy(() =>
+  import("./lowLevel/dialog/DialogComponent")
+);
+const DrawerComponent = React.lazy(() =>
+  import("./lowLevel/drawer/DrawerComponent")
+);
 const ElementComponent = React.lazy(() =>
   import("./lowLevel/element/ElementComponent")
 );
@@ -114,6 +120,8 @@ const ComponentRenderer = ({ config }) => {
       CardComponent,
       CarouselComponent,
       CarouselMultiItemsComponent,
+      DialogComponent,
+      DrawerComponent,
       ElementComponent,
       FooterComponent,
       FormComponent,

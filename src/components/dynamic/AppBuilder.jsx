@@ -5,6 +5,8 @@ import { IndexContextProvider } from "./helpers/IndexContextProvider";
 // Import all components
 import ButtonComponent from "./lowLevel/button/ButtonComponent";
 import CardComponent from "./lowLevel/card/CardComponent";
+import DialogComponent from "./lowLevel/dialog/DialogComponent";
+import DrawerComponent from "./lowLevel/drawer/DrawerComponent";
 import ElementComponent from "./lowLevel/element/ElementComponent";
 import FooterComponent from "./highLevel/footer/FooterComponent";
 import FormComponent from "./lowLevel/form/FormComponent";
@@ -22,6 +24,8 @@ const componentMap = {
   CardComponent,
   CarouselComponent,
   CarouselMultiItemsComponent,
+  DialogComponent,
+  DrawerComponent,
   ButtonComponent,
   ElementComponent,
   FooterComponent,

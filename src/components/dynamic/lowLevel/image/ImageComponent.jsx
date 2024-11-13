@@ -46,6 +46,12 @@ const ImageComponent = ({
 }) => {
   const [imageSrc, setImageSrc] = useState(src);
 
+  // Destructure and omit non-HTML-standard props
+  const { contextId, ...filteredProps } = restProps;
+  if (contextId) {
+    filteredProps["data-context-id"] = contextId;
+  }
+
   // Fetch image from Supabase if `supabaseId` is provided
   useEffect(() => {
     const fetchImageFromSupabase = async () => {
@@ -73,7 +79,7 @@ const ImageComponent = ({
       src={imageSrc}
       alt={alt}
       className={twMerge(defaultImageStyle + imageStyle)}
-      {...restProps}
+      {...filteredProps}
     />
   );
 };

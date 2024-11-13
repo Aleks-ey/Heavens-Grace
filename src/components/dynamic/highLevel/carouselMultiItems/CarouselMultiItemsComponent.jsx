@@ -41,7 +41,7 @@ const CarouselMultiItemsComponent = ({
   const containerStyle = style ? Object.values(style).join(" ") : "";
 
   const defaultArrowStyle =
-    "absolute z-20 top-1/2 transform transition-all -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full ";
+    "absolute z-20 transform transition-all -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full ";
 
   return (
     <ElementComponent
@@ -67,25 +67,25 @@ const CarouselMultiItemsComponent = ({
             : arrow.type === "bottom"
             ? "↓"
             : "";
+        const defaultArrowPosition =
+          arrow.type === "left"
+            ? "left-2 "
+            : arrow.type === "right"
+            ? "right-2 "
+            : arrow.type === "top"
+            ? "top-2 "
+            : arrow.type === "bottom"
+            ? "bottom-2 "
+            : "";
 
         return (
           <ButtonComponent
             key={`arrow-${index}`}
-            className={
-              defaultArrowStyle +
-              arrowStyle +
-              `${
-                arrow.type === "left"
-                  ? "left-2"
-                  : arrow.type === "right"
-                  ? "right-2"
-                  : arrow.type === "top"
-                  ? "top-2"
-                  : arrow.type === "bottom"
-                  ? "bottom-2"
-                  : ""
-              }`
-            }
+            className={twMerge(
+              defaultArrowPosition,
+              defaultArrowStyle,
+              arrowStyle
+            )}
             onClick={() => handleArrowClick(arrow.function)}
             buttonChildren={arrow.arrowChildren}
           >

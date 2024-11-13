@@ -393,6 +393,7 @@ const Children = () => {
                           style: {
                             width: "w-28",
                             height: "h-28",
+                            objectFit: "object-fill",
                           },
                         },
                       },
@@ -414,30 +415,11 @@ const Children = () => {
   const needHelp = [NeedHelpItem1];
 
   const arrows = [
-    // {
-    //   type: "left",
-    //   function: "prevChild",
-    //   style: {
-    //     className: "bg-transparent left-0",
-    //   },
-    //   arrowChildren: [
-    //     {
-    //       type: "ImageComponent",
-    //       props: {
-    //         src: "src/assets/arrows/chevron-left.svg",
-    //         style: {
-    //           className:
-    //             "w-16 h-16 p-1 invert-[95%] sepia-[5%] saturate-[0%] hue-rotate-[40deg] brightness-[104%] contrast-[107%]",
-    //         },
-    //       },
-    //     },
-    //   ],
-    // },
     {
       type: "right",
       function: "next",
       style: {
-        className: "bg-transparent right-0 translate-x-9",
+        className: "bg-transparent top-1/2 right-6 translate-x-9",
       },
       arrowChildren: [
         {
@@ -462,7 +444,7 @@ const Children = () => {
         displayCount: 1,
         arrows: arrows,
         style: {
-          className: "w-full h-full space-x-10 pl-4 pr-9",
+          className: "w-full h-full space-x-10 pl-4 pr-20",
         },
       },
       style: {
@@ -476,7 +458,7 @@ const Children = () => {
         displayCount: 1,
         arrows: arrows,
         style: {
-          className: "w-full h-full space-x-10 pl-4 pr-9",
+          className: "w-full h-full space-x-10 pl-4 pr-20",
         },
       },
     },
@@ -488,7 +470,7 @@ const Children = () => {
       tag: "div",
       style: {
         display: "flex",
-        height: "h-screen",
+        height: "min-h-screen",
       },
     },
     children: [

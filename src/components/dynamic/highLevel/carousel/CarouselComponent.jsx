@@ -224,24 +224,25 @@ const CarouselComponent = ({
             : arrow.type === "bottom"
             ? "↓"
             : "";
+        const defaultArrowPosition =
+          arrow.type === "left"
+            ? "left-2 "
+            : arrow.type === "right"
+            ? "right-2 "
+            : arrow.type === "top"
+            ? "top-2 "
+            : arrow.type === "bottom"
+            ? "bottom-2 "
+            : "";
+
         return (
           <ButtonComponent
             key={`arrow-${index}`}
-            className={
-              defaultArrowStyle +
-              arrowStyle +
-              `${
-                arrow.type === "left"
-                  ? "left-2"
-                  : arrow.type === "right"
-                  ? "right-2"
-                  : arrow.type === "top"
-                  ? "top-2"
-                  : arrow.type === "bottom"
-                  ? "bottom-2"
-                  : ""
-              }`
-            }
+            className={twMerge(
+              defaultArrowPosition,
+              defaultArrowStyle,
+              arrowStyle
+            )}
             onClick={() => handleArrowClick(arrow.function)}
             buttonChildren={arrow.arrowChildren}
           >
@@ -257,7 +258,7 @@ CarouselComponent.propTypes = {
   // Array of background images to display in the carousel and the background settings
   backgrounds: PropTypes.arrayOf(
     PropTypes.shape({
-      src: PropTypes.string.isRequired,
+      src: PropTypes.string,
       bucketId: PropTypes.string,
       supabseId: PropTypes.string,
       customStyle: PropTypes.shape({
