@@ -2,8 +2,8 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { twMerge } from "tailwind-merge";
 import ComponentRenderer from "../../ComponentRenderer";
-import ButtonComponent from "../../lowLevel/button/ButtonComponent";
-import ElementComponent from "../../lowLevel/element/ElementComponent";
+import ButtonComponent from "../../baseComponents/button/ButtonComponent";
+import ElementComponent from "../../baseComponents/element/ElementComponent";
 
 const CarouselMultiItemsComponent = ({
   carouselChildren = [],

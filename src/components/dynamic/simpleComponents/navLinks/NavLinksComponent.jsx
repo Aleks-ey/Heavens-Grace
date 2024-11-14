@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { twMerge } from "tailwind-merge";
-import ButtonComponent from "../button/ButtonComponent";
+import ButtonComponent from "../../baseComponents/button/ButtonComponent";
 
 const NavLinksComponent = ({ links, linkStyle, style }) => {
   const defaultStyle =

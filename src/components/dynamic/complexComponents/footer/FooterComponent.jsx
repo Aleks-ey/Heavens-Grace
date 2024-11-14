@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { twMerge } from "tailwind-merge";
-import SlogoComponent from "../../lowLevel/slogo/SlogoComponent"; // Logo component
-import ContactInfoComponent from "../../lowLevel/contactInfo/ContactInfoComponent";
+import SlogoComponent from "../../simpleComponents/slogo/SlogoComponent"; // Logo component
+import ContactInfoComponent from "../../simpleComponents/contactInfo/ContactInfoComponent";
 import ComponentRenderer from "../../ComponentRenderer";
 
 const FooterComponent = ({ footer, slogo, navLinks, contactInfo }) => {

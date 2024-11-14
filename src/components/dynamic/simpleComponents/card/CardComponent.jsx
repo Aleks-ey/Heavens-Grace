@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { twMerge } from "tailwind-merge";
-import ElementComponent from "../element/ElementComponent";
+import ElementComponent from "../../baseComponents/element/ElementComponent";
 import ComponentRenderer from "../../ComponentRenderer";
 
 const CardComponent = ({ style, topContainer, bottomContainer }) => {

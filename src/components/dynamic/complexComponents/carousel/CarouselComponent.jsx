@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import { twMerge } from "tailwind-merge";
 import { useIndexContext } from "../../helpers/useIndexContext";
 // Component Imports
-import ButtonComponent from "../../lowLevel/button/ButtonComponent";
-import ElementComponent from "../../lowLevel/element/ElementComponent";
-import ImageComponent from "../../lowLevel/image/ImageComponent";
+import ButtonComponent from "../../baseComponents/button/ButtonComponent";
+import ElementComponent from "../../baseComponents/element/ElementComponent";
+import ImageComponent from "../../baseComponents/image/ImageComponent";
 import ComponentRenderer from "../../ComponentRenderer";
 
 const CarouselComponent = ({

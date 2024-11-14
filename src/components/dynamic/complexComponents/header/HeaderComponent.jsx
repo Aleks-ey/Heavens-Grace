@@ -1,9 +1,9 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { twMerge } from "tailwind-merge";
-import SlogoComponent from "../../lowLevel/slogo/SlogoComponent"; // Logo component
-import DrawerComponent from "../../lowLevel/drawer/DrawerComponent";
-import ButtonComponent from "../../lowLevel/button/ButtonComponent";
+import SlogoComponent from "../../simpleComponents/slogo/SlogoComponent"; // Logo component
+import DrawerComponent from "../../simpleComponents/drawer/DrawerComponent";
+import ButtonComponent from "../../baseComponents/button/ButtonComponent";
 import ComponentRenderer from "../../ComponentRenderer";
 
 const HeaderComponent = ({

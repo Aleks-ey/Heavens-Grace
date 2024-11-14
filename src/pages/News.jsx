@@ -16,12 +16,13 @@ const News = () => {
       {
         type: "ImageComponent",
         props: {
-          src: "src/assets/images/background1.jpg",
+          // src: "src/assets/images/background1.jpg",
+          bucketId: "backgrounds",
+          supabaseId: "background1.jpg",
           style: {
             className: "absolute w-full h-full object-cover object-center",
             opacity: "opacity-50",
             reverse: "-scale-x-100",
-            zIndex: "-z-10",
           },
         },
       },

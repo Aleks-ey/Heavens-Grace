@@ -1,4 +1,4 @@
-import Element from "../element/ElementComponent";
+import Element from "../../baseComponents/element/ElementComponent";
 import PropTypes from "prop-types";
 
 const GridComponent = ({ style, children, columns = 2, ...props }) => {

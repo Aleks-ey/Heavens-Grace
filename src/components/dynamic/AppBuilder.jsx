@@ -3,22 +3,22 @@ import PropTypes from "prop-types";
 import { IndexContextProvider } from "./helpers/IndexContextProvider";
 
 // Import all components
-import ButtonComponent from "./lowLevel/button/ButtonComponent";
-import CardComponent from "./lowLevel/card/CardComponent";
-import DialogComponent from "./lowLevel/dialog/DialogComponent";
-import DrawerComponent from "./lowLevel/drawer/DrawerComponent";
-import ElementComponent from "./lowLevel/element/ElementComponent";
-import FooterComponent from "./highLevel/footer/FooterComponent";
-import FormComponent from "./lowLevel/form/FormComponent";
-import GridComponent from "./lowLevel/grid/GridComponent";
-import HeaderComponent from "./highLevel/header/HeaderComponent";
-import ImageComponent from "./lowLevel/image/ImageComponent";
-import ListComponent from "./lowLevel/list/ListComponent";
-import NavLinksComponent from "./lowLevel/navLinks/NavLinksComponent";
-import TextComponent from "./lowLevel/text/TextComponent";
+import ButtonComponent from "./baseComponents/button/ButtonComponent";
+import CardComponent from "./simpleComponents/card/CardComponent";
+import DialogComponent from "./simpleComponents/dialog/DialogComponent";
+import DrawerComponent from "./simpleComponents/drawer/DrawerComponent";
+import ElementComponent from "./baseComponents/element/ElementComponent";
+import FooterComponent from "./complexComponents/footer/FooterComponent";
+import FormComponent from "./simpleComponents/form/FormComponent";
+import GridComponent from "./simpleComponents/grid/GridComponent";
+import HeaderComponent from "./complexComponents/header/HeaderComponent";
+import ImageComponent from "./baseComponents/image/ImageComponent";
+import ListComponent from "./simpleComponents/list/ListComponent";
+import NavLinksComponent from "./simpleComponents/navLinks/NavLinksComponent";
+import TextComponent from "./baseComponents/text/TextComponent";
 
-import CarouselComponent from "./highLevel/carousel/CarouselComponent";
-import CarouselMultiItemsComponent from "./highLevel/carouselMultiItems/CarouselMultiItemsComponent";
+import CarouselComponent from "./complexComponents/carousel/CarouselComponent";
+import CarouselMultiItemsComponent from "./complexComponents/carouselMultiItems/CarouselMultiItemsComponent";
 
 const componentMap = {
   CardComponent,
