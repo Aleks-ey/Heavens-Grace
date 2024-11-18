@@ -2,14 +2,25 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { supabase } from "../../../../supabaseClient"; // Supabase client
+import { twMerge } from "tailwind-merge";
+import ButtonComponent from "../../baseComponents/button/ButtonComponent";
 
 const FormComponent = ({
   fields,
   onSubmit,
   style,
+  buttonProps,
   supabaseConfig,
   ...props
 }) => {
+  const defaultFormStyle = "flex flex-col w-full md:w-1/2 lg:w-1/3 xl:w-1/4 ";
+  const customFormStyle = style ? Object.values(style).join(" ") : "";
+
+  const defaultFieldStyle = "w-full mb-4 ";
+  const defaultLabelStyle = "block text-black ";
+  const defaultInputStyle =
+    "block w-full p-3 rounded-lg focus:outline-gray-300 ";
+
   // Initialize form state based on field names
   const [formData, setFormData] = useState(
     fields.reduce((acc, field) => {
@@ -56,35 +67,60 @@ const FormComponent = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className={style?.className} {...props}>
+    <form
+      onSubmit={handleSubmit}
+      className={twMerge(defaultFormStyle, customFormStyle)}
+      {...props}
+    >
       {fields.map((field, index) => {
         const FieldTag = field.tag || "input";
         const commonProps = {
           name: field.name,
           value: formData[field.name] || "",
           onChange: handleChange,
-          className: field.style?.className,
           ...field.props,
         };
+        const customFieldStyle = field.style
+          ? Object.values(field.style).join(" ")
+          : "";
+        const customLabelStyle = field.labelStyle
+          ? Object.values(field.labelStyle).join(" ")
+          : "";
+        const customInputStyle = field.inputStyle
+          ? Object.values(field.inputStyle).join(" ")
+          : "";
 
         return (
-          <div key={index} className="mb-4">
+          <div
+            key={index}
+            className={twMerge(defaultFieldStyle, customFieldStyle)}
+          >
             {field.label && (
-              <label htmlFor={field.name} className="block text-gray-700">
+              <label
+                htmlFor={field.name}
+                className={twMerge(defaultLabelStyle, customLabelStyle)}
+              >
                 {field.label}
               </label>
             )}
             {FieldTag === "textarea" ? (
-              <textarea {...commonProps} />
+              <textarea
+                className={twMerge(defaultInputStyle, customInputStyle)}
+                {...commonProps}
+              />
             ) : (
-              <FieldTag {...commonProps} />
+              <FieldTag
+                className={twMerge(defaultInputStyle, customInputStyle)}
+                {...commonProps}
+              />
             )}
           </div>
         );
       })}
-      <button type="submit" className="p-2 bg-blue-500 text-white rounded">
+      {/* ButtonComponent instead of native button */}
+      <ButtonComponent type="submit" {...buttonProps}>
         Submit
-      </button>
+      </ButtonComponent>
     </form>
   );
 };
@@ -98,6 +134,12 @@ FormComponent.propTypes = {
       style: PropTypes.shape({
         className: PropTypes.string,
       }),
+      labelStyle: PropTypes.shape({
+        className: PropTypes.string,
+      }),
+      inputStyle: PropTypes.shape({
+        className: PropTypes.string,
+      }),
       props: PropTypes.object,
     })
   ).isRequired,
@@ -105,6 +147,7 @@ FormComponent.propTypes = {
   style: PropTypes.shape({
     className: PropTypes.string,
   }),
+  buttonProps: PropTypes.object,
   supabaseConfig: PropTypes.shape({
     table: PropTypes.string.isRequired,
   }),

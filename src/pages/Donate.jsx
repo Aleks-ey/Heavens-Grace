@@ -22,6 +22,7 @@ const Donate = () => {
             className: "absolute w-full h-full object-cover object-center",
             opacity: "opacity-50",
             reverse: "-scale-x-100",
+            zIndex: "-z-10",
           },
         },
       },
@@ -38,20 +39,31 @@ const Donate = () => {
           {
             type: "TextComponent",
             props: {
-              text: "Donate",
+              text: "Donating Is Easy",
               tag: "h1",
               style: {
-                className: "text-4xl font-bold text-center my-8",
+                className:
+                  "text-main text-5xl font-bold font-florisha text-center my-8",
               },
             },
           },
           {
             type: "TextComponent",
             props: {
-              text: "Your donation can help save a life.",
+              text: "Your donation, no matter the size, can help save a life.",
               tag: "p",
               style: {
-                className: "text-center text-lg",
+                className: "text-center text-3xl font-montserrat",
+              },
+            },
+          },
+          {
+            type: "TextComponent",
+            props: {
+              text: "Follow the link below to donate now.",
+              tag: "p",
+              style: {
+                className: "text-center text-3xl font-montserrat",
               },
             },
           },
@@ -59,10 +71,18 @@ const Donate = () => {
             type: "ButtonComponent",
             props: {
               text: "Donate Now",
-              onClick: () => console.log("button clicked"),
+              isExternal: true,
+              href: "https://example.com/donate",
               style: {
-                className:
-                  "w-fit bg-main-dark text-white mx-auto mt-8 px-4 py-2 rounded-full",
+                backgroundColor: "bg-white md:bg-main border-main",
+                hoverColors: "hover:bg-white hover:text-main hover:border-main",
+                color: "text-main md:text-white",
+                textAlign: "text-center",
+                fontSize: "text-lg",
+                font: "font-montserrat",
+                padding: "px-4 py-2",
+                margin: "my-8",
+                border: "rounded-full",
               },
             },
           },
