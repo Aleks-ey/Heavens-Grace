@@ -32,14 +32,14 @@ const Donate = () => {
           tag: "div",
           style: {
             className:
-              "flex flex-col py-32 text-center items-center justify-center mx-auto z-10",
+              "flex flex-col px-3 py-32 text-center items-center justify-center mx-auto z-10",
           },
         },
         children: [
           {
             type: "TextComponent",
             props: {
-              text: "Donating Is Easy",
+              text: "Donate Today",
               tag: "h1",
               style: {
                 className:

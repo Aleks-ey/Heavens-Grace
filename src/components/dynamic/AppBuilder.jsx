@@ -10,6 +10,7 @@ import DrawerComponent from "./simpleComponents/drawer/DrawerComponent";
 import ElementComponent from "./baseComponents/element/ElementComponent";
 import FooterComponent from "./complexComponents/footer/FooterComponent";
 import FormComponent from "./simpleComponents/form/FormComponent";
+import GalleryComponent from "./complexComponents/gallery/GalleryComponent";
 import GridComponent from "./simpleComponents/grid/GridComponent";
 import HeaderComponent from "./complexComponents/header/HeaderComponent";
 import ImageComponent from "./baseComponents/image/ImageComponent";
@@ -30,6 +31,7 @@ const componentMap = {
   ElementComponent,
   FooterComponent,
   FormComponent,
+  GalleryComponent,
   GridComponent,
   HeaderComponent,
   ImageComponent,

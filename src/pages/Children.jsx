@@ -47,7 +47,7 @@ const Children = () => {
             center: "",
             height: "h-full",
             width: "w-3/4",
-            padding: "pr-20",
+            padding: "md:pr-20",
             spacing: "space-y-8",
             text: "text-left",
           },
@@ -464,12 +464,151 @@ const Children = () => {
     },
   ];
 
+  const childrenPageDesktopConfig = [
+    {
+      type: "ElementComponent",
+      props: {
+        style: {
+          display: "flex md:flex-row",
+          height: "h-screen",
+          width: "w-screen",
+          padding: "pt-40 pb-10",
+          center: "justify-center",
+        },
+      },
+      children: [
+        // List of children page sections
+        {
+          type: "ElementComponent",
+          props: {
+            style: {
+              width: "w-1/5",
+              translate: "",
+              padding: "pl-12 pr-6 py-2",
+            },
+          },
+          children: [
+            //list header
+            {
+              type: "TextComponent",
+              props: {
+                tag: "h1",
+                text: "About Us",
+                style: {
+                  font: "font-florisha font-bold",
+                  fontSize: "text-3xl",
+                  color: "text-black",
+                  padding: "pb-4",
+                },
+              },
+            },
+            //list items
+            {
+              type: "ListComponent",
+              contextId: "aboutCarouselContext",
+              props: {
+                items: [{ text: "We've Helped" }, { text: "Need Help" }],
+                underlineActive: true,
+                initialIndex: 0,
+                style: { padding: "pl-4" },
+                itemStyle: {
+                  className: "text-xl list-disc px-2",
+                },
+                activeStyle: {
+                  className: "text-xl list-disc p-0",
+                },
+              },
+            },
+          ],
+        },
+        // Line between the list and the carousel
+        {
+          type: "ElementComponent",
+          props: {
+            tag: "hr",
+            style: {
+              className: "border h-[90%] border-gray-500",
+            },
+          },
+        },
+        // About page Carousel component
+        {
+          type: "CarouselComponent",
+          contextId: {
+            childrenContextId: "aboutCarouselContext",
+          },
+          props: {
+            carouselChildren: mainCarouselContent,
+            childrenSettings: {
+              displayChildren: true,
+              autoAdvanceChildren: false,
+              childrenTransition: "scroll",
+              childrenScrollDirection: "up",
+            },
+            style: {
+              className: "w-full",
+            },
+          },
+        },
+      ],
+    },
+  ];
+
+  const childrenPageMobileConfig = [
+    {
+      type: "ElementComponent",
+      props: {
+        tag: "div",
+        style: {
+          className: "flex flex-col items-center pt-32 pb-12",
+        },
+      },
+      children: [
+        {
+          type: "CarouselMultiItemsComponent",
+          props: {
+            carouselChildren: helped,
+            displayCount: 1,
+            arrows: arrows,
+            style: {
+              className: "w-full h-full space-x-10",
+            },
+          },
+          style: {
+            className: "",
+          },
+        },
+      ],
+    },
+    {
+      type: "ElementComponent",
+      props: {
+        tag: "div",
+        style: {
+          className: "flex flex-col justify-center items-center py-12",
+        },
+      },
+      children: [
+        {
+          type: "CarouselMultiItemsComponent",
+          props: {
+            carouselChildren: needHelp,
+            displayCount: 1,
+            arrows: arrows,
+            style: {
+              className: "w-full h-full space-x-10",
+            },
+          },
+        },
+      ],
+    },
+  ];
+
   const childrenPageConfig = {
     type: "ElementComponent",
     props: {
       tag: "div",
       style: {
-        display: "flex",
         height: "min-h-screen",
       },
     },
@@ -485,96 +624,34 @@ const Children = () => {
             className: "absolute w-full h-full object-cover object-center",
             opacity: "opacity-50",
             reverse: "-scale-x-100",
-            zIndex: "-z-10",
           },
         },
       },
+      // Children page for desktop
       {
         type: "ElementComponent",
         props: {
+          tag: "div",
           style: {
-            display: "flex md:flex-row",
-            height: "h-screen",
-            width: "w-screen",
-            padding: "pt-40 pb-10",
-            center: "justify-center",
+            display: "hidden md:flex flex-row",
+            height: "h-screen px-10 py-32",
+            spacing: "justify-center items-center",
           },
         },
-        children: [
-          // List of children page sections
-          {
-            type: "ElementComponent",
-            props: {
-              style: {
-                width: "w-1/5",
-                translate: "",
-                padding: "pl-12 pr-6 py-2",
-              },
-            },
-            children: [
-              //list header
-              {
-                type: "TextComponent",
-                props: {
-                  tag: "h1",
-                  text: "About Us",
-                  style: {
-                    font: "font-florisha font-bold",
-                    fontSize: "text-3xl",
-                    color: "text-black",
-                    padding: "pb-4",
-                  },
-                },
-              },
-              //list items
-              {
-                type: "ListComponent",
-                contextId: "aboutCarouselContext",
-                props: {
-                  items: [{ text: "We've Helped" }, { text: "Need Help" }],
-                  underlineActive: true,
-                  initialIndex: 0,
-                  style: { padding: "pl-4" },
-                  itemStyle: {
-                    className: "text-xl list-disc px-2",
-                  },
-                  activeStyle: {
-                    className: "text-xl list-disc p-0",
-                  },
-                },
-              },
-            ],
+        children: childrenPageDesktopConfig,
+      },
+      // Children page for mobile
+      {
+        type: "ElementComponent",
+        props: {
+          tag: "div",
+          style: {
+            display: "flex md:hidden flex-col",
+            height: "minh-screen px-4 bg-base-light",
+            spacing: "justify-center items-center",
           },
-          // Line between the list and the carousel
-          {
-            type: "ElementComponent",
-            props: {
-              tag: "hr",
-              style: {
-                className: "border h-[90%] border-gray-500",
-              },
-            },
-          },
-          // About page Carousel component
-          {
-            type: "CarouselComponent",
-            contextId: {
-              childrenContextId: "aboutCarouselContext",
-            },
-            props: {
-              carouselChildren: mainCarouselContent,
-              childrenSettings: {
-                displayChildren: true,
-                autoAdvanceChildren: false,
-                childrenTransition: "scroll",
-                childrenScrollDirection: "up",
-              },
-              style: {
-                className: "w-full",
-              },
-            },
-          },
-        ],
+        },
+        children: childrenPageMobileConfig,
       },
     ],
   };

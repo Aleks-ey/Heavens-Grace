@@ -588,7 +588,8 @@ const About = () => {
       props: {
         tag: "div",
         style: {
-          className: "flex flex-col px-3 items-center h-[90vh] z-10",
+          className:
+            "flex flex-col px-3 pt-32 pb-12 items-center h-screen z-10",
         },
       },
       children: [
@@ -619,7 +620,8 @@ const About = () => {
       props: {
         tag: "div",
         style: {
-          className: "flex flex-col px-3 justify-center items-center h-screen",
+          className:
+            "flex flex-col px-3 pt-12 justify-center items-center h-screen",
         },
       },
       children: [
@@ -649,7 +651,7 @@ const About = () => {
       type: "ElementComponent",
       props: {
         style: {
-          className: "px-3",
+          className: "px-3 pb-12",
         },
       },
       children: [
@@ -724,7 +726,7 @@ const About = () => {
       type: "ElementComponent",
       props: {
         style: {
-          className: "relative px-3 pt-32",
+          className: "relative px-3 py-12",
         },
       },
       children: [
@@ -827,7 +829,7 @@ const About = () => {
           tag: "div",
           style: {
             display: "flex flex-col md:hidden",
-            height: "min-h-screen py-32 bg-base-light",
+            height: "min-h-screen bg-base-light",
             spacing: "justify-center items-center",
           },
         },

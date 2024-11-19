@@ -208,19 +208,18 @@ function App() {
   return (
     <Router>
       <AppBuilder config={header} />
-      <div className="min-h-screen">
-        <Routes>
-          <Route path="" element={<Home />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/children" element={<Children />} />
-          <Route path="/donate" element={<Donate />} />
-          <Route path="/news" element={<News />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
-      </div>
-      {/* <Footer footer={footer} /> */}
+      {/* <div className="min-h-screen"> */}
+      <Routes>
+        <Route path="" element={<Home />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/children" element={<Children />} />
+        <Route path="/donate" element={<Donate />} />
+        <Route path="/news" element={<News />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
+      {/* </div> */}
       <AppBuilder config={footer} />
       <MusicPlayer />
     </Router>

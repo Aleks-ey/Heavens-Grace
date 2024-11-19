@@ -29,6 +29,9 @@ const FooterComponent = React.lazy(() =>
 const FormComponent = React.lazy(() =>
   import("./simpleComponents/form/FormComponent")
 );
+const GalleryComponent = React.lazy(() =>
+  import("./complexComponents/gallery/GalleryComponent")
+);
 const GridComponent = React.lazy(() =>
   import("./simpleComponents/grid/GridComponent")
 );
@@ -64,6 +67,7 @@ const ComponentRenderer = ({ config }) => {
       ElementComponent,
       FooterComponent,
       FormComponent,
+      GalleryComponent,
       GridComponent,
       HeaderComponent,
       ImageComponent,
