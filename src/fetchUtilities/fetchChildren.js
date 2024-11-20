@@ -1,0 +1,370 @@
+import { supabase } from "../supabaseClient"; // Your Supabase client
+
+export async function fetchChildren(type) {
+  // json for children card component
+  const CardStyle = {
+    position: "relative",
+    backgroundColor: "bg-transparent",
+    color: "text-white",
+    shadow: "shadow-none",
+    height: "h-full",
+    margin: "mx-auto",
+    padding: "p-0 md:pl-4",
+    center: "self-center justify-center",
+  };
+  const CardTopStyle = {
+    height: "h-full",
+    width: "w-full",
+    padding: "p-0",
+    center: "self-center justify-center content-center",
+    backgroundColor: "bg-white",
+    borderRadius: "rounded-t-lg",
+  };
+  const CardBottomStyle = {
+    height: "h-auto",
+    width: "w-full",
+    padding: "py-3 px-2",
+    translate: "-translate-y-10",
+    center: "self-center justify-center content-center",
+    backgroundColor: "bg-white",
+    borderRadius: "rounded-full",
+  };
+
+  const { data, error } = await supabase
+    .from("children")
+    .select("*")
+    .eq("type", type);
+
+  if (error) {
+    console.error("Error fetching children data:", error);
+    return [];
+  }
+
+  // Transform data into dynamic component format
+  return data.map((child) => {
+    const header =
+      child.type === "helped"
+        ? "Children We've Helped"
+        : "Children Needing Help";
+    const description2 =
+      child.type === "helped" ? "After Recieving Help:" : "Why Help is Needed:";
+
+    const helpedButton = {
+      type: "ButtonComponent",
+      props: {
+        text: "Read More / Gallery",
+        style: {
+          className:
+            "w-fit p-0 bg-transparent hover:bg-transparent border-none text-base-dark font-bold",
+        },
+      },
+    };
+    const helpButton = {
+      type: "ElementComponent",
+      props: {
+        style: {
+          className: "flex flex-col",
+        },
+      },
+      children: [
+        {
+          type: "ButtonComponent",
+          props: {
+            text: "Read More / Gallery",
+            href: "/news",
+            style: {
+              className:
+                "w-fit p-0 bg-transparent hover:bg-transparent border-none text-base-dark font-bold",
+            },
+          },
+        },
+        {
+          type: "ButtonComponent",
+          props: {
+            text: "DONATE NOW! TAP ON LADYBUG",
+            //arrow right
+            style: {
+              className:
+                "w-fit p-0 bg-transparent hover:bg-transparent border-none text-main font-bold",
+            },
+          },
+        },
+      ],
+    };
+
+    const button = child.type === "helped" ? helpedButton : helpButton;
+
+    //   const bucket = child.type === "helped" ? "children-helped" : "children-help";
+    const bucket = child.type === "helped" ? "board" : "board"; //temp bucket while no children images are uploaded
+
+    const helpedBottomContent = {
+      // bottom card content for children we've helped
+      type: "ElementComponent",
+      props: {
+        style: {
+          className: "flex flex-col text-left justify-center",
+        },
+      },
+      children: [
+        {
+          type: "ElementComponent",
+          props: {
+            style: {
+              className: "w-3/4 px-6 text-base",
+            },
+          },
+          children: [
+            {
+              type: "TextComponent",
+              props: {
+                text: "Treatment Cost: ",
+                style: {
+                  color: "text-accent font-semibold",
+                },
+              },
+            },
+            {
+              type: "TextComponent",
+              props: {
+                text: `Raised: ${child.raised}`,
+                style: {
+                  color: "text-base-dark",
+                },
+              },
+            },
+            {
+              type: "TextComponent",
+              props: {
+                text: `Remaining: ${child.remaining}`,
+                style: {
+                  color: "text-base-dark font-bold",
+                },
+              },
+            },
+          ],
+        },
+        {
+          type: "TextComponent",
+          props: {
+            text: child.cost,
+            style: {
+              className: "absolute right-10 text-green-500 text-4xl font-bold",
+            },
+          },
+        },
+      ],
+    };
+
+    const helpBottomContent = {
+      // bottom card content for children needing help
+      type: "ElementComponent",
+      props: {
+        style: {
+          className: "flex flex-col text-left justify-center",
+        },
+      },
+      children: [
+        {
+          type: "ElementComponent",
+          props: {
+            style: {
+              className: "w-3/4 px-6 text-sm lg:text-base",
+            },
+          },
+          children: [
+            {
+              type: "TextComponent",
+              props: {
+                text: `Treatment Cost: ${child.cost}`,
+                style: {
+                  color: "text-accent font-semibold",
+                },
+              },
+            },
+            {
+              type: "TextComponent",
+              props: {
+                text: `Raised: ${child.raised}`,
+                style: {
+                  color: "text-base-dark",
+                },
+              },
+            },
+            {
+              type: "TextComponent",
+              props: {
+                text: `Remaining: ${child.remaining}`,
+                style: {
+                  color: "text-main font-bold",
+                },
+              },
+            },
+          ],
+        },
+        {
+          type: "ButtonComponent",
+          props: {
+            href: "/donate",
+            style: {
+              className:
+                "absolute right-0 bg-white hover:bg-white border-none shadow-lg text-white p-0 rounded-full",
+            },
+          },
+          children: [
+            {
+              type: "ImageComponent",
+              props: {
+                src: "/logos/logo-color.png",
+                alt: "Heaven's Grace Red Ladybug",
+                style: {
+                  height: "h-24 lg:h-28",
+                  objectFit: "object-fill",
+                },
+              },
+            },
+          ],
+        },
+      ],
+    };
+    const bottomContent =
+      child.type === "helped" ? helpedBottomContent : helpBottomContent;
+
+    return {
+      type: "ElementComponent",
+      props: {
+        style: {
+          className:
+            "flex flex-col-reverse md:flex-row justify-center items-center h-full w-full",
+        },
+      },
+      children: [
+        {
+          type: "ElementComponent",
+          props: {
+            style: {
+              className:
+                "flex flex-col lg:justify-center h-full w-full pr-4 md:space-y-4 lg:space-y-6 text-left overflow-y-auto scrollbar-thin",
+            },
+          },
+          children: [
+            {
+              // header
+              type: "TextComponent",
+              props: {
+                tag: "h2",
+                text: header,
+                style: {
+                  className: "hidden md:block text-2xl font-bold",
+                },
+              },
+            },
+            {
+              // child name and description
+              type: "ElementComponent",
+              props: {
+                style: {
+                  className: "flex flex-col text-left justify-center",
+                },
+              },
+              children: [
+                {
+                  type: "TextComponent",
+                  props: {
+                    tag: "h3",
+                    text: child.name,
+                    style: {
+                      className: "text-xl font-bold",
+                    },
+                  },
+                },
+                {
+                  type: "TextComponent",
+                  props: {
+                    tag: "p",
+                    text: child.description,
+                    style: {
+                      className: "text-lg text-gray-500",
+                    },
+                  },
+                },
+              ],
+            },
+            {
+              // after receiving help or why help is needed
+              type: "ElementComponent",
+              props: {
+                style: {
+                  className: "flex flex-col text-left justify-center",
+                },
+              },
+              children: [
+                {
+                  type: "TextComponent",
+                  props: {
+                    tag: "h3",
+                    text: description2,
+                    style: {
+                      className: "text-xl font-bold",
+                    },
+                  },
+                },
+                {
+                  type: "TextComponent",
+                  props: {
+                    tag: "p",
+                    text: child.description2,
+                    style: {
+                      className: "text-lg text-gray-500",
+                    },
+                  },
+                },
+              ],
+            },
+            button, // read more/gallery button plus donate now if child needs help
+          ],
+        },
+        {
+          // child image and donation values card
+          type: "CardComponent",
+          props: {
+            topContainer: {
+              // child image
+              children: [
+                {
+                  type: "ImageComponent",
+                  props: {
+                    bucketId: bucket,
+                    supabaseId: child.image,
+                    alt: child.name,
+                    style: {
+                      rounded: "rounded-t-lg",
+                    },
+                  },
+                },
+              ],
+              style: CardTopStyle,
+            },
+            bottomContainer: {
+              // donation values card, changes based on child type
+              children: [bottomContent],
+              style: CardBottomStyle,
+            },
+            style: CardStyle,
+          },
+        },
+        {
+          // header
+          type: "TextComponent",
+          props: {
+            tag: "h2",
+            text: header,
+            style: {
+              className:
+                "md:hidden pb-4 self-start text-2xl text-main font-bold",
+            },
+          },
+        },
+      ],
+    };
+  });
+}

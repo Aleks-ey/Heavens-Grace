@@ -49,50 +49,53 @@ const CarouselMultiItemsComponent = ({
     >
       {/* Carousel Items */}
       {visibleItems.map((itemConfig, index) => {
-        return <ComponentRenderer key={index} config={itemConfig} />;
+        return itemConfig ? (
+          <ComponentRenderer key={index} config={itemConfig} />
+        ) : null;
       })}
 
       {/* Navigation Arrows */}
-      {arrows.map((arrow, index) => {
-        const arrowStyle = arrow.style
-          ? Object.values(arrow.style).join(" ").concat(" ")
-          : "";
-        const defaultArrowSymbol =
-          arrow.type === "left"
-            ? "←"
-            : arrow.type === "right"
-            ? "→"
-            : arrow.type === "top"
-            ? "↑"
-            : arrow.type === "bottom"
-            ? "↓"
+      {totalItems > 1 &&
+        arrows.map((arrow, index) => {
+          const arrowStyle = arrow.style
+            ? Object.values(arrow.style).join(" ").concat(" ")
             : "";
-        const defaultArrowPosition =
-          arrow.type === "left"
-            ? "left-2 "
-            : arrow.type === "right"
-            ? "right-2 "
-            : arrow.type === "top"
-            ? "top-2 "
-            : arrow.type === "bottom"
-            ? "bottom-2 "
-            : "";
+          const defaultArrowSymbol =
+            arrow.type === "left"
+              ? "←"
+              : arrow.type === "right"
+              ? "→"
+              : arrow.type === "top"
+              ? "↑"
+              : arrow.type === "bottom"
+              ? "↓"
+              : "";
+          const defaultArrowPosition =
+            arrow.type === "left"
+              ? "left-2 "
+              : arrow.type === "right"
+              ? "right-2 "
+              : arrow.type === "top"
+              ? "top-2 "
+              : arrow.type === "bottom"
+              ? "bottom-2 "
+              : "";
 
-        return (
-          <ButtonComponent
-            key={`arrow-${index}`}
-            className={twMerge(
-              defaultArrowPosition,
-              defaultArrowStyle,
-              arrowStyle
-            )}
-            onClick={() => handleArrowClick(arrow.function)}
-            buttonChildren={arrow.arrowChildren}
-          >
-            {arrow.arrowChildren ? null : defaultArrowSymbol}
-          </ButtonComponent>
-        );
-      })}
+          return (
+            <ButtonComponent
+              key={`arrow-${index}`}
+              className={twMerge(
+                defaultArrowPosition,
+                defaultArrowStyle,
+                arrowStyle
+              )}
+              onClick={() => handleArrowClick(arrow.function)}
+              buttonChildren={arrow.arrowChildren}
+            >
+              {arrow.arrowChildren ? null : defaultArrowSymbol}
+            </ButtonComponent>
+          );
+        })}
     </ElementComponent>
   );
 };

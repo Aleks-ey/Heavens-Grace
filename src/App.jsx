@@ -17,7 +17,7 @@ function App() {
     src: "/logos/logo-white.png",
     alt: "Heaven's Grace Logo",
     logoStyle: {
-      height: "h-20 md:h-24 w-auto",
+      height: "h-20 lg:h-24 w-auto",
       objectFit: "object-cover",
     },
   };
@@ -26,12 +26,12 @@ function App() {
     name: "Heaven's Grace",
     nameStyle: {
       font: "font-florisha",
-      fontSize: "text-xl md:text-2xl",
+      fontSize: "text-lg lg:text-2xl",
     },
     slogan: "Little Wings, Big Miracles",
     sloganStyle: {
       font: "font-montserrat",
-      fontSize: "text-base md:text-xl",
+      fontSize: "text-sm lg:text-xl",
     },
   };
 
@@ -48,7 +48,7 @@ function App() {
     fontSize: "text-lg",
     backgroundColor: "bg-transparent",
     color: "text-white",
-    padding: "px-5 py-2",
+    padding: "px-2 lg:px-5 py-2",
     border: "border-transparent",
     hoverColors: "hover:text-main hover:border-b hover:border-b-main",
     activeColors: "active:text-main active:border-main",
@@ -58,7 +58,7 @@ function App() {
   const navLinksStyle = {
     display: "flex",
     direction: "flex-row",
-    spacing: "space-y-4 md:space-y-0 md:space-x-6",
+    spacing: "space-y-4 md:space-y-0 md:space-x-0 lg:space-x-6",
   };
 
   const drawerLogo = {

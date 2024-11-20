@@ -11,6 +11,39 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #404040;
+  border-radius: 100vh;
+  /* border: 3px solid #f6f7ed; */
+}
+
+.svg-white {
+  /* tailwind version: invert-[95%] sepia-[5%] saturate-[0%] hue-rotate-[40deg] brightness-[104%] contrast-[107%] */
+  filter: invert(95%) sepia(5%) saturate(0%) hue-rotate(40deg) brightness(104%)
+    contrast(107%);
+}
+
+.svg-accent {
+  /* tailwind version: invert-[0%] sepia-[23%] saturate-[4884%] hue-rotate-[340deg] brightness-[84%] contrast-[85%] */
+  filter: invert(0%) sepia(23%) saturate(4884%) hue-rotate(340deg)
+    brightness(84%) contrast(85%);
+}
+
+.children-arrows-color {
+  filter: invert(0%) sepia(23%) saturate(4884%) hue-rotate(340deg)
+    brightness(84%) contrast(85%);
+}
+@media (min-width: 768px) {
+  .children-arrows-color {
+    filter: invert(95%) sepia(5%) saturate(0%) hue-rotate(40deg)
+      brightness(104%) contrast(107%);
+  }
+}
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
