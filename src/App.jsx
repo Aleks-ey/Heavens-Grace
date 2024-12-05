@@ -39,7 +39,7 @@ function App() {
     { text: "About Us", link: "/about" },
     { text: "Children", link: "/children" },
     { text: "How Donate", link: "/donate" },
-    { text: "News & Media", link: "/news" },
+    // { text: "News & Media", link: "/news" },
     { text: "Contact", link: "/contact" },
   ];
 
@@ -160,7 +160,7 @@ function App() {
           { text: "About Us", link: "/about" },
           { text: "Children", link: "/children" },
           { text: "How to Donate", link: "/donate" },
-          { text: "News & Media", link: "/news" },
+          // { text: "News & Media", link: "/news" },
           { text: "Contact", link: "/contact" },
         ],
         linkStyle: {
@@ -181,8 +181,8 @@ function App() {
       },
       contactInfo: {
         items: [
-          { text: "Mail: info@heavensgrace.org" },
-          { text: "Phone: +1 (234) 567-890" },
+          { text: "Mail: info@heavens-grace.org" },
+          { text: "Phone: +1 (303) 928-0999" },
           {
             isLink: true,
             link: "https://facebook.com/heavensgrace",

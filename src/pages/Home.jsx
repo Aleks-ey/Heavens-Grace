@@ -96,17 +96,13 @@ const Home = () => {
         props: {
           backgrounds: [
             {
-              // src: "src/assets/images/background1.jpg",
-              bucketId: "backgrounds",
-              supabaseId: "background1.jpg",
+              src: "https://bgwvecjqiktvopqzsexd.supabase.co/storage/v1/object/public/backgrounds/background1.jpg?t=2024-12-03T01%3A01%3A04.025Z",
               customStyle: {
                 reverse: "-scale-x-100",
               },
             },
             {
-              // src: "src/assets/images/background2.jpg",
-              bucketId: "backgrounds",
-              supabaseId: "background2.jpg",
+              src: "https://bgwvecjqiktvopqzsexd.supabase.co/storage/v1/object/public/backgrounds/background2.jpg?t=2024-12-03T01%3A01%3A33.821Z",
               customStyle: {},
             },
           ],

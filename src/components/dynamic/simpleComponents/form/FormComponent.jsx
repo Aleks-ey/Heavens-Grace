@@ -9,7 +9,7 @@ const FormComponent = ({
   fields,
   onSubmit,
   style,
-  buttonProps,
+  button,
   supabaseConfig,
   ...props
 }) => {
@@ -118,7 +118,7 @@ const FormComponent = ({
         );
       })}
       {/* ButtonComponent instead of native button */}
-      <ButtonComponent type="submit" {...buttonProps}>
+      <ButtonComponent type="submit" {...button}>
         Submit
       </ButtonComponent>
     </form>
@@ -147,7 +147,7 @@ FormComponent.propTypes = {
   style: PropTypes.shape({
     className: PropTypes.string,
   }),
-  buttonProps: PropTypes.object,
+  button: PropTypes.object,
   supabaseConfig: PropTypes.shape({
     table: PropTypes.string.isRequired,
   }),

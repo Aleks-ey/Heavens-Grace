@@ -18,7 +18,6 @@
 .scrollbar-thin::-webkit-scrollbar-thumb {
   background: #404040;
   border-radius: 100vh;
-  /* border: 3px solid #f6f7ed; */
 }
 
 .svg-white {

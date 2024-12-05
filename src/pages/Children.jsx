@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import AppBuilder from "../components/dynamic/AppBuilder";
+// import AppBuilder from "../components/dynamic/AppBuilder";
+import { AppBuilder, listLineCarousel } from "@aleks-ey/dynamic-app-builder";
 import { fetchChildren } from "../fetchUtilities/fetchChildren";
 
 const Children = () => {
@@ -35,7 +36,9 @@ const Children = () => {
     },
   ];
 
-  const mainCarouselContent = [
+  const listItems = [{ text: "We've Helped" }, { text: "We Can Help" }];
+
+  const carouselChildren = [
     {
       type: "CarouselMultiItemsComponent",
       props: {
@@ -62,83 +65,22 @@ const Children = () => {
       },
     },
   ];
-  // -------------------- DESKTOP PAGE CONFIG --------------------
-  const childrenPageDesktopConfig = [
-    // List of children page sections
-    {
-      type: "ElementComponent",
-      props: {
-        style: {
-          width: "md:w-1/4 lg:w-1/5 xl:w-1/6",
-          translate: "-translate-y-1/4",
-          padding: "md:pl-0 lg:pl-4",
-          center: "",
-        },
-      },
-      children: [
-        //list header
-        {
-          type: "TextComponent",
-          props: {
-            tag: "h1",
-            text: "Stories",
-            style: {
-              font: "font-florisha font-bold",
-              fontSize: "text-3xl",
-              color: "text-black",
-              padding: "pb-4",
-            },
-          },
-        },
-        //list items
-        {
-          type: "ListComponent",
-          contextId: "aboutCarouselContext",
-          props: {
-            items: [{ text: "We've Helped" }, { text: "Need Help" }],
-            underlineActive: true,
-            initialIndex: 0,
-            style: { padding: "pl-4" },
-            itemStyle: {
-              className: "text-xl list-disc px-2",
-            },
-            activeStyle: {
-              className: "text-xl list-disc p-0",
-            },
-          },
-        },
-      ],
-    },
-    // Line between the list and the carousel
-    {
-      type: "ElementComponent",
-      props: {
-        tag: "hr",
-        style: {
-          className: "border h-3/4 border-gray-500",
-        },
-      },
-    },
-    // About page Carousel component
-    {
-      type: "CarouselComponent",
-      contextId: {
-        childrenContextId: "aboutCarouselContext",
-      },
-      props: {
-        carouselChildren: mainCarouselContent,
-        childrenSettings: {
-          displayChildren: true,
-          autoAdvanceChildren: false,
-          childrenTransition: "scroll",
-          childrenScrollDirection: "up",
-        },
-        style: {
-          className: "w-full",
-        },
-      },
-    },
-  ];
+
+  const overideStyles = {
+    container: "items-center",
+    listContainer: "w-1/5",
+    listHeader: "font-florisha font-bold text-3xl text-black",
+    carousel: "w-4/5",
+    line: "border h-3/4 border-gray-500",
+  };
+
+  const listLineCarouselConfig = listLineCarousel({
+    listItems,
+    listTitle: "Donate",
+    carouselChildren,
+    style: overideStyles,
+  });
+
   // -------------------- MOBILE PAGE CONFIG --------------------
   const childrenPageMobileConfig = [
     {
@@ -233,9 +175,7 @@ const Children = () => {
       {
         type: "ImageComponent",
         props: {
-          // src: "src/assets/images/background1.jpg",
-          bucketId: "backgrounds",
-          supabaseId: "background1.jpg",
+          src: "https://bgwvecjqiktvopqzsexd.supabase.co/storage/v1/object/public/backgrounds/background1.jpg?t=2024-12-03T01%3A01%3A04.025Z",
           style: {
             className: "absolute w-full h-full object-cover object-center",
             opacity: "opacity-50",
@@ -255,7 +195,7 @@ const Children = () => {
             spacing: "justify-center items-center",
           },
         },
-        children: childrenPageDesktopConfig,
+        children: [listLineCarouselConfig],
       },
       // Children page for mobile
       {

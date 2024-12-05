@@ -1,282 +1,19 @@
-import AppBuilder from "../components/dynamic/AppBuilder";
+// import AppBuilder from "../components/dynamic/AppBuilder";
+import { AppBuilder, listLineCarousel } from "@aleks-ey/dynamic-app-builder";
+import { useEffect, useState } from "react";
+import { fetchBoard } from "../fetchUtilities/fetchBoard";
 
 const About = () => {
-  const CardStyle = {
-    position: "relative",
-    backgroundColor: "bg-transparent",
-    color: "text-white",
-    shadow: "shadow-none",
-    width: "w-full",
-    height: "h-full",
-    margin: "mx-auto",
-    padding: "p-0",
-    center: "self-center justify-center",
-  };
-  const CardTopStyle = "p-0 h-2/3 md:h-1/2 w-full";
-  const CardBottomStyle = {
-    height: "h-24",
-    width: "w-full",
-    padding: "py-3 px-2",
-    translate: "-translate-y-10",
-    center: "self-center justify-center content-center",
-    backgroundColor: "bg-white",
-    borderRadius: "rounded-full",
-  };
+  const [boardMembers, setBoardMembers] = useState([]);
 
-  const LauraCard = {
-    type: "CardComponent",
-    props: {
-      topContainer: {
-        children: [
-          {
-            type: "ImageComponent",
-            props: {
-              bucketId: "board",
-              supabaseId: "Laura.jpg",
-              alt: "Laura Badasyan",
-              style: {
-                width: "w-full",
-                height: "h-full",
-                objectFit: "object-cover",
-                rounded: "rounded-t-lg",
-              },
-            },
-          },
-        ],
-        topContainerStyle: { CardTopStyle },
-      },
-      bottomContainer: {
-        children: [
-          {
-            type: "TextComponent",
-            props: {
-              text: "Laura Badasyan - My name is Laura Badasyan and having Armenian roots, I was born and raised in the Republic of Georgia...",
-              style: {
-                className: "text-sm text-wrap text-center",
-              },
-            },
-          },
-        ],
-        style: CardBottomStyle,
-      },
-      style: CardStyle,
-    },
-  };
+  useEffect(() => {
+    const getBoardMembers = async () => {
+      const members = await fetchBoard();
+      setBoardMembers(members);
+    };
 
-  const ArsenCard = {
-    type: "CardComponent",
-    props: {
-      topContainer: {
-        children: [
-          {
-            type: "ImageComponent",
-            props: {
-              bucketId: "board",
-              supabaseId: "Arsen.jpg",
-              alt: "Arsen Badasyan",
-              style: {
-                width: "w-full",
-                height: "h-full",
-                objectFit: "object-cover",
-                rounded: "rounded-t-lg",
-              },
-            },
-          },
-        ],
-        style: { CardTopStyle },
-      },
-      bottomContainer: {
-        children: [
-          {
-            type: "TextComponent",
-            props: {
-              text: "Arsen Badasyan - My name is Arsen Badasyan and I was born and raised in the Republic of Georgia...",
-              style: {
-                className: "text-sm text-wrap text-center",
-              },
-            },
-          },
-        ],
-        style: CardBottomStyle,
-      },
-      style: CardStyle,
-    },
-  };
-
-  const TeaCard = {
-    type: "CardComponent",
-    props: {
-      topContainer: {
-        children: [
-          {
-            type: "ImageComponent",
-            props: {
-              bucketId: "board",
-              supabaseId: "Tea.jpg",
-              alt: "Tea Todua",
-              style: {
-                width: "w-full",
-                height: "h-full",
-                objectFit: "object-cover",
-                rounded: "rounded-t-lg",
-              },
-            },
-          },
-        ],
-        style: { CardTopStyle },
-      },
-      bottomContainer: {
-        children: [
-          {
-            type: "TextComponent",
-            props: {
-              text: "Tea Todua - Tea Todua, originally from Zugdidi, Georgia, brings a strong medical background...",
-              style: {
-                className: "text-sm text-wrap text-center",
-              },
-            },
-          },
-        ],
-        style: CardBottomStyle,
-      },
-      style: CardStyle,
-    },
-  };
-
-  const VeronikaCard = {
-    type: "DialogComponent",
-    props: {
-      wrapperStyle: CardStyle, // Optional style for the wrapper
-      dialogChildren: [
-        {
-          type: "CardComponent",
-          props: {
-            topContainer: {
-              children: [
-                {
-                  type: "ImageComponent",
-                  props: {
-                    src: "src/assets/images/Veronika.jpg",
-                    alt: "Veronika",
-                    style: {
-                      width: "w-full",
-                      height: "h-full",
-                      objectFit: "object-cover",
-                      rounded: "rounded-t-lg",
-                    },
-                  },
-                },
-              ],
-              style: { CardTopStyle },
-            },
-            bottomContainer: {
-              children: [
-                {
-                  type: "TextComponent",
-                  props: {
-                    text: "Veronika - Veronika, originally from Zugdidi, Georgia...",
-                    style: {
-                      className: "text-sm text-wrap text-center",
-                    },
-                  },
-                },
-              ],
-              style: CardBottomStyle,
-            },
-            style: CardStyle,
-          },
-        },
-      ],
-    },
-    children: [
-      {
-        type: "CardComponent",
-        props: {
-          topContainer: {
-            children: [
-              {
-                type: "ImageComponent",
-                props: {
-                  src: "src/assets/images/Veronika.jpg",
-                  alt: "Veronika",
-                  style: {
-                    width: "w-full",
-                    height: "h-full",
-                    objectFit: "object-cover",
-                    rounded: "rounded-t-lg",
-                  },
-                },
-              },
-            ],
-            style: { CardTopStyle },
-          },
-          bottomContainer: {
-            children: [
-              {
-                type: "TextComponent",
-                props: {
-                  text: "Veronika - Veronika, originally from Zugdidi, Georgia...",
-                  style: {
-                    className: "text-sm text-wrap text-center",
-                  },
-                },
-              },
-            ],
-            style: CardBottomStyle,
-          },
-          style: CardStyle,
-        },
-      },
-    ],
-  };
-
-  const NarciaCard = {
-    type: "CardComponent",
-    props: {
-      topContainer: {
-        children: [
-          {
-            type: "ImageComponent",
-            props: {
-              bucketId: "board",
-              supabaseId: "Narcia.jpg",
-              alt: "Narcia",
-              style: {
-                width: "w-full",
-                height: "h-full",
-                objectFit: "object-cover",
-                rounded: "rounded-t-lg",
-              },
-            },
-          },
-        ],
-        style: { CardTopStyle },
-      },
-      bottomContainer: {
-        children: [
-          {
-            type: "TextComponent",
-            props: {
-              text: "Narcia - Narcia, originally from Zugdidi, Georgia, brings a strong medical background...",
-              style: {
-                className: "text-sm text-wrap text-center",
-              },
-            },
-          },
-        ],
-        style: CardBottomStyle,
-      },
-      style: CardStyle,
-    },
-  };
-
-  const boardMembers = [
-    NarciaCard,
-    TeaCard,
-    ArsenCard,
-    LauraCard,
-    VeronikaCard,
-  ];
+    getBoardMembers();
+  }, []);
 
   const boardMembersArrows = [
     {
@@ -339,7 +76,14 @@ const About = () => {
     },
   ];
 
-  const mainCarouselChildContent = [
+  const listItems = [
+    { text: "Mission Statement" },
+    { text: "Our Approach" },
+    { text: "Board of Directors" },
+    { text: "Why Georgia and Armenia?" },
+  ];
+
+  const carouselChildren = [
     {
       type: "ElementComponent",
       props: {
@@ -502,85 +246,21 @@ const About = () => {
     },
   ];
 
-  const aboutPageDesktopConfig = [
-    // List of about page sections
-    {
-      type: "ElementComponent",
-      props: {
-        style: {
-          translate: "-translate-y-1/4",
-          padding: "pl-12 pr-6",
-        },
-      },
-      children: [
-        //list header
-        {
-          type: "TextComponent",
-          props: {
-            tag: "h1",
-            text: "About Us",
-            style: {
-              font: "font-florisha font-bold",
-              fontSize: "text-3xl",
-              color: "text-black",
-              padding: "pb-4",
-            },
-          },
-        },
-        //list items
-        {
-          type: "ListComponent",
-          contextId: "aboutCarouselContext",
-          props: {
-            items: [
-              { text: "Mission Statement" },
-              { text: "Our Approach" },
-              { text: "Board of Directors" },
-              { text: "Why Georgia and Armenia?" },
-            ],
-            underlineActive: true,
-            initialIndex: 2,
-            style: { padding: "pl-4" },
-            itemStyle: {
-              className: "text-xl list-disc px-2",
-            },
-            activeStyle: {
-              className: "text-xl list-disc p-0",
-            },
-          },
-        },
-      ],
-    },
-    // Line between the list and the carousel
-    {
-      type: "ElementComponent",
-      props: {
-        tag: "hr",
-        style: {
-          className: "border h-96 border-gray-500",
-        },
-      },
-    },
-    // About page Carousel component
-    {
-      type: "CarouselComponent",
-      contextId: {
-        childrenContextId: "aboutCarouselContext",
-      },
-      props: {
-        carouselChildren: mainCarouselChildContent,
-        childrenSettings: {
-          displayChildren: true,
-          autoAdvanceChildren: false,
-          childrenTransition: "scroll",
-          childrenScrollDirection: "up",
-        },
-        style: {
-          className: "w-full h-full",
-        },
-      },
-    },
-  ];
+  const overideStyles = {
+    container: "items-center",
+    listContainer: "w-1/5",
+    listHeader: "font-florisha font-bold text-3xl text-black",
+    carousel: "w-4/5",
+    line: "border h-3/4 border-gray-500",
+  };
+
+  const listLineCarouselConfig = listLineCarousel({
+    listItems,
+    listTitle: "About Us",
+    listIndex: 2,
+    carouselChildren,
+    style: overideStyles,
+  });
 
   const aboutPageMobileConfig = [
     {
@@ -647,11 +327,12 @@ const About = () => {
         },
       ],
     },
+    // our approach
     {
       type: "ElementComponent",
       props: {
         style: {
-          className: "px-3 pb-12",
+          className: "px-4 py-12",
         },
       },
       children: [
@@ -661,7 +342,7 @@ const About = () => {
             text: "OUR APPROACH",
             style: {
               className:
-                "text-4xl font-florisha font-bold text-main text-center m-4",
+                "text-4xl font-florisha font-bold text-main text-left my-4",
             },
           },
         },
@@ -669,8 +350,7 @@ const About = () => {
           type: "ElementComponent",
           props: {
             style: {
-              className:
-                "relative flex flex-col justify-center items-left bg-accent rounded-lg shadow-lg",
+              className: "relative flex flex-col justify-center items-left",
             },
           },
           children: [
@@ -681,7 +361,7 @@ const About = () => {
                 tag: "p",
                 style: {
                   className:
-                    "px-3 py-4 text-left text-2xl font-montserrat font-bold text-white",
+                    "py-4 text-left text-2xl font-montserrat text-accent",
                 },
               },
             },
@@ -700,10 +380,10 @@ const About = () => {
                 ],
                 style: {
                   className:
-                    "pl-16 pr-10 list-disc text-2xl text-left font-montserrat font-bold text-white",
+                    "pl-6 list-disc text-2xl text-left font-montserrat text-accent",
                 },
                 itemStyle: {
-                  className: "text-white",
+                  className: "text-accent",
                 },
               },
             },
@@ -714,7 +394,7 @@ const About = () => {
                 tag: "p",
                 style: {
                   className:
-                    "px-3 py-4 text-left text-2xl font-montserrat font-bold text-white",
+                    "py-4 text-left text-2xl font-montserrat text-accent",
                 },
               },
             },
@@ -726,7 +406,7 @@ const About = () => {
       type: "ElementComponent",
       props: {
         style: {
-          className: "relative px-3 py-12",
+          className: "relative px-4 py-12",
         },
       },
       children: [
@@ -748,7 +428,7 @@ const About = () => {
             text: "WHY GEORGIA AND ARMENIA?",
             style: {
               className:
-                "text-4xl font-florisha font-bold text-main text-center m-4",
+                "text-4xl font-florisha font-bold text-main text-right my-4",
             },
           },
         },
@@ -756,8 +436,7 @@ const About = () => {
           type: "ElementComponent",
           props: {
             style: {
-              className:
-                "relative flex flex-col justify-center items-left bg-accent rounded-lg shadow-lg",
+              className: "relative flex flex-col justify-center items-left",
             },
           },
           children: [
@@ -768,7 +447,7 @@ const About = () => {
                 tag: "p",
                 style: {
                   className:
-                    "px-2 py-4 z-10 text-center text-2xl font-montserrat font-bold text-white",
+                    "py-4 text-right text-2xl font-montserrat text-accent",
                 },
               },
             },
@@ -779,7 +458,7 @@ const About = () => {
                 tag: "p",
                 style: {
                   className:
-                    "px-2 py-4 z-10 text-center text-2xl font-montserrat font-bold text-white",
+                    "py-4 text-right text-2xl font-montserrat text-accent",
                 },
               },
             },
@@ -799,13 +478,12 @@ const About = () => {
       {
         type: "ImageComponent",
         props: {
-          // src: "src/assets/images/background1.jpg",
-          bucketId: "backgrounds",
-          supabaseId: "background1.jpg",
+          src: "https://bgwvecjqiktvopqzsexd.supabase.co/storage/v1/object/public/backgrounds/background1.jpg?t=2024-12-03T01%3A01%3A04.025Z",
           style: {
             className: "absolute w-full h-full object-cover object-center",
             opacity: "opacity-50",
             reverse: "-scale-x-100",
+            zIndex: "md:-z-10",
           },
         },
       },
@@ -820,7 +498,7 @@ const About = () => {
             spacing: "justify-center items-center",
           },
         },
-        children: aboutPageDesktopConfig,
+        children: [listLineCarouselConfig],
       },
       // About page for mobile
       {

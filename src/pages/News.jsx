@@ -3,8 +3,7 @@ import AppBuilder from "../components/dynamic/AppBuilder";
 const News = () => {
   const galleryImages = [
     {
-      bucketId: "backgrounds",
-      supabaseId: "background1.jpg",
+      src: "https://bgwvecjqiktvopqzsexd.supabase.co/storage/v1/object/public/backgrounds/background1.jpg?t=2024-12-03T01%3A01%3A04.025Z",
       style: {
         className: "",
       },
@@ -13,8 +12,7 @@ const News = () => {
       },
     },
     {
-      bucketId: "backgrounds",
-      supabaseId: "background2.jpg",
+      src: "https://bgwvecjqiktvopqzsexd.supabase.co/storage/v1/object/public/backgrounds/background2.jpg?t=2024-12-03T01%3A01%3A33.821Z",
       style: {
         className: "",
       },
@@ -23,8 +21,7 @@ const News = () => {
       },
     },
     {
-      bucketId: "backgrounds",
-      supabaseId: "background1.jpg",
+      src: "https://bgwvecjqiktvopqzsexd.supabase.co/storage/v1/object/public/backgrounds/background1.jpg?t=2024-12-03T01%3A01%3A04.025Z",
       style: {
         className: "",
       },
@@ -33,8 +30,7 @@ const News = () => {
       },
     },
     {
-      bucketId: "backgrounds",
-      supabaseId: "background2.jpg",
+      src: "https://bgwvecjqiktvopqzsexd.supabase.co/storage/v1/object/public/backgrounds/background2.jpg?t=2024-12-03T01%3A01%3A33.821Z",
       style: {
         className: "",
       },
@@ -269,9 +265,7 @@ const News = () => {
       {
         type: "ImageComponent",
         props: {
-          // src: "src/assets/images/background1.jpg",
-          bucketId: "backgrounds",
-          supabaseId: "background1.jpg",
+          src: "https://bgwvecjqiktvopqzsexd.supabase.co/storage/v1/object/public/backgrounds/background1.jpg?t=2024-12-03T01%3A01%3A04.025Z",
           style: {
             className: "absolute w-full h-full object-cover object-center",
             opacity: "opacity-50",

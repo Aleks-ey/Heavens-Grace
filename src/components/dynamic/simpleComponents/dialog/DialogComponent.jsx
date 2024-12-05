@@ -9,6 +9,7 @@ const DialogComponent = ({
   dialogChildren = [],
   dialogStyle,
   wrapperStyle,
+  overlayStyle,
 }) => {
   const [isDialogOpen, setDialogOpen] = useState(false);
 
@@ -23,10 +24,12 @@ const DialogComponent = ({
     return () => document.removeEventListener("keydown", closeOnEscapeKey);
   }, []);
 
-  // Default styles for the dialog and wrapper
+  // Default styles for the dialog, wrapper, and overlay
+  const defaultDialogStyle =
+    "relative bg-white p-6 rounded-lg shadow-lg max-w-full max-h-full ";
+  const defaultWrapperStyle = "cursor-pointer ";
   const defaultDialogOverlayStyle =
     "fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50";
-  const defaultWrapperStyle = "cursor-pointer ";
 
   const customDialogStyle = dialogStyle
     ? Object.values(dialogStyle).join(" ")
@@ -34,15 +37,18 @@ const DialogComponent = ({
   const customWrapperStyle = wrapperStyle
     ? Object.values(wrapperStyle).join(" ")
     : "";
+  const customOverlayStyle = overlayStyle
+    ? Object.values(overlayStyle).join(" ")
+    : "";
 
   // Render the dialog through a portal to avoid parent positioning issues
   const dialog = (
     <div
-      className={twMerge(defaultDialogOverlayStyle, customDialogStyle)}
+      className={twMerge(defaultDialogOverlayStyle, customOverlayStyle)}
       onClick={handleCloseDialog}
     >
       <div
-        className="bg-white p-6 rounded-lg shadow-lg max-w-full max-h-full"
+        className={twMerge(defaultDialogStyle + customDialogStyle)}
         onClick={(e) => e.stopPropagation()} // Prevent clicks inside the dialog from closing it
       >
         {/* Use ComponentRenderer to render dialogChildren */}
@@ -53,9 +59,9 @@ const DialogComponent = ({
         {/* Close button */}
         <button
           onClick={handleCloseDialog}
-          className="mt-4 bg-red-500 text-white p-2 rounded"
+          className="absolute top-0 right-3 text-black font-bold"
         >
-          Close
+          X
         </button>
       </div>
     </div>
@@ -95,6 +101,9 @@ DialogComponent.propTypes = {
   wrapperStyle: PropTypes.shape({
     className: PropTypes.string,
   }), // Optional style for the wrapper
+  overlayStyle: PropTypes.shape({
+    className: PropTypes.string,
+  }), // Optional style for the overlay
 };
 
 export default DialogComponent;

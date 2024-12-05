@@ -41,9 +41,7 @@ const Contact = () => {
       {
         type: "ImageComponent",
         props: {
-          // src: "src/assets/images/background1.jpg",
-          bucketId: "backgrounds",
-          supabaseId: "background1.jpg",
+          src: "https://bgwvecjqiktvopqzsexd.supabase.co/storage/v1/object/public/backgrounds/background1.jpg?t=2024-12-03T01%3A01%3A04.025Z",
           style: {
             className: "absolute w-full h-full object-cover object-center",
             opacity: "opacity-50",
@@ -109,7 +107,7 @@ const Contact = () => {
                 center: "justify-center items-center",
               },
               fields: fields,
-              buttonProps: {
+              button: {
                 type: "submit",
                 text: "Send Message",
                 style: {
