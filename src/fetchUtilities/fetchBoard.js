@@ -158,7 +158,7 @@ export const fetchBoard = async () => {
                       width: "w-full",
                       height: "h-full",
                       objectFit: "object-cover",
-                      rounded: "rounded-t-lg",
+                      rounded: "rounded-t-lg lg:object-top",
                       customStyle: member.image_style,
                     },
                   },

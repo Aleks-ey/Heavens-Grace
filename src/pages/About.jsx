@@ -278,7 +278,8 @@ const About = () => {
           props: {
             text: "Our Mission",
             style: {
-              className: "pt-10 text-4xl font-florisha font-bold text-main",
+              className:
+                "pt-10 text-4xl sm:text-5xl font-florisha font-bold text-main",
             },
           },
         },
@@ -289,7 +290,7 @@ const About = () => {
             tag: "p",
             style: {
               className:
-                "py-10 text-center text-2xl font-montserrat font-bold text-black",
+                "py-10 sm:px-20 text-center text-2xl sm:text-3xl font-montserrat font-bold text-black",
             },
           },
         },
