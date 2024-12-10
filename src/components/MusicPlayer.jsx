@@ -3,7 +3,7 @@ import { IconButton, Button } from "@mui/material";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import Music from "../assets/music/minus.mp3";
+import Music from "../assets/music/Minus.mp3";
 
 const MusicPlayer = () => {
   const [isMuted, setIsMuted] = useState(false);
