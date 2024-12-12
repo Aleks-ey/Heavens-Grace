@@ -184,7 +184,6 @@ function App() {
       contactInfo: {
         items: [
           { text: "Mail: info@heavens-grace.org" },
-          { text: "Phone: +1 (303) 928-0999" },
           {
             isLink: true,
             link: "https://facebook.com/heavensgrace",
