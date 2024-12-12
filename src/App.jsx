@@ -190,7 +190,8 @@ function App() {
             link: "https://facebook.com/heavensgrace",
             text: "Facebook",
             icon: {
-              iconUrl: "/path/to/facebook-icon.png",
+              iconUrl:
+                "https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg",
               className: "w-4 h-4 mr-2",
             },
             customStyle: {
