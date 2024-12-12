@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 
+import ScrollToTop from "./scrollToTop";
 import MusicPlayer from "./components/MusicPlayer";
 
 import Home from "./pages/Home";
@@ -9,6 +10,7 @@ import Children from "./pages/Children";
 import Donate from "./pages/Donate";
 import News from "./pages/News";
 import Contact from "./pages/Contact";
+import Admin from "./pages/Admin";
 
 import AppBuilder from "./components/dynamic/AppBuilder";
 
@@ -207,6 +209,7 @@ function App() {
 
   return (
     <Router>
+      <ScrollToTop />
       <AppBuilder config={header} />
       {/* <div className="min-h-screen"> */}
       <Routes>
@@ -218,6 +221,7 @@ function App() {
         <Route path="/donate" element={<Donate />} />
         <Route path="/news" element={<News />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
       {/* </div> */}
       <AppBuilder config={footer} />

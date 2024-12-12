@@ -50,7 +50,11 @@ serve(async (req) => {
       },
       body: JSON.stringify({
         from: "Heaven's Grace <noreply@heavens-grace.org>",
-        to: ["Akhukhua@gmail.com"], // Add the desired recipient email
+        to: [
+          "alexander.narsia@heavens-grace.org",
+          "info@heavens-grace.org",
+          "Akhukhua@gmail.com",
+        ], // Add the desired recipient email
         subject: "New Contact Form Submission",
         html: emailBody,
       }),

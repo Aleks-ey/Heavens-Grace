@@ -238,7 +238,7 @@ export async function fetchChildren(type) {
                   src: "/logos/logo-color.png",
                   alt: "Heaven's Grace Red Ladybug",
                   style: {
-                    height: "h-24 lg:h-28",
+                    height: "w-24 h-24 lg:h-28",
                     objectFit: "object-fill",
                   },
                 },
