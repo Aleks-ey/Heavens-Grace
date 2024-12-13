@@ -183,7 +183,8 @@ function App() {
       },
       contactInfo: {
         items: [
-          { text: "Mail: info@heavens-grace.org" },
+          { text: "info@heavens-grace.org" },
+          // facebook
           {
             isLink: true,
             link: "https://facebook.com/heavensgrace",
@@ -191,6 +192,36 @@ function App() {
             icon: {
               iconUrl:
                 "https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg",
+              className: "w-4 h-4 mr-2",
+            },
+            customStyle: {
+              display: "flex",
+              direction: "flex-row",
+            },
+          },
+          // instagram
+          {
+            isLink: true,
+            link: "https://instagram.com/heavensgrace.grp",
+            text: "Instagram",
+            icon: {
+              iconUrl:
+                "https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png",
+              className: "w-4 h-4 mr-2",
+            },
+            customStyle: {
+              display: "flex",
+              direction: "flex-row",
+            },
+          },
+          // linkedin
+          {
+            isLink: true,
+            link: "https://www.linkedin.com/company/heavens-grace/",
+            text: "LinkedIn",
+            icon: {
+              iconUrl:
+                "https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png",
               className: "w-4 h-4 mr-2",
             },
             customStyle: {

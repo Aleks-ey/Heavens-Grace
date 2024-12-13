@@ -1,7 +1,7 @@
 // import AppBuilder from "../components/dynamic/AppBuilder";
 import { AppBuilder, listLineCarousel } from "@aleks-ey/dynamic-app-builder";
 import { useEffect, useState } from "react";
-import { fetchBoard } from "../fetchUtilities/fetchBoard";
+import { fetchBoard } from "../utilities/fetchBoard";
 
 const About = () => {
   const [boardMembers, setBoardMembers] = useState([]);

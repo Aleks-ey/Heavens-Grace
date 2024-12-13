@@ -66,13 +66,32 @@ export const fetchBoard = async () => {
                 },
                 children: [
                   {
-                    type: "TextComponent",
+                    type: "ElementComponent",
                     props: {
-                      text: member.name,
                       style: {
-                        className: "text-lg md:text-2xl font-bold",
+                        className: "font-montserrat",
                       },
                     },
+                    children: [
+                      {
+                        type: "TextComponent",
+                        props: {
+                          text: member.name,
+                          style: {
+                            className: "text-lg md:text-3xl font-bold",
+                          },
+                        },
+                      },
+                      {
+                        type: "TextComponent",
+                        props: {
+                          text: member.position,
+                          style: {
+                            className: "text-lg md:text-xl font-bold",
+                          },
+                        },
+                      },
+                    ],
                   },
                   ...(member.biography
                     ? [
@@ -84,7 +103,7 @@ export const fetchBoard = async () => {
                               props: {
                                 text: "Biography",
                                 style: {
-                                  className: "font-bold",
+                                  className: "font-bold font-montserrat",
                                 },
                               },
                             },
@@ -92,6 +111,9 @@ export const fetchBoard = async () => {
                               type: "TextComponent",
                               props: {
                                 text: member.biography,
+                                style: {
+                                  className: "font-montserrat",
+                                },
                               },
                             },
                           ],
@@ -135,6 +157,7 @@ export const fetchBoard = async () => {
                     height: "h-1/2",
                     objectFit: "object-cover",
                     rounded: "rounded-lg",
+                    shadow: "shadow-xl",
                     customStyle: member.image_style,
                   },
                 },
@@ -174,7 +197,17 @@ export const fetchBoard = async () => {
                     text: member.name,
                     style: {
                       className:
-                        "text-2xl md:text-lg font-bold text-wrap text-center",
+                        "text-2xl md:text-xl font-bold font-montserrat text-wrap text-center",
+                    },
+                  },
+                },
+                {
+                  type: "TextComponent",
+                  props: {
+                    text: member.position,
+                    style: {
+                      className:
+                        "text-xl md:text-lg font-montserrat text-wrap text-center",
                     },
                   },
                 },

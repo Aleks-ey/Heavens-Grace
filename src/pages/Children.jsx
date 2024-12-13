@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 // import AppBuilder from "../components/dynamic/AppBuilder";
 import { AppBuilder, listLineCarousel } from "@aleks-ey/dynamic-app-builder";
-import { fetchChildren } from "../fetchUtilities/fetchChildren";
+import { fetchChildren } from "../utilities/fetchChildren";
 
 const Children = () => {
   const [helpedChildren, setHelpedChildren] = useState([]);
