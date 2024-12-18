@@ -1,40 +1,12 @@
 import { supabase } from "../../supabaseClient";
-
-// Add a new row to the 'board' table
-export const addBoardMember = async (memberData) => {
-  const { data, error } = await supabase.from("board").insert([memberData]);
-  if (error) {
-    console.error("Error adding board member:", error);
-    return null;
-  }
-  return data;
-};
-
-// Update a row in the 'board' table
-export const editBoardMember = async (id, updatedData) => {
-  const { data, error } = await supabase
-    .from("board")
-    .update(updatedData)
-    .eq("id", id);
-  if (error) {
-    console.error("Error editing board member:", error);
-    return null;
-  }
-  return data;
-};
-
-// Delete a row from the 'board' table
-export const deleteBoardMember = async (id) => {
-  const { data, error } = await supabase.from("board").delete().eq("id", id);
-  if (error) {
-    console.error("Error deleting board member:", error);
-    return null;
-  }
-  return data;
-};
+import boardEditForm from "./boardEditForm";
 
 // Fetch function with added edit and delete buttons
-export const manageBoard = async () => {
+export const manageBoard = async ({
+  boardFormData,
+  setBoardFormData,
+  setSelectedMember,
+}) => {
   const { data, error } = await supabase.from("board").select("*");
 
   if (error) {
@@ -42,31 +14,45 @@ export const manageBoard = async () => {
     return [];
   }
 
-  const CardStyle = {
-    position: "relative",
-    backgroundColor: "bg-transparent",
-    color: "text-white",
-    shadow: "shadow-none",
-    width: "w-full",
-    height: "h-full",
-    margin: "mx-auto",
-    padding: "p-0",
-    center: "self-center justify-center",
+  const handleEditSubmit = async (updatedFormData, memberId, closeDialog) => {
+    try {
+      const { error } = await supabase
+        .from("board")
+        .update(updatedFormData)
+        .eq("id", memberId);
+
+      if (error) {
+        console.error("Edit failed:", error);
+        return false; // Failure
+      }
+      alert("Board member updated successfully!");
+      closeDialog(); // Use the same dialog-closing logic
+      window.location.reload(); // Reload to reflect changes
+      return true; // Success
+    } catch (err) {
+      console.error("Edit error:", err);
+      alert("Failed to update board member.");
+      return false;
+    }
   };
-  const CardTStyle = {
-    width: "w-full",
-    height: "h-5/6",
-    padding: "p-0",
-    translate: "translate-y-5",
-  };
-  const CardBStyle = {
-    height: "h-24",
-    width: "w-full",
-    padding: "py-3 px-2",
-    translate: "-translate-y-5",
-    center: "self-center justify-center content-center",
-    backgroundColor: "bg-white",
-    borderRadius: "rounded-full",
+
+  const handleDelete = async (memberId, closeDialog) => {
+    try {
+      const { error } = await supabase
+        .from("board")
+        .delete()
+        .eq("id", memberId);
+      if (error) {
+        alert("Failed to delete board member. Please try again.");
+        return;
+      }
+      alert("Board member deleted successfully!");
+      closeDialog(); // Close dialog on success
+      window.location.reload();
+    } catch (err) {
+      console.error("Delete error:", err);
+      alert("Error deleting board member.");
+    }
   };
 
   return data.map((member) => {
@@ -75,172 +61,43 @@ export const manageBoard = async () => {
       props: {
         style: {
           className:
-            "w-full h-full border-2 border-base-light bg-base-light rounded-lg shadow-lg p-2",
+            "w-full h-full p-2 pt-10 bg-base-light border border-black overflow-y-auto scrollbar-thin scrollbar-thumb-main scrollbar-track-main",
         },
+      },
+      style: {
+        className: "px-0 py-0",
       },
       children: [
         {
-          type: "DialogComponent",
+          type: "ElementComponent",
           props: {
-            dialogStyle: {
-              width: "md:w-3/4",
-              height: "h-5/6 md:h-auto",
-              overflow: "overflow-y-auto",
+            style: {
+              className: "flex flex-row justify-center items-center",
             },
-            wrapperStyle: {
-              width: "w-full h-5/6",
-            },
-            dialogChildren: [
-              {
-                type: "ElementComponent",
-                props: {
-                  style: {
-                    className:
-                      "flex flex-col md:flex-row justify-center items-center",
-                  },
-                },
-                children: [
-                  {
-                    type: "ElementComponent",
-                    props: {
-                      style: {
-                        className: "space-y-2 md:space-y-4 p-2 md:p-4",
-                      },
-                    },
-                    children: [
-                      {
-                        type: "ElementComponent",
-                        props: {
-                          style: {
-                            className: "font-montserrat",
-                          },
-                        },
-                        children: [
-                          {
-                            type: "TextComponent",
-                            props: {
-                              text: member.name,
-                              style: {
-                                className: "text-lg md:text-3xl font-bold",
-                              },
-                            },
-                          },
-                          {
-                            type: "TextComponent",
-                            props: {
-                              text: member.position,
-                              style: {
-                                className: "text-lg md:text-xl font-bold",
-                              },
-                            },
-                          },
-                        ],
-                      },
-                      ...(member.biography
-                        ? [
-                            {
-                              type: "ElementComponent",
-                              children: [
-                                {
-                                  type: "TextComponent",
-                                  props: {
-                                    text: "Biography",
-                                    style: {
-                                      className: "font-bold font-montserrat",
-                                    },
-                                  },
-                                },
-                                {
-                                  type: "TextComponent",
-                                  props: {
-                                    text: member.biography,
-                                    style: {
-                                      className: "font-montserrat",
-                                    },
-                                  },
-                                },
-                              ],
-                            },
-                          ]
-                        : []),
-                      ...(member.personal
-                        ? [
-                            {
-                              type: "ElementComponent",
-                              children: [
-                                {
-                                  type: "TextComponent",
-                                  props: {
-                                    text: "Personal Statement",
-                                    style: {
-                                      className: "font-bold",
-                                    },
-                                  },
-                                },
-                                {
-                                  type: "TextComponent",
-                                  props: {
-                                    text: member.personal,
-                                  },
-                                },
-                              ],
-                            },
-                          ]
-                        : []),
-                    ],
-                  },
-                  {
-                    type: "ImageComponent",
-                    props: {
-                      src: member.image_url,
-                      alt: `${member.name} Headshot`,
-                      style: {
-                        hidden: "hidden md:block",
-                        width: "w-1/2",
-                        height: "h-1/2",
-                        objectFit: "object-cover",
-                        rounded: "rounded-lg",
-                        shadow: "shadow-xl",
-                        customStyle: member.image_style,
-                      },
-                    },
-                  },
-                ],
-              },
-            ],
           },
           children: [
             {
-              type: "CardComponent",
+              type: "ElementComponent",
               props: {
-                topContainer: {
-                  children: [
-                    {
-                      type: "ImageComponent",
-                      props: {
-                        src: member.image_url,
-                        alt: `${member.name} Headshot`,
-                        style: {
-                          width: "w-full",
-                          height: "h-full",
-                          objectFit: "object-cover",
-                          rounded: "rounded-t-lg lg:object-top",
-                          customStyle: member.image_style,
-                        },
-                      },
-                    },
-                  ],
-                  style: CardTStyle,
+                style: {
+                  className: "space-y-2 p-4 text-left",
                 },
-                bottomContainer: {
+              },
+              children: [
+                {
+                  type: "ElementComponent",
+                  props: {
+                    style: {
+                      className: "font-montserrat",
+                    },
+                  },
                   children: [
                     {
                       type: "TextComponent",
                       props: {
                         text: member.name,
                         style: {
-                          className:
-                            "text-2xl md:text-xl font-bold text-wrap text-center",
+                          className: "text-lg md:text-2xl font-bold",
                         },
                       },
                     },
@@ -249,14 +106,79 @@ export const manageBoard = async () => {
                       props: {
                         text: member.position,
                         style: {
-                          className: "text-xl md:text-lg text-wrap text-center",
+                          className: "text-lg md:text-xl font-bold",
                         },
                       },
                     },
                   ],
-                  style: CardBStyle,
                 },
-                style: CardStyle,
+                ...(member.biography
+                  ? [
+                      {
+                        type: "ElementComponent",
+                        children: [
+                          {
+                            type: "TextComponent",
+                            props: {
+                              text: "Biography",
+                              style: {
+                                className: "font-bold font-montserrat",
+                              },
+                            },
+                          },
+                          {
+                            type: "TextComponent",
+                            props: {
+                              text: member.biography,
+                              style: {
+                                className: "font-montserrat",
+                              },
+                            },
+                          },
+                        ],
+                      },
+                    ]
+                  : []),
+                ...(member.personal
+                  ? [
+                      {
+                        type: "ElementComponent",
+                        children: [
+                          {
+                            type: "TextComponent",
+                            props: {
+                              text: "Personal Statement",
+                              style: {
+                                className: "font-bold",
+                              },
+                            },
+                          },
+                          {
+                            type: "TextComponent",
+                            props: {
+                              text: member.personal,
+                            },
+                          },
+                        ],
+                      },
+                    ]
+                  : []),
+              ],
+            },
+            {
+              type: "ImageComponent",
+              props: {
+                src: member.image_url,
+                alt: `${member.name} Headshot`,
+                style: {
+                  hidden: "hidden md:block",
+                  width: "w-1/2",
+                  height: "h-1/2",
+                  objectFit: "object-cover",
+                  rounded: "rounded-lg",
+                  shadow: "shadow-xl",
+                  customStyle: member.image_style,
+                },
               },
             },
           ],
@@ -266,7 +188,8 @@ export const manageBoard = async () => {
           type: "ElementComponent",
           props: {
             style: {
-              className: "flex flex-row justify-center items-center space-x-4",
+              className:
+                "flex flex-row pt-10 justify-center items-center space-x-4",
             },
           },
           children: [
@@ -275,17 +198,35 @@ export const manageBoard = async () => {
               type: "DialogComponent",
               props: {
                 dialogChildren: [
-                  // Edit member dialog
+                  boardEditForm({
+                    member,
+                    boardFormData,
+                    setBoardFormData,
+                    onSubmit: (boardFormData) =>
+                      handleEditSubmit(boardFormData, member.id, () =>
+                        console.log("Dialog closed")
+                      ),
+                    closeDialog: () =>
+                      console.log(
+                        "Dialog close handler called from boardEditForm"
+                      ),
+                  }),
                 ],
+                dialogStyle: {
+                  className: "text-center w-3/4 h-3/4",
+                },
               },
               children: [
                 {
                   type: "ButtonComponent",
                   props: {
                     text: "Edit",
+                    onClick: () => {
+                      setSelectedMember(member);
+                    }, // Set the selected member here
                     style: {
                       className:
-                        "bg-main hover:bg-white text-white hover:text-main border-main font-bold py-2 px-4 rounded",
+                        "bg-main hover:bg-white text-white hover:text-main border-main font-bold py-2 px-6 rounded",
                     },
                   },
                 },
@@ -309,7 +250,10 @@ export const manageBoard = async () => {
                     type: "ButtonComponent",
                     props: {
                       text: "Confirm",
-                      onClick: async () => await deleteBoardMember(member.id),
+                      onClick: () =>
+                        handleDelete(member.id, () =>
+                          console.log("Close dialog trigger")
+                        ),
                       style: {
                         className:
                           "bg-main hover:bg-white text-white hover:text-main border-main font-bold mt-3 py-2 px-4 rounded",
