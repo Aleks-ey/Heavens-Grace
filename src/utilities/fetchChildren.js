@@ -13,7 +13,7 @@ export async function fetchChildren(type) {
     center: "self-center justify-center",
   };
   const CardTopStyle = {
-    height: "h-full",
+    height: "h-full max-h-[80%]",
     width: "w-full",
     padding: "p-0",
     center: "self-center justify-center content-center",
@@ -63,59 +63,55 @@ export async function fetchChildren(type) {
       // Use default placeholder if image URL fetch fails
       const src = imageUrl || "/images/placeholder.jpg";
 
-      const header =
-        child.type === "helped"
-          ? "Children We've Helped"
-          : "Children Needing Help";
-      const description2 =
-        child.type === "helped"
-          ? "After Recieving Help:"
-          : "Why Help is Needed:";
+      const header = child.header;
+      const paragraph1Header = child.paragraph1_header || child.name;
+      const paragraph2Header = child.paragraph2_header;
+      const paragraph1Text = child.paragraph1;
+      const paragraph2Text = child.paragraph2;
 
-      const helpedButton = {
-        type: "ButtonComponent",
-        props: {
-          text: "Read More / Gallery",
-          style: {
-            className:
-              "w-fit p-0 bg-transparent hover:bg-transparent border-none text-base-dark font-bold",
-          },
-        },
-      };
-      const helpButton = {
-        type: "ElementComponent",
-        props: {
-          style: {
-            className: "flex flex-col",
-          },
-        },
-        children: [
-          {
-            type: "ButtonComponent",
-            props: {
-              text: "Read More / Gallery",
-              href: "/news",
-              style: {
-                className:
-                  "w-fit p-0 bg-transparent hover:bg-transparent border-none text-base-dark font-bold",
+      const button =
+        type === "helped"
+          ? {
+              type: "ButtonComponent",
+              props: {
+                text: "Read More / Gallery",
+                style: {
+                  className:
+                    "w-fit p-0 bg-transparent hover:bg-transparent border-none text-base-dark font-bold",
+                },
               },
-            },
-          },
-          {
-            type: "ButtonComponent",
-            props: {
-              text: "DONATE NOW! TAP ON LADYBUG",
-              //arrow right
-              style: {
-                className:
-                  "w-fit p-0 bg-transparent hover:bg-transparent border-none text-main font-bold",
+            }
+          : {
+              type: "ElementComponent",
+              props: {
+                style: {
+                  className: "flex flex-col",
+                },
               },
-            },
-          },
-        ],
-      };
-
-      const button = child.type === "helped" ? helpedButton : helpButton;
+              children: [
+                {
+                  type: "ButtonComponent",
+                  props: {
+                    text: "Read More / Gallery",
+                    href: "/news",
+                    style: {
+                      className:
+                        "w-fit p-0 bg-transparent hover:bg-transparent border-none text-base-dark font-bold",
+                    },
+                  },
+                },
+                {
+                  type: "ButtonComponent",
+                  props: {
+                    text: "DONATE NOW! TAP ON LADYBUG",
+                    style: {
+                      className:
+                        "w-fit p-0 bg-transparent hover:bg-transparent border-none text-main font-bold",
+                    },
+                  },
+                },
+              ],
+            };
 
       const helpedBottomContent = {
         // bottom card content for children we've helped
@@ -292,7 +288,7 @@ export async function fetchChildren(type) {
                     type: "TextComponent",
                     props: {
                       tag: "h3",
-                      text: child.name,
+                      text: paragraph1Header,
                       style: {
                         className: "text-xl font-bold",
                       },
@@ -302,7 +298,7 @@ export async function fetchChildren(type) {
                     type: "TextComponent",
                     props: {
                       tag: "p",
-                      text: child.description,
+                      text: paragraph1Text,
                       style: {
                         className: "text-lg text-gray-500",
                       },
@@ -323,7 +319,7 @@ export async function fetchChildren(type) {
                     type: "TextComponent",
                     props: {
                       tag: "h3",
-                      text: description2,
+                      text: paragraph2Header,
                       style: {
                         className: "text-xl font-bold",
                       },
@@ -333,7 +329,7 @@ export async function fetchChildren(type) {
                     type: "TextComponent",
                     props: {
                       tag: "p",
-                      text: child.description2,
+                      text: paragraph2Text,
                       style: {
                         className: "text-lg text-gray-500",
                       },

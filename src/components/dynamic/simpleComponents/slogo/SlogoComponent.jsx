@@ -1,5 +1,6 @@
 // src/components/Slogo.jsx
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const SlogoComponent = ({
   showLogo = true,
@@ -30,18 +31,18 @@ const SlogoComponent = ({
     <div className={defaultContainerStyle + containerStyle}>
       {/* Logo Section */}
       {showLogo && logo.src ? (
-        <a href="/home">
+        <Link to="/home">
           <img
             src={logo.src}
             alt={logo.alt || ""}
             className={defaultLogoStyle + logoStyle}
           />
-        </a>
+        </Link>
       ) : null}
 
       {/* Slogan Section */}
       {showIdentity && identity && (
-        <a href="/home" className="flex flex-col text-center">
+        <Link to="/home" className="flex flex-col text-center">
           <h1 className="flex flex-col text-center">
             <span className={defaultNameStyle + nameStyle}>
               {identity.name || ""}
@@ -50,7 +51,7 @@ const SlogoComponent = ({
               {identity.slogan || ""}
             </span>
           </h1>
-        </a>
+        </Link>
       )}
     </div>
   );

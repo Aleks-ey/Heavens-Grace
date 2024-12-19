@@ -4,7 +4,6 @@ const helpedChildrenEditForm = ({
   helpedFormData,
   setHelpedFormData,
   onSubmit,
-  closeDialog,
 }) => {
   let uploadedFileName = null; // Track uploaded file for cleanup if needed
 
@@ -16,26 +15,101 @@ const helpedChildrenEditForm = ({
           name: "name",
           label: "Name",
           props: {
-            value: helpedFormData.name,
+            defaultValue: helpedFormData.name,
             placeholder: "Enter Name",
-            onChange: (e) =>
-              setHelpedFormData({ ...helpedFormData, name: e.target.value }),
+            onBlur: (e) => {
+              setHelpedFormData((prev) => ({
+                ...prev,
+                name: e.target.defaultValue,
+              }));
+            },
           },
           labelStyle: { className: "font-bold text-left" },
           inputStyle: { className: "border rounded px-1 py-2" },
         },
         {
-          name: "description",
-          label: "Description",
+          name: "header",
+          label: "Header",
+          props: {
+            defaultValue: helpedFormData.header,
+            placeholder: "Enter Header",
+            onBlur: (e) => {
+              setHelpedFormData((prev) => ({
+                ...prev,
+                header: e.target.defaultValue,
+              }));
+            },
+          },
+          labelStyle: { className: "font-bold text-left" },
+          inputStyle: { className: "border rounded px-1 py-2" },
+        },
+        // paragraph1_ header input field
+        {
+          name: "paragraph1_header",
+          label: "Paragraph 1 Header",
+          props: {
+            defaultValue: helpedFormData.paragraph1_header,
+            placeholder: "Enter Paragraph 1 Header. Child Name is Recommended",
+            onBlur: (e) => {
+              setHelpedFormData((prev) => ({
+                ...prev,
+                paragraph1_header: e.target.defaultValue,
+              }));
+            },
+          },
+          labelStyle: { className: "font-bold text-left" },
+          inputStyle: { className: "border rounded px-1 py-2" },
+        },
+        // paragraph1 input field
+        {
+          name: "paragraph1",
+          label: "Paragraph 1",
           tag: "textarea",
           props: {
-            value: helpedFormData.description,
-            placeholder: "Enter Description",
-            onChange: (e) =>
-              setHelpedFormData({
-                ...helpedFormData,
-                description: e.target.value,
-              }),
+            defaultValue: helpedFormData.paragraph1,
+            placeholder: "Enter Paragraph 1",
+            onBlur: (e) => {
+              setHelpedFormData((prev) => ({
+                ...prev,
+                paragraph1: e.target.defaultValue,
+              }));
+            },
+          },
+          labelStyle: { className: "font-bold text-left" },
+          inputStyle: { className: "border rounded px-1 py-2 min-h-28" },
+        },
+        // paragraph2_header input field
+        {
+          name: "paragraph2_header",
+          label: "Paragraph 2 Header",
+          props: {
+            defaultValue: helpedFormData.paragraph2_header,
+            placeholder:
+              "Enter Paragraph 2 Header. 'After Receiving Help' is Recommended",
+            onBlur: (e) => {
+              setHelpedFormData((prev) => ({
+                ...prev,
+                paragraph2_header: e.target.defaultValue,
+              }));
+            },
+          },
+          labelStyle: { className: "font-bold text-left" },
+          inputStyle: { className: "border rounded px-1 py-2" },
+        },
+        // paragraph2 input field
+        {
+          name: "paragraph2",
+          label: "Paragraph 2",
+          tag: "textarea",
+          props: {
+            defaultValue: helpedFormData.paragraph2,
+            placeholder: "Enter Paragraph 2",
+            onBlur: (e) => {
+              setHelpedFormData((prev) => ({
+                ...prev,
+                paragraph2: e.target.defaultValue,
+              }));
+            },
           },
           labelStyle: { className: "font-bold text-left" },
           inputStyle: { className: "border rounded px-1 py-2 min-h-28" },
@@ -44,10 +118,14 @@ const helpedChildrenEditForm = ({
           name: "cost",
           label: "Cost",
           props: {
-            value: helpedFormData.cost,
+            defaultValue: helpedFormData.cost,
             placeholder: "Enter Cost",
-            onChange: (e) =>
-              setHelpedFormData({ ...helpedFormData, cost: e.target.value }),
+            onBlur: (e) => {
+              setHelpedFormData((prev) => ({
+                ...prev,
+                cost: e.target.defaultValue,
+              }));
+            },
           },
           labelStyle: { className: "font-bold text-left" },
           inputStyle: { className: "border rounded px-1 py-2" },
@@ -56,10 +134,14 @@ const helpedChildrenEditForm = ({
           name: "raised",
           label: "Raised",
           props: {
-            value: helpedFormData.raised,
+            defaultValue: helpedFormData.raised,
             placeholder: "Enter Amount Raised",
-            onChange: (e) =>
-              setHelpedFormData({ ...helpedFormData, raised: e.target.value }),
+            onBlur: (e) => {
+              setHelpedFormData((prev) => ({
+                ...prev,
+                raised: e.target.defaultValue,
+              }));
+            },
           },
           labelStyle: { className: "font-bold text-left" },
           inputStyle: { className: "border rounded px-1 py-2" },
@@ -68,13 +150,14 @@ const helpedChildrenEditForm = ({
           name: "remaining",
           label: "Remaining",
           props: {
-            value: helpedFormData.remaining,
+            defaultValue: helpedFormData.remaining,
             placeholder: "Enter Remaining Amount",
-            onChange: (e) =>
-              setHelpedFormData({
-                ...helpedFormData,
-                remaining: e.target.value,
-              }),
+            onBlur: (e) => {
+              setHelpedFormData((prev) => ({
+                ...prev,
+                remaining: e.target.defaultValue,
+              }));
+            },
           },
           labelStyle: { className: "font-bold text-left" },
           inputStyle: { className: "border rounded px-1 py-2" },
@@ -122,7 +205,6 @@ const helpedChildrenEditForm = ({
         const success = await onSubmit(helpedFormData);
         if (success) {
           alert("Child data updated successfully!");
-          closeDialog();
         } else {
           //   alert("Failed to update child data.");
           // Cleanup uploaded image if submission fails
@@ -139,7 +221,10 @@ const helpedChildrenEditForm = ({
           }
         }
       },
-      style: { className: "space-y-4 h-full md:w-full lg:w-full xl:w-full" },
+      style: {
+        className:
+          "space-y-4 h-full md:w-full lg:w-full xl:w-full overflow-y-auto scrollbar-thin scrollbar-thumb-main",
+      },
     },
   };
 };

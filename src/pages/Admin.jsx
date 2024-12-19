@@ -1,18 +1,16 @@
 import { AppBuilder, listLineCarousel } from "@aleks-ey/dynamic-app-builder";
 
 import { useEffect, useState } from "react";
+import { supabase } from "../supabaseClient";
 
 import boardAddForm from "../utilities/admin/boardAddForm";
 import { manageBoard } from "../utilities/admin/manageBoard";
-import { addBoardMember } from "../utilities/admin/boardApi";
 
 import helpedChildrenAddForm from "../utilities/admin/helpedChildrenAddForm";
 import { manageHelpedChildren } from "../utilities/admin/manageHelpedChildren";
 
 import helpChildrenAddForm from "../utilities/admin/helpChildrenAddForm";
 import { manageHelpChildren } from "../utilities/admin/manageHelpChildren";
-
-import { addChild } from "../utilities/admin/childrenApi";
 
 const Admin = () => {
   const [boardFormData, setBoardFormData] = useState({
@@ -25,8 +23,11 @@ const Admin = () => {
 
   const [helpedFormData, setHelpedFormData] = useState({
     name: "",
-    description: "",
-    description2: "",
+    header: "",
+    paragraph1_header: "",
+    paragraph1: "",
+    paragraph2_header: "",
+    paragraph2: "",
     cost: "",
     raised: "",
     remaining: "",
@@ -35,8 +36,11 @@ const Admin = () => {
 
   const [helpFormData, setHelpFormData] = useState({
     name: "",
-    description: "",
-    description2: "",
+    header: "",
+    paragraph1_header: "",
+    paragraph1: "",
+    paragraph2_header: "",
+    paragraph2: "",
     cost: "",
     raised: "",
     remaining: "",
@@ -91,8 +95,11 @@ const Admin = () => {
     if (selectedHelpedChild) {
       setHelpedFormData({
         name: selectedHelpedChild.name || "",
-        description: selectedHelpedChild.description || "",
-        description2: selectedHelpedChild.description2 || "",
+        header: selectedHelpedChild.header || "",
+        paragraph1_header: selectedHelpedChild.paragraph1_header || "",
+        paragraph1: selectedHelpedChild.paragraph1 || "",
+        paragraph2_header: selectedHelpedChild.paragraph2_header || "",
+        paragraph2: selectedHelpedChild.paragraph2 || "",
         cost: selectedHelpedChild.cost || "",
         raised: selectedHelpedChild.raised || "",
         remaining: selectedHelpedChild.remaining || "",
@@ -105,8 +112,11 @@ const Admin = () => {
     if (selectedHelpChild) {
       setHelpFormData({
         name: selectedHelpChild.name || "",
-        description: selectedHelpChild.description || "",
-        description2: selectedHelpChild.description2 || "",
+        header: selectedHelpChild.header || "",
+        paragraph1_header: selectedHelpChild.paragraph1_header || "",
+        paragraph1: selectedHelpChild.paragraph1 || "",
+        paragraph2_header: selectedHelpChild.paragraph2_header || "",
+        paragraph2: selectedHelpChild.paragraph2 || "",
         cost: selectedHelpChild.cost || "",
         raised: selectedHelpChild.raised || "",
         remaining: selectedHelpChild.remaining || "",
@@ -115,42 +125,127 @@ const Admin = () => {
     }
   }, [selectedHelpChild]);
 
+  // const handleAddBoardSubmit = async (newMemberData) => {
+  //   try {
+  //     const data = await addBoardMember(newMemberData);
+  //     if (data) {
+  //       console.log("Here");
+  //       return true; // Success
+  //     }
+  //     console.log("Here2");
+  //     return false; // No data returned
+  //   } catch (error) {
+  //     console.error("Error adding new board member:", error);
+  //     return false; // Failure
+  //   }
+  // };
   const handleAddBoardSubmit = async (newMemberData) => {
     try {
-      const data = await addBoardMember(newMemberData);
-      if (data && data.length > 0) {
-        return true; // Success
+      // Directly insert the new member data into Supabase
+      const { data, error } = await supabase
+        .from("board")
+        .insert([newMemberData]);
+
+      if (error) {
+        console.error("Supabase insert error:", error.message);
+        return false; // Return false on error
       }
-      return false; // No data returned
+
+      if (data === null) {
+        console.log("New board member added:", data);
+        alert("Board member added successfully!");
+        window.location.reload(); // Reload the page to reflect changes
+        return true; // Return true on success
+      }
+
+      console.log("Unexpected result:", data);
+      return false; // Handle unexpected cases
     } catch (error) {
       console.error("Error adding new board member:", error);
-      return false; // Failure
+      return false; // Return false on exception
     }
   };
 
+  // const handleAddHelpedChildSubmit = async (newHelpedChildData) => {
+  //   try {
+  //     const data = await addChild(newHelpedChildData);
+  //     if (data && data.length > 0) {
+  //       return true; // Success
+  //     }
+  //     return false; // No data returned
+  //   } catch (error) {
+  //     console.error("Error adding new helped child:", error);
+  //     return false; // Failure
+  //   }
+  // };
   const handleAddHelpedChildSubmit = async (newHelpedChildData) => {
     try {
-      const data = await addChild(newHelpedChildData);
-      if (data && data.length > 0) {
+      const { data, error } = await supabase
+        .from("children")
+        .insert([newHelpedChildData]);
+
+      if (error) {
+        console.error("Error adding new helped child:", error.message);
+        return false; // Failure
+      }
+
+      if (data === null) {
+        console.log("Helped child added successfully.");
+        window.location.reload(); // Reload the page to reflect changes
         return true; // Success
       }
-      return false; // No data returned
+
+      console.log("Unexpected result:", data);
+      return false; // Handle unexpected cases
     } catch (error) {
       console.error("Error adding new helped child:", error);
       return false; // Failure
     }
   };
 
+  // const handleAddHelpChildSubmit = async (newHelpChildData) => {
+  //   try {
+  //     const data = await addChild(newHelpChildData);
+  //     if (data && data.length > 0) {
+  //       return true; // Success
+  //     }
+  //     return false; // No data returned
+  //   } catch (error) {
+  //     console.error("Error adding new help child:", error);
+  //     return false; // Failure
+  //   }
+  // };
   const handleAddHelpChildSubmit = async (newHelpChildData) => {
     try {
-      const data = await addChild(newHelpChildData);
-      if (data && data.length > 0) {
+      const { data, error } = await supabase
+        .from("children")
+        .insert([newHelpChildData]);
+
+      if (error) {
+        console.error("Error adding new help child:", error.message);
+        return false; // Failure
+      }
+
+      if (data === null) {
+        console.log("Child needing help added successfully.");
+        window.location.reload(); // Reload the page to reflect changes
         return true; // Success
       }
-      return false; // No data returned
+
+      console.log("Unexpected result:", data);
+      return false; // Handle unexpected cases
     } catch (error) {
       console.error("Error adding new help child:", error);
       return false; // Failure
+    }
+  };
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error("Logout error:", error.message);
+    } else {
+      window.location.href = "/login"; // Redirect to login page
     }
   };
 
@@ -238,7 +333,6 @@ const Admin = () => {
                   setBoardFormData,
                   onSubmit: (boardFormData) =>
                     handleAddBoardSubmit(boardFormData),
-                  closeDialog: () => console.log("close dialog trigger"),
                 }),
               ],
               dialogStyle: {
@@ -324,7 +418,6 @@ const Admin = () => {
                   setHelpedFormData,
                   onSubmit: (helpedChildFormData) =>
                     handleAddHelpedChildSubmit(helpedChildFormData),
-                  closeDialog: () => console.log("close dialog trigger"),
                 }),
               ],
               dialogStyle: {
@@ -339,8 +432,11 @@ const Admin = () => {
                   onClick: () => {
                     setHelpedFormData({
                       name: "",
-                      description: "",
-                      description2: "",
+                      header: "Children We've Helped",
+                      paragraph1_header: "",
+                      paragraph1: "",
+                      paragraph2_header: "After Recieving Help:",
+                      paragraph2: "",
                       cost: "",
                       raised: "",
                       remaining: "",
@@ -412,7 +508,6 @@ const Admin = () => {
                   setHelpFormData,
                   onSubmit: (helpChildFormData) =>
                     handleAddHelpChildSubmit(helpChildFormData),
-                  closeDialog: () => console.log("close dialog trigger"),
                 }),
               ],
               dialogStyle: {
@@ -427,8 +522,11 @@ const Admin = () => {
                   onClick: () => {
                     setHelpFormData({
                       name: "",
-                      description: "",
-                      description2: "",
+                      header: "Children Needing Help",
+                      paragraph1_header: "",
+                      paragraph1: "",
+                      paragraph2_header: "Why Help is Needed:",
+                      paragraph2: "",
                       cost: "",
                       raised: "",
                       remaining: "",
@@ -505,7 +603,55 @@ const Admin = () => {
             spacing: "justify-center items-center",
           },
         },
-        children: [listLineCarouselConfig],
+        children: [
+          listLineCarouselConfig,
+          {
+            // Logout button (left arrow and text)
+            type: "ElementComponent",
+            props: {
+              style: {
+                className:
+                  "absolute flex flex-row top-24 left-10 justify-center items-center py-12",
+              },
+            },
+            children: [
+              {
+                // Left arrow
+                type: "ButtonComponent",
+                props: {
+                  style: {
+                    className: "bg-transparent border-none",
+                  },
+                  onClick: handleLogout,
+                },
+                children: [
+                  {
+                    type: "ImageComponent",
+                    props: {
+                      src: "/icons/arrows/chevron-left.svg",
+                      style: {
+                        className:
+                          "w-8 h-8 p-0 -translate-x-0 invert-[95%] sepia-[5%] saturate-[0%] hue-rotate-[40deg] brightness-[104%] contrast-[107%]",
+                      },
+                    },
+                  },
+                ],
+              },
+              {
+                // Logout text
+                type: "ButtonComponent",
+                props: {
+                  text: "Logout",
+                  onClick: handleLogout,
+                  style: {
+                    className:
+                      "bg-main hover:bg-white text-white hover:text-main border-main font-bold py-2 px-6 rounded",
+                  },
+                },
+              },
+            ],
+          },
+        ],
       },
     ],
   };

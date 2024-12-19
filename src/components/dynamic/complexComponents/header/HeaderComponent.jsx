@@ -23,6 +23,11 @@ const HeaderComponent = ({
     ? Object.values(drawerStyle).join(" ")
     : "";
 
+  // Handler for closing the drawer on navigation
+  const handleNavigationClick = () => {
+    setIsDrawerOpen(false);
+  };
+
   return (
     <header className={twMerge(defaultHeaderStyle, headerStyle)}>
       {/* Logo Section */}
@@ -55,7 +60,12 @@ const HeaderComponent = ({
       >
         {drawerContent &&
           drawerContent.map((item, index) => (
-            <ComponentRenderer key={index} config={item} />
+            <div
+              key={index}
+              onClick={handleNavigationClick} // Close drawer on click
+            >
+              <ComponentRenderer config={item} />
+            </div>
           ))}
       </DrawerComponent>
     </header>

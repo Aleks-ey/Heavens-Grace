@@ -1,12 +1,9 @@
-import { uploadImageToSupabase } from "./boardApi";
+import { uploadImageToSupabase, deleteImageFromSupabase } from "./boardApi";
 
 // Add form component
-const boardAddForm = ({
-  boardFormData,
-  setBoardFormData,
-  onSubmit,
-  closeDialog,
-}) => {
+const boardAddForm = ({ boardFormData, setBoardFormData, onSubmit }) => {
+  let uploadedFileName = null; // Track uploaded image for cleanup if needed
+
   return {
     type: "FormComponent",
     props: {
@@ -95,6 +92,7 @@ const boardAddForm = ({
                       ...boardFormData,
                       image_url: uploadedUrl,
                     });
+                    uploadedFileName = uploadedUrl; // Track uploaded image for cleanup if needed
                   } else {
                     alert("Image upload failed!");
                   }
@@ -138,17 +136,17 @@ const boardAddForm = ({
       onSubmit: async () => {
         const success = await onSubmit(boardFormData);
         if (success) {
-          alert("Board member added successfully!");
-          setBoardFormData({
-            name: "",
-            position: "",
-            biography: "",
-            personal: "",
-            image_url: "",
-          }); // Clear the form
-          closeDialog(); // Close the dialog on success
+          console.log("Board member added successfully. boardAddForm.js");
         } else {
-          alert("Failed to add board member. Please try again.");
+          console.log("Failed to add member. boardAddForm.js");
+          // Cleanup uploaded image if submission fails
+          if (uploadedFileName) {
+            try {
+              await deleteImageFromSupabase(uploadedFileName);
+            } catch (error) {
+              console.error("Error deleting image:", error);
+            }
+          }
         }
       },
       button: {

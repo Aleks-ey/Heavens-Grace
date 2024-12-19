@@ -4,7 +4,6 @@ const helpedChildrenAddForm = ({
   helpedFormData,
   setHelpedFormData,
   onSubmit,
-  closeDialog,
 }) => {
   let uploadedFileName = null; // Track uploaded file for cleanup if needed
 
@@ -24,33 +23,112 @@ const helpedChildrenAddForm = ({
           labelStyle: { className: "font-bold text-left" },
           inputStyle: { className: "border rounded px-1 py-2" },
         },
+        // {
+        //   name: "description",
+        //   label: "Description",
+        //   tag: "textarea",
+        //   props: {
+        //     value: helpedFormData.description,
+        //     placeholder: "Enter Description",
+        //     onChange: (e) =>
+        //       setHelpedFormData({
+        //         ...helpedFormData,
+        //         description: e.target.value,
+        //       }),
+        //   },
+        //   labelStyle: { className: "font-bold text-left" },
+        //   inputStyle: { className: "border rounded px-1 py-2 min-h-28" },
+        // },
+        // {
+        //   name: "description2",
+        //   label: "Description",
+        //   tag: "textarea",
+        //   props: {
+        //     value: helpedFormData.description2,
+        //     placeholder: "Enter Description",
+        //     onChange: (e) =>
+        //       setHelpedFormData({
+        //         ...helpedFormData,
+        //         description2: e.target.value,
+        //       }),
+        //   },
+        //   labelStyle: { className: "font-bold text-left" },
+        //   inputStyle: { className: "border rounded px-1 py-2 min-h-28" },
+        // },
+        // header input field
         {
-          name: "description",
-          label: "Description",
-          tag: "textarea",
+          name: "header",
+          label: "Header",
           props: {
-            value: helpedFormData.description,
-            placeholder: "Enter Description",
+            value: helpedFormData.header,
+            placeholder: "Enter Header",
+            onChange: (e) =>
+              setHelpedFormData({ ...helpedFormData, header: e.target.value }),
+          },
+          labelStyle: { className: "font-bold text-left" },
+          inputStyle: { className: "border rounded px-1 py-2" },
+        },
+        // paragraph1_ header input field
+        {
+          name: "paragraph1_header",
+          label: "Paragraph 1 Header",
+          props: {
+            value: helpedFormData.paragraph1_header,
+            placeholder: "Enter Paragraph 1 Header. Child Name is Recommended",
             onChange: (e) =>
               setHelpedFormData({
                 ...helpedFormData,
-                description: e.target.value,
+                paragraph1_header: e.target.value,
+              }),
+          },
+          labelStyle: { className: "font-bold text-left" },
+          inputStyle: { className: "border rounded px-1 py-2" },
+        },
+        // paragraph1 input field
+        {
+          name: "paragraph1",
+          label: "Paragraph 1",
+          tag: "textarea",
+          props: {
+            value: helpedFormData.paragraph1,
+            placeholder: "Enter Paragraph 1",
+            onChange: (e) =>
+              setHelpedFormData({
+                ...helpedFormData,
+                paragraph1: e.target.value,
               }),
           },
           labelStyle: { className: "font-bold text-left" },
           inputStyle: { className: "border rounded px-1 py-2 min-h-28" },
         },
+        // paragraph2_header input field
         {
-          name: "description2",
-          label: "Description",
-          tag: "textarea",
+          name: "paragraph2_header",
+          label: "Paragraph 2 Header",
           props: {
-            value: helpedFormData.description2,
-            placeholder: "Enter Description",
+            value: helpedFormData.paragraph2_header,
+            placeholder: "Enter Paragraph 2 Header",
             onChange: (e) =>
               setHelpedFormData({
                 ...helpedFormData,
-                description2: e.target.value,
+                paragraph2_header: e.target.value,
+              }),
+          },
+          labelStyle: { className: "font-bold text-left" },
+          inputStyle: { className: "border rounded px-1 py-2" },
+        },
+        // paragraph2 input field
+        {
+          name: "paragraph2",
+          label: "Paragraph 2",
+          tag: "textarea",
+          props: {
+            value: helpedFormData.paragraph2,
+            placeholder: "Enter Paragraph 2",
+            onChange: (e) =>
+              setHelpedFormData({
+                ...helpedFormData,
+                paragraph2: e.target.value,
               }),
           },
           labelStyle: { className: "font-bold text-left" },
@@ -140,19 +218,9 @@ const helpedChildrenAddForm = ({
           type: "helped", // Explicitly set type
         });
         if (success) {
-          alert("Child added successfully!");
-          setHelpedFormData({
-            name: "",
-            description: "",
-            description2: "",
-            cost: "",
-            raised: "",
-            remaining: "",
-            image_url: "",
-          }); // Reset form
-          closeDialog();
+          console.log("Child added successfully. helpedChildenAddForm.js");
         } else {
-          alert("Failed to add child.");
+          console.log("Failed to add child. helpedChildenAddForm.js");
           // Cleanup uploaded image if submission fails
           if (uploadedFileName) {
             try {

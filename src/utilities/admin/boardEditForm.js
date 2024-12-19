@@ -2,12 +2,7 @@
 import { uploadImageToSupabase, deleteImageFromSupabase } from "./boardApi";
 
 // Edit form component
-const boardEditForm = ({
-  boardFormData,
-  setBoardFormData,
-  onSubmit,
-  closeDialog,
-}) => {
+const boardEditForm = ({ boardFormData, setBoardFormData, onSubmit }) => {
   let uploadedFileName = null; // To track the uploaded file name
   return {
     type: "FormComponent",
@@ -128,8 +123,7 @@ const boardEditForm = ({
       onSubmit: async () => {
         const success = await onSubmit(boardFormData);
         if (success) {
-          alert("Board member updated successfully!");
-          closeDialog(); // Close the dialog on success
+          // alert("Board member updated successfully!");
         } else {
           alert("Failed to update board member. Please try again.");
           // Delete the uploaded image if the form submission fails

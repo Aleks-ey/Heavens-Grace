@@ -1,6 +1,6 @@
 import { supabase } from "../../supabaseClient";
 import helpChildrenEditForm from "./helpChildrenEditForm";
-import { deleteChild, editChild } from "./childrenApi";
+import { deleteChild } from "./childrenApi";
 
 export const manageHelpChildren = async ({
   helpFormData,
@@ -19,33 +19,55 @@ export const manageHelpChildren = async ({
   }
 
   // Handle editing a child
-  const handleEditSubmit = async (updatedFormData, childId, closeDialog) => {
+  //   const handleEditSubmit = async (updatedFormData, childId) => {
+  //     try {
+  //       const success = await editChild(childId, updatedFormData);
+  //       if (success) {
+  //         alert("Child data updated successfully!");
+  //         window.location.reload();
+  //       } else {
+  //         alert("Failed to update child data. Please try again.");
+  //       }
+  //     } catch (err) {
+  //       console.error("Edit error:", err);
+  //     }
+  //   };
+  const handleEditSubmit = async (updatedFormData, childId) => {
     try {
-      const success = await editChild(childId, updatedFormData);
-      if (success) {
-        alert("Child data updated successfully!");
-        closeDialog();
-        window.location.reload();
-      } else {
-        alert("Failed to update child data. Please try again.");
+      const { data, error } = await supabase
+        .from("children")
+        .update(updatedFormData)
+        .eq("id", childId);
+
+      if (error) {
+        console.error("Update error:", error.message);
+        return false; // Failure
       }
+
+      if (data === null) {
+        console.log("Update successful but returned null data.");
+        alert("Child data updated successfully!");
+        window.location.reload();
+        return true; // Treat null as success
+      }
+
+      console.log("Update successful:", data);
+      return true; // Success
     } catch (err) {
-      console.error("Edit error:", err);
+      console.error("Error during update:", err);
+      return false; // Failure
     }
   };
 
   // Handle deleting a child
-  const handleDelete = async (childId, closeDialog) => {
+  const handleDelete = async (childId) => {
     try {
       const success = await deleteChild(childId, "children-help");
       if (success) {
         alert("Child deleted successfully!");
-        closeDialog();
         window.location.reload();
       } else {
-        // alert("Failed to delete child. Please try again.");
-        alert("Child deleted successfully!");
-        closeDialog();
+        alert("Failed to delete child. Please try again.");
         window.location.reload();
       }
     } catch (err) {
@@ -84,6 +106,12 @@ export const manageHelpChildren = async ({
 
   // Return a mapped configuration for children
   return data.map((child) => {
+    const headerText = child.header;
+    const paragraph1Header = child.paragraph1_header;
+    const paragraph2Header = child.paragraph2_header;
+    const paragraph1Text = child.paragraph1;
+    const paragraph2Text = child.paragraph2;
+
     return {
       type: "ElementComponent",
       props: {
@@ -118,14 +146,14 @@ export const manageHelpChildren = async ({
                   type: "TextComponent",
                   props: {
                     tag: "h2",
-                    text: "Children We've Helped",
+                    text: headerText,
                     style: {
                       className: "hidden md:block text-2xl font-bold",
                     },
                   },
                 },
                 {
-                  // child name and description
+                  // paragraph 1 header and text
                   type: "ElementComponent",
                   props: {
                     style: {
@@ -137,7 +165,7 @@ export const manageHelpChildren = async ({
                       type: "TextComponent",
                       props: {
                         tag: "h3",
-                        text: child.name,
+                        text: paragraph1Header,
                         style: {
                           className: "text-xl font-bold",
                         },
@@ -147,7 +175,7 @@ export const manageHelpChildren = async ({
                       type: "TextComponent",
                       props: {
                         tag: "p",
-                        text: child.description,
+                        text: paragraph1Text,
                         style: {
                           className: "text-lg text-gray-500",
                         },
@@ -156,7 +184,7 @@ export const manageHelpChildren = async ({
                   ],
                 },
                 {
-                  // after receiving help or why help is needed
+                  // paragraph 2 header and text
                   type: "ElementComponent",
                   props: {
                     style: {
@@ -168,7 +196,7 @@ export const manageHelpChildren = async ({
                       type: "TextComponent",
                       props: {
                         tag: "h3",
-                        text: "After Receiving Help",
+                        text: paragraph2Header,
                         style: {
                           className: "text-xl font-bold",
                         },
@@ -178,7 +206,7 @@ export const manageHelpChildren = async ({
                       type: "TextComponent",
                       props: {
                         tag: "p",
-                        text: child.description2,
+                        text: paragraph2Text,
                         style: {
                           className: "text-lg text-gray-500",
                         },
@@ -292,7 +320,7 @@ export const manageHelpChildren = async ({
               type: "TextComponent",
               props: {
                 tag: "h2",
-                text: "Children We've Helped",
+                text: headerText,
                 style: {
                   className:
                     "md:hidden pb-4 self-start text-2xl text-main font-bold",

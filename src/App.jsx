@@ -3,6 +3,8 @@ import "./App.css";
 
 import ScrollToTop from "./scrollToTop";
 import MusicPlayer from "./components/MusicPlayer";
+import { MusicPlayerProvider } from "./components/dynamic/helpers/MusicPlayerContext";
+import ProtectedRoute from "./components/dynamic/helpers/ProtectedRoute";
 
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -11,6 +13,7 @@ import Donate from "./pages/Donate";
 import News from "./pages/News";
 import Contact from "./pages/Contact";
 import Admin from "./pages/Admin";
+import Login from "./components/dynamic/authComponents/login/Login";
 
 import AppBuilder from "./components/dynamic/AppBuilder";
 
@@ -239,25 +242,35 @@ function App() {
   };
 
   return (
-    <Router>
-      <ScrollToTop />
-      <AppBuilder config={header} />
-      {/* <div className="min-h-screen"> */}
-      <Routes>
-        <Route path="" element={<Home />} />
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/children" element={<Children />} />
-        <Route path="/donate" element={<Donate />} />
-        <Route path="/news" element={<News />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/admin" element={<Admin />} />
-      </Routes>
-      {/* </div> */}
-      <AppBuilder config={footer} />
-      <MusicPlayer />
-    </Router>
+    <MusicPlayerProvider>
+      <Router>
+        <ScrollToTop />
+        <AppBuilder config={header} />
+        {/* <div className="min-h-screen"> */}
+        <Routes>
+          <Route path="" element={<Home />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/children" element={<Children />} />
+          <Route path="/donate" element={<Donate />} />
+          <Route path="/news" element={<News />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <Admin />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+        {/* </div> */}
+        <AppBuilder config={footer} />
+        <MusicPlayer />
+      </Router>
+    </MusicPlayerProvider>
   );
 }
 

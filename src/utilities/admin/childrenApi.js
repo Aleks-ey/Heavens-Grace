@@ -36,24 +36,24 @@ export const deleteImageFromSupabase = async (fileName, bucket) => {
 };
 
 // Add a new child record to the database
-export const addChild = async (childData) => {
-  const { data, error } = await supabase.from("children").insert([childData]);
-  if (error) {
-    console.error("Add child error:", error.message);
-    throw new Error("Failed to add child.");
-  }
-  return data;
-};
+// export const addChild = async (childData) => {
+//   const { data, error } = await supabase.from("children").insert([childData]);
+//   if (error) {
+//     console.error("Add child error:", error.message);
+//     throw new Error("Failed to add child.");
+//   }
+//   return data;
+// };
 
 // Edit an existing child record
-export const editChild = async (id, updatedData) => {
-  const { data, error } = await supabase
-    .from("children")
-    .update(updatedData)
-    .eq("id", id);
-  if (error) throw error;
-  return data;
-};
+// export const editChild = async (id, updatedData) => {
+//   const { data, error } = await supabase
+//     .from("children")
+//     .update(updatedData)
+//     .eq("id", id);
+//   if (error) throw error;
+//   return data;
+// };
 
 // Delete a child record from the database and remove their image
 export const deleteChild = async (id, bucket) => {

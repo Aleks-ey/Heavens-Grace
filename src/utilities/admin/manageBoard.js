@@ -14,7 +14,7 @@ export const manageBoard = async ({
     return [];
   }
 
-  const handleEditSubmit = async (updatedFormData, memberId, closeDialog) => {
+  const handleEditSubmit = async (updatedFormData, memberId) => {
     try {
       const { error } = await supabase
         .from("board")
@@ -26,7 +26,6 @@ export const manageBoard = async ({
         return false; // Failure
       }
       alert("Board member updated successfully!");
-      closeDialog(); // Use the same dialog-closing logic
       window.location.reload(); // Reload to reflect changes
       return true; // Success
     } catch (err) {
@@ -36,7 +35,7 @@ export const manageBoard = async ({
     }
   };
 
-  const handleDelete = async (memberId, closeDialog) => {
+  const handleDelete = async (memberId) => {
     try {
       const { error } = await supabase
         .from("board")
@@ -47,7 +46,6 @@ export const manageBoard = async ({
         return;
       }
       alert("Board member deleted successfully!");
-      closeDialog(); // Close dialog on success
       window.location.reload();
     } catch (err) {
       console.error("Delete error:", err);
@@ -205,10 +203,6 @@ export const manageBoard = async ({
                     onSubmit: (boardFormData) =>
                       handleEditSubmit(boardFormData, member.id, () =>
                         console.log("Dialog closed")
-                      ),
-                    closeDialog: () =>
-                      console.log(
-                        "Dialog close handler called from boardEditForm"
                       ),
                   }),
                 ],
