@@ -41,27 +41,11 @@ export async function fetchChildren(type) {
     return [];
   }
 
-  // Fetch image URLs for each child record
-  const fetchImageUrl = async (bucket, fileName) => {
-    const { data: imageData, error: imageError } = supabase.storage
-      .from(bucket)
-      .getPublicUrl(fileName);
-
-    if (imageError) {
-      console.error(`Error fetching image URL (${fileName}):`, imageError);
-      return null;
-    }
-    return imageData.publicUrl;
-  };
-
   // Transform data into dynamic component format
   return await Promise.all(
     data.map(async (child) => {
-      const bucket =
-        child.type === "helped" ? "children-helped" : "children-help";
-      const imageUrl = await fetchImageUrl(bucket, child.file_name);
       // Use default placeholder if image URL fetch fails
-      const src = imageUrl || "/images/placeholder.jpg";
+      const src = child.image_url || "/images/placeholder.jpg";
 
       const header = child.header;
       const paragraph1Header = child.paragraph1_header || child.name;
