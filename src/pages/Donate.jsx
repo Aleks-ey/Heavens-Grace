@@ -1,6 +1,53 @@
 import { AppBuilder, listLineCarousel } from "@aleks-ey/dynamic-app-builder";
+import { useEffect, useState } from "react";
+import { supabase } from "../supabaseClient";
 
 const Donate = () => {
+  const [donateData, setDonateData] = useState([]);
+
+  // Fetch donate data from Supabase
+  useEffect(() => {
+    const fetchDonateData = async () => {
+      const { data, error } = await supabase
+        .from("donate")
+        .select("*")
+        .order("id", { ascending: true }); // Sort by id in ascending order
+
+      if (error) {
+        console.error("Error fetching donate data:", error.message);
+        return;
+      }
+
+      setDonateData(data || []);
+    };
+
+    fetchDonateData();
+  }, []);
+
+  const section1List = donateData[0]?.list
+    ? donateData[0].list.split(", ").map((item) => {
+        return {
+          text: item,
+        };
+      })
+    : [];
+
+  const section2List = donateData[1]?.list
+    ? donateData[1].list.split(", ").map((item) => {
+        return {
+          text: item,
+        };
+      })
+    : [];
+
+  const section3List = donateData[2]?.list
+    ? donateData[2].list.split(", ").map((item) => {
+        return {
+          text: item,
+        };
+      })
+    : [];
+
   const listItems = [
     { text: "Donate Now" },
     { text: "Become A Sponsor" },
@@ -85,24 +132,54 @@ const Donate = () => {
         {
           type: "TextComponent",
           props: {
-            text: "BECOME A SPONSOR",
+            text: donateData[0]?.section_title,
             style: {
               className:
                 "absolute left-0 -top-16 text-3xl font-florisha font-bold text-main text-center m-4",
             },
           },
         },
-        {
-          type: "TextComponent",
-          props: {
-            text: "Becoming a sponsor with Heaven's Grace is more than just a commitment; it’s a chance to transform lives. Sponsors play a crucial role in helping us provide consistent and reliable support to children in need. Your sponsorship ensures that vital medical care, life-saving treatments, and preventive healthcare reach the most vulnerable communities. Sponsors also receive regular updates about the impact of their contributions, including stories of the children whose lives they’ve touched. Together, we can bring hope and health to children who deserve nothing less than a bright future.",
-            tag: "p",
-            style: {
-              className:
-                "p-10 text-left text-2xl font-montserrat font-bold text-black",
-            },
-          },
-        },
+        donateData[0]?.paragraph1
+          ? {
+              type: "TextComponent",
+              props: {
+                text: donateData[0].paragraph1,
+                tag: "p",
+                style: {
+                  className:
+                    "p-10 text-left text-2xl font-montserrat font-bold text-black",
+                },
+              },
+            }
+          : {},
+        section1List > 0
+          ? {
+              type: "ListComponent",
+              props: {
+                underlineActive: false,
+                items: section1List
+                  .split("\n")
+                  .map((item) => ({ text: item.trim() })),
+                style: {
+                  className:
+                    "pl-16 pr-10 list-disc text-2xl text-left font-montserrat font-bold text-black",
+                },
+              },
+            }
+          : {},
+        donateData[0]?.paragraph2
+          ? {
+              type: "TextComponent",
+              props: {
+                text: donateData[0].paragraph2,
+                tag: "p",
+                style: {
+                  className:
+                    "p-10 text-left text-2xl font-montserrat font-bold text-black",
+                },
+              },
+            }
+          : {},
       ],
     },
     // Carousel Item 3
@@ -118,24 +195,65 @@ const Donate = () => {
         {
           type: "TextComponent",
           props: {
-            text: "CROWDFUNDING DETAILS",
+            text: donateData[1]?.section_title,
             style: {
               className:
                 "absolute left-0 -top-16 text-3xl font-florisha font-bold text-main text-center m-4",
             },
           },
         },
-        {
-          type: "TextComponent",
-          props: {
-            text: "At Heaven's Grace, we believe in the power of collective generosity. Through our crowdfunding initiatives, we unite people from all walks of life to support specific medical cases, health campaigns, or infrastructure projects such as building pediatric clinics. Each campaign is carefully vetted to ensure every dollar is directed toward creating a tangible impact. Contributors can follow the journey of their chosen campaign and see the difference their donations make in real time. Whether it’s helping a child receive life-saving surgery or funding a community health program, every contribution brings us closer to a healthier tomorrow.",
-            tag: "p",
-            style: {
-              className:
-                "p-10 text-left text-2xl font-montserrat font-bold text-black",
-            },
-          },
-        },
+        // {
+        //   type: "TextComponent",
+        //   props: {
+        //     text: "At Heaven's Grace, we believe in the power of collective generosity. Through our crowdfunding initiatives, we unite people from all walks of life to support specific medical cases, health campaigns, or infrastructure projects such as building pediatric clinics. Each campaign is carefully vetted to ensure every dollar is directed toward creating a tangible impact. Contributors can follow the journey of their chosen campaign and see the difference their donations make in real time. Whether it’s helping a child receive life-saving surgery or funding a community health program, every contribution brings us closer to a healthier tomorrow.",
+        //     tag: "p",
+        //     style: {
+        //       className:
+        //         "p-10 text-left text-2xl font-montserrat font-bold text-black",
+        //     },
+        //   },
+        // },
+        donateData[1]?.paragraph1
+          ? {
+              type: "TextComponent",
+              props: {
+                text: donateData[1].paragraph1,
+                tag: "p",
+                style: {
+                  className:
+                    "p-10 text-left text-2xl font-montserrat font-bold text-black",
+                },
+              },
+            }
+          : {},
+        section2List > 0
+          ? {
+              type: "ListComponent",
+              props: {
+                underlineActive: false,
+                items: section2List
+                  .split("\n")
+                  .map((item) => ({ text: item.trim() })),
+                style: {
+                  className:
+                    "pl-16 pr-10 list-disc text-2xl text-left font-montserrat font-bold text-black",
+                },
+              },
+            }
+          : {},
+        donateData[1]?.paragraph2
+          ? {
+              type: "TextComponent",
+              props: {
+                text: donateData[1].paragraph2,
+                tag: "p",
+                style: {
+                  className:
+                    "p-10 text-left text-2xl font-montserrat font-bold text-black",
+                },
+              },
+            }
+          : {},
       ],
     },
     // Carousel Item 4
@@ -151,24 +269,65 @@ const Donate = () => {
         {
           type: "TextComponent",
           props: {
-            text: "DONATION TRANSPARENCY",
+            text: donateData[2]?.section_title,
             style: {
               className:
                 "absolute left-0 -top-16 text-3xl font-florisha font-bold text-main text-center m-4",
             },
           },
         },
-        {
-          type: "TextComponent",
-          props: {
-            text: "We understand the importance of trust when it comes to charitable giving. At Heaven's Grace, transparency is one of our core values. We provide detailed reports on how every donation is allocated, ensuring that your generosity is used effectively and responsibly. Our annual impact reports, project updates, and real-time donation trackers offer clear insights into the work your support enables. By maintaining this level of openness, we strive to strengthen the bond between our organization and our supporters, ensuring you feel confident that your contributions are making a real difference in children’s lives.",
-            tag: "p",
-            style: {
-              className:
-                "p-10 text-left text-2xl font-montserrat font-bold text-black",
-            },
-          },
-        },
+        // {
+        //   type: "TextComponent",
+        //   props: {
+        //     text: "We understand the importance of trust when it comes to charitable giving. At Heaven's Grace, transparency is one of our core values. We provide detailed reports on how every donation is allocated, ensuring that your generosity is used effectively and responsibly. Our annual impact reports, project updates, and real-time donation trackers offer clear insights into the work your support enables. By maintaining this level of openness, we strive to strengthen the bond between our organization and our supporters, ensuring you feel confident that your contributions are making a real difference in children’s lives.",
+        //     tag: "p",
+        //     style: {
+        //       className:
+        //         "p-10 text-left text-2xl font-montserrat font-bold text-black",
+        //     },
+        //   },
+        // },
+        donateData[2]?.paragraph1
+          ? {
+              type: "TextComponent",
+              props: {
+                text: donateData[2].paragraph1,
+                tag: "p",
+                style: {
+                  className:
+                    "p-10 text-left text-2xl font-montserrat font-bold text-black",
+                },
+              },
+            }
+          : {},
+        section3List > 0
+          ? {
+              type: "ListComponent",
+              props: {
+                underlineActive: false,
+                items: section3List
+                  .split("\n")
+                  .map((item) => ({ text: item.trim() })),
+                style: {
+                  className:
+                    "pl-16 pr-10 list-disc text-2xl text-left font-montserrat font-bold text-black",
+                },
+              },
+            }
+          : {},
+        donateData[2]?.paragraph2
+          ? {
+              type: "TextComponent",
+              props: {
+                text: donateData[2].paragraph2,
+                tag: "p",
+                style: {
+                  className:
+                    "p-10 text-left text-2xl font-montserrat font-bold text-black",
+                },
+              },
+            }
+          : {},
       ],
     },
   ];
@@ -264,7 +423,7 @@ const Donate = () => {
         {
           type: "TextComponent",
           props: {
-            text: "Become A Sponsor",
+            text: donateData[0]?.section_title,
             style: {
               className:
                 "text-4xl font-florisha font-bold text-main text-left my-4",
@@ -282,7 +441,7 @@ const Donate = () => {
             {
               type: "TextComponent",
               props: {
-                text: "Becoming a sponsor with Heaven's Grace is more than just a commitment; it’s a chance to transform lives. Sponsors play a crucial role in helping us provide consistent and reliable support to children in need. Your sponsorship ensures that vital medical care, life-saving treatments, and preventive healthcare reach the most vulnerable communities. Sponsors also receive regular updates about the impact of their contributions, including stories of the children whose lives they’ve touched. Together, we can bring hope and health to children who deserve nothing less than a bright future.",
+                text: donateData[0]?.paragraph1,
                 tag: "p",
                 style: {
                   className:
@@ -306,7 +465,7 @@ const Donate = () => {
         {
           type: "TextComponent",
           props: {
-            text: "Crowdfunding Details",
+            text: donateData[1]?.section_title,
             style: {
               className:
                 "text-4xl font-florisha font-bold text-main text-right my-4",
@@ -324,7 +483,7 @@ const Donate = () => {
             {
               type: "TextComponent",
               props: {
-                text: "At Heaven's Grace, we believe in the power of collective generosity. Through our crowdfunding initiatives, we unite people from all walks of life to support specific medical cases, health campaigns, or infrastructure projects such as building pediatric clinics. Each campaign is carefully vetted to ensure every dollar is directed toward creating a tangible impact. Contributors can follow the journey of their chosen campaign and see the difference their donations make in real time. Whether it’s helping a child receive life-saving surgery or funding a community health program, every contribution brings us closer to a healthier tomorrow.",
+                text: donateData[1]?.paragraph1,
                 tag: "p",
                 style: {
                   className:
@@ -348,7 +507,7 @@ const Donate = () => {
         {
           type: "TextComponent",
           props: {
-            text: "Donation Transparency",
+            text: donateData[2]?.section_title,
             style: {
               className:
                 "text-4xl font-florisha font-bold text-main text-left my-4",
@@ -366,7 +525,7 @@ const Donate = () => {
             {
               type: "TextComponent",
               props: {
-                text: "We understand the importance of trust when it comes to charitable giving. At Heaven's Grace, transparency is one of our core values. We provide detailed reports on how every donation is allocated, ensuring that your generosity is used effectively and responsibly. Our annual impact reports, project updates, and real-time donation trackers offer clear insights into the work your support enables. By maintaining this level of openness, we strive to strengthen the bond between our organization and our supporters, ensuring you feel confident that your contributions are making a real difference in children’s lives.",
+                text: donateData[2]?.paragraph1,
                 tag: "p",
                 style: {
                   className:

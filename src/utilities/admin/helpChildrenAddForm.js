@@ -1,7 +1,50 @@
+import { supabase } from "../../supabaseClient";
 import { uploadImageToSupabase, deleteImageFromSupabase } from "./childrenApi";
 
-const helpChildrenAddForm = ({ helpFormData, setHelpFormData, onSubmit }) => {
+const helpChildrenAddForm = () => {
   let uploadedFileName = null; // Track uploaded file for cleanup if needed
+
+  const onSubmit = async (formData) => {
+    // seperate image_upload field from formData
+    const { image_upload, ...filteredFormData } = formData;
+    console.log(image_upload);
+
+    try {
+      const { data, error } = await supabase.from("children").insert([
+        {
+          ...filteredFormData,
+          type: "help", // Explicitly set type
+        },
+      ]);
+
+      if (error) {
+        console.error("Error adding new help child:", error.message);
+        alert("Failed to add child. Please try again.");
+        // Cleanup uploaded image if submission fails
+        if (uploadedFileName) {
+          try {
+            await deleteImageFromSupabase(uploadedFileName, "children-help");
+            alert("Unused image deleted.");
+          } catch (error) {
+            console.error("Failed to delete unused image:", error.message);
+          }
+        }
+        return false; // Failure
+      }
+
+      if (data === null) {
+        alert("Child needing help added successfully.");
+        window.location.reload(); // Reload the page to reflect changes
+        return true; // Success
+      }
+
+      console.log("Unexpected result:", data);
+      return false; // Handle unexpected cases
+    } catch (error) {
+      console.error("Error adding new help child:", error);
+      return false; // Failure
+    }
+  };
 
   return {
     type: "FormComponent",
@@ -11,55 +54,17 @@ const helpChildrenAddForm = ({ helpFormData, setHelpFormData, onSubmit }) => {
           name: "name",
           label: "Name",
           props: {
-            value: helpFormData.name,
             placeholder: "Enter Name",
-            onChange: (e) =>
-              setHelpFormData({ ...helpFormData, name: e.target.value }),
           },
           labelStyle: { className: "font-bold text-left" },
           inputStyle: { className: "border rounded px-1 py-2" },
         },
-        // {
-        //   name: "description",
-        //   label: "Description",
-        //   tag: "textarea",
-        //   props: {
-        //     value: helpFormData.description,
-        //     placeholder: "Enter Description",
-        //     onChange: (e) =>
-        //       setHelpFormData({
-        //         ...helpFormData,
-        //         description: e.target.value,
-        //       }),
-        //   },
-        //   labelStyle: { className: "font-bold text-left" },
-        //   inputStyle: { className: "border rounded px-1 py-2 min-h-28" },
-        // },
-        // {
-        //   name: "description2",
-        //   label: "Description",
-        //   tag: "textarea",
-        //   props: {
-        //     value: helpFormData.description2,
-        //     placeholder: "Enter Description",
-        //     onChange: (e) =>
-        //       setHelpFormData({
-        //         ...helpFormData,
-        //         description2: e.target.value,
-        //       }),
-        //   },
-        //   labelStyle: { className: "font-bold text-left" },
-        //   inputStyle: { className: "border rounded px-1 py-2 min-h-28" },
-        // },
         // header input field
         {
           name: "header",
           label: "Header",
           props: {
-            value: helpFormData.header,
-            placeholder: "Enter Header",
-            onChange: (e) =>
-              setHelpFormData({ ...helpFormData, header: e.target.value }),
+            placeholder: "Enter Header. 'Children Needing Help' is Recommended",
           },
           labelStyle: { className: "font-bold text-left" },
           inputStyle: { className: "border rounded px-1 py-2" },
@@ -69,13 +74,7 @@ const helpChildrenAddForm = ({ helpFormData, setHelpFormData, onSubmit }) => {
           name: "paragraph1_header",
           label: "Paragraph 1 Header",
           props: {
-            value: helpFormData.paragraph1_header,
             placeholder: "Enter Paragraph 1 Header. Child Name is Recommended",
-            onChange: (e) =>
-              setHelpFormData({
-                ...helpFormData,
-                paragraph1_header: e.target.value,
-              }),
           },
           labelStyle: { className: "font-bold text-left" },
           inputStyle: { className: "border rounded px-1 py-2" },
@@ -86,10 +85,7 @@ const helpChildrenAddForm = ({ helpFormData, setHelpFormData, onSubmit }) => {
           label: "Paragraph 1",
           tag: "textarea",
           props: {
-            value: helpFormData.paragraph1,
             placeholder: "Enter Paragraph 1",
-            onChange: (e) =>
-              setHelpFormData({ ...helpFormData, paragraph1: e.target.value }),
           },
           labelStyle: { className: "font-bold text-left" },
           inputStyle: { className: "border rounded px-1 py-2 min-h-28" },
@@ -99,13 +95,8 @@ const helpChildrenAddForm = ({ helpFormData, setHelpFormData, onSubmit }) => {
           name: "paragraph2_header",
           label: "Paragraph 2 Header",
           props: {
-            value: helpFormData.paragraph2_header,
-            placeholder: "Enter Paragraph 2 Header",
-            onChange: (e) =>
-              setHelpFormData({
-                ...helpFormData,
-                paragraph2_header: e.target.value,
-              }),
+            placeholder:
+              "Enter Paragraph 2 Header. 'Why Help is Needed:' is Recommended",
           },
           labelStyle: { className: "font-bold text-left" },
           inputStyle: { className: "border rounded px-1 py-2" },
@@ -116,10 +107,7 @@ const helpChildrenAddForm = ({ helpFormData, setHelpFormData, onSubmit }) => {
           label: "Paragraph 2",
           tag: "textarea",
           props: {
-            value: helpFormData.paragraph2,
             placeholder: "Enter Paragraph 2",
-            onChange: (e) =>
-              setHelpFormData({ ...helpFormData, paragraph2: e.target.value }),
           },
           labelStyle: { className: "font-bold text-left" },
           inputStyle: { className: "border rounded px-1 py-2 min-h-28" },
@@ -128,10 +116,7 @@ const helpChildrenAddForm = ({ helpFormData, setHelpFormData, onSubmit }) => {
           name: "cost",
           label: "Cost",
           props: {
-            value: helpFormData.cost,
             placeholder: "Enter Cost",
-            onChange: (e) =>
-              setHelpFormData({ ...helpFormData, cost: e.target.value }),
           },
           labelStyle: { className: "font-bold text-left" },
           inputStyle: { className: "border rounded px-1 py-2" },
@@ -140,10 +125,7 @@ const helpChildrenAddForm = ({ helpFormData, setHelpFormData, onSubmit }) => {
           name: "raised",
           label: "Raised",
           props: {
-            value: helpFormData.raised,
             placeholder: "Enter Amount Raised",
-            onChange: (e) =>
-              setHelpFormData({ ...helpFormData, raised: e.target.value }),
           },
           labelStyle: { className: "font-bold text-left" },
           inputStyle: { className: "border rounded px-1 py-2" },
@@ -152,16 +134,45 @@ const helpChildrenAddForm = ({ helpFormData, setHelpFormData, onSubmit }) => {
           name: "remaining",
           label: "Remaining",
           props: {
-            value: helpFormData.remaining,
             placeholder: "Enter Remaining Amount",
-            onChange: (e) =>
-              setHelpFormData({ ...helpFormData, remaining: e.target.value }),
           },
           labelStyle: { className: "font-bold text-left" },
           inputStyle: { className: "border rounded px-1 py-2" },
         },
+        // {
+        //   name: "image_upload",
+        //   label: "Upload Image",
+        //   tag: "input",
+        //   props: {
+        //     type: "file",
+        //     accept: "image/*",
+        //     onChange: async (e) => {
+        //       const file = e.target.files[0];
+        //       if (file) {
+        //         try {
+        //           const { publicUrl, fileName } = await uploadImageToSupabase(
+        //             file,
+        //             "children-help"
+        //           );
+        //         //   setHelpFormData({
+        //         //     ...helpFormData,
+        //         //     image_url: publicUrl,
+        //         //   });
+        //             helpFormData.image_url = publicUrl;
+        //           uploadedFileName = fileName; // Track file for cleanup
+        //           alert("Image upload successful!");
+        //         } catch (error) {
+        //           console.error("Image upload error:", error.message);
+        //           alert("Image upload failed.");
+        //         }
+        //       }
+        //     },
+        //   },
+        //   labelStyle: { className: "font-bold text-left" },
+        //   inputStyle: { className: "border rounded px-1 py-2" },
+        // },
         {
-          name: "image_upload",
+          name: "image_upload", // Virtual field for file upload
           label: "Upload Image",
           tag: "input",
           props: {
@@ -175,11 +186,24 @@ const helpChildrenAddForm = ({ helpFormData, setHelpFormData, onSubmit }) => {
                     file,
                     "children-help"
                   );
-                  setHelpFormData({
-                    ...helpFormData,
-                    image_url: publicUrl,
-                  });
-                  uploadedFileName = fileName; // Track file for cleanup
+
+                  // Programmatically update `image_url` and `file_name` fields
+                  const form = e.target.form;
+
+                  // Update `image_url`
+                  const imageUrlField = form.elements["image_url"];
+                  imageUrlField.value = publicUrl;
+                  imageUrlField.dispatchEvent(
+                    new Event("input", { bubbles: true })
+                  );
+
+                  // Update `file_name`
+                  const fileNameField = form.elements["file_name"];
+                  fileNameField.value = fileName;
+                  fileNameField.dispatchEvent(
+                    new Event("input", { bubbles: true })
+                  );
+
                   alert("Image upload successful!");
                 } catch (error) {
                   console.error("Image upload error:", error.message);
@@ -191,27 +215,48 @@ const helpChildrenAddForm = ({ helpFormData, setHelpFormData, onSubmit }) => {
           labelStyle: { className: "font-bold text-left" },
           inputStyle: { className: "border rounded px-1 py-2" },
         },
+        {
+          name: "image_url", // Field for storing the uploaded image URL
+          label: "Image URL",
+          tag: "input",
+          props: {
+            type: "hidden", // Hidden field to store `image_url`
+          },
+        },
+        {
+          name: "file_name", // Field to display the uploaded file name
+          label: "File Name",
+          tag: "input",
+          props: {
+            type: "text",
+            readOnly: true, // Make this field read-only
+            placeholder: "No file uploaded", // Default placeholder text
+          },
+          labelStyle: { className: "font-bold text-left" },
+          inputStyle: { className: "text-gray-600 italic" },
+        },
       ],
-      onSubmit: async () => {
-        const success = await onSubmit({
-          ...helpFormData,
-          type: "help", // Explicitly set type
-        });
-        if (success) {
-          console.log("Child added successfully. helpChildrenAddForm.js");
-        } else {
-          console.log("Child not added successfully. helpChildrenAddForm.js");
-          // Cleanup uploaded image if submission fails
-          if (uploadedFileName) {
-            try {
-              await deleteImageFromSupabase(uploadedFileName, "children-help");
-              alert("Unused image deleted.");
-            } catch (error) {
-              console.error("Failed to delete unused image:", error.message);
-            }
-          }
-        }
-      },
+      //   onSubmit: async () => {
+      //     const success = await onSubmit({
+      //       ...helpFormData,
+      //       type: "help", // Explicitly set type
+      //     });
+      //     if (success) {
+      //       console.log("Child added successfully. helpChildrenAddForm.js");
+      //     } else {
+      //       console.log("Child not added successfully. helpChildrenAddForm.js");
+      //       // Cleanup uploaded image if submission fails
+      //       if (uploadedFileName) {
+      //         try {
+      //           await deleteImageFromSupabase(uploadedFileName, "children-help");
+      //           alert("Unused image deleted.");
+      //         } catch (error) {
+      //           console.error("Failed to delete unused image:", error.message);
+      //         }
+      //       }
+      //     }
+      //   },
+      onSubmit,
       button: {
         text: "Add Child",
         style: {

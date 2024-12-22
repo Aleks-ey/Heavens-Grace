@@ -11,12 +11,12 @@ const helpChildrenEditForm = ({ helpFormData, setHelpFormData, onSubmit }) => {
           name: "name",
           label: "Name",
           props: {
-            defaultdefaultValue: helpFormData.name,
+            value: helpFormData.name,
             placeholder: "Enter Name",
-            onBlur: (e) => {
+            onChange: (e) => {
               setHelpFormData((prev) => ({
                 ...prev,
-                name: e.target.defaultdefaultValue,
+                name: e.target.Value,
               }));
             },
           },
@@ -44,12 +44,12 @@ const helpChildrenEditForm = ({ helpFormData, setHelpFormData, onSubmit }) => {
           name: "paragraph1_header",
           label: "Paragraph 1 Header",
           props: {
-            defaultValue: helpFormData.paragraph1_header,
+            value: helpFormData.paragraph1_header,
             placeholder: "Enter Paragraph 1 Header. Child Name is Recommended",
-            onBlur: (e) => {
+            onChange: (e) => {
               setHelpFormData((prev) => ({
                 ...prev,
-                paragraph1_header: e.target.defaultdefaultValue,
+                paragraph1_header: e.target.value,
               }));
             },
           },

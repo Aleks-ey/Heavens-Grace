@@ -68,7 +68,6 @@ export const manageHelpChildren = async ({
         window.location.reload();
       } else {
         alert("Failed to delete child. Please try again.");
-        window.location.reload();
       }
     } catch (err) {
       console.error("Delete error:", err);

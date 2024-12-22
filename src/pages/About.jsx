@@ -2,9 +2,11 @@
 import { AppBuilder, listLineCarousel } from "@aleks-ey/dynamic-app-builder";
 import { useEffect, useState } from "react";
 import { fetchBoard } from "../utilities/fetchBoard";
+import { supabase } from "../supabaseClient";
 
 const About = () => {
   const [boardMembers, setBoardMembers] = useState([]);
+  const [aboutData, setAboutData] = useState([]);
 
   useEffect(() => {
     const getBoardMembers = async () => {
@@ -14,6 +16,50 @@ const About = () => {
 
     getBoardMembers();
   }, []);
+
+  // Fetch about data
+  useEffect(() => {
+    const fetchAboutData = async () => {
+      const { data, error } = await supabase
+        .from("about")
+        .select("*")
+        .order("id", { ascending: true }); // Sort by id in ascending order;
+
+      if (error) {
+        console.error("Error fetching about data:", error.message);
+        return;
+      }
+
+      console.log("Fetched about data:", data); // Debug log
+      setAboutData(data || []);
+    };
+
+    fetchAboutData();
+  }, []);
+
+  const section1List = aboutData[0]?.list
+    ? aboutData[0].list.split(", ").map((item) => {
+        return {
+          text: item,
+        };
+      })
+    : [];
+
+  const section2List = aboutData[1]?.list
+    ? aboutData[1].list.split(", ").map((item) => {
+        return {
+          text: item,
+        };
+      })
+    : [];
+
+  const section3List = aboutData[2]?.list
+    ? aboutData[2].list.split(", ").map((item) => {
+        return {
+          text: item,
+        };
+      })
+    : [];
 
   const boardMembersArrows = [
     {
@@ -96,24 +142,54 @@ const About = () => {
         {
           type: "TextComponent",
           props: {
-            text: "MISSION STATEMENT",
+            // text: "MISSION STATEMENT",
+            text: aboutData[0]?.section_title,
             style: {
               className:
                 "absolute left-0 -top-16 text-3xl font-florisha font-bold text-main text-center m-4",
             },
           },
         },
-        {
-          type: "TextComponent",
-          props: {
-            text: "Heaven's Grace is a charitable organization focused on supporting children's health. Our mission is to provide access to essential medical care for children in countries where it is most needed, giving them a chance for a healthy and happy future. We belive that even small wings can perform great miracles, and our goal is to protect every child's life and surround them with care.",
-            tag: "p",
-            style: {
-              className:
-                "p-10 text-left text-2xl font-montserrat font-bold text-black",
-            },
-          },
-        },
+        aboutData[0]?.paragraph1
+          ? {
+              type: "TextComponent",
+              props: {
+                // text: "Heaven's Grace is a charitable organization focused on supporting children's health. Our mission is to provide access to essential medical care for children in countries where it is most needed, giving them a chance for a healthy and happy future. We belive that even small wings can perform great miracles, and our goal is to protect every child's life and surround them with care.",
+                text: aboutData[0].paragraph1,
+                tag: "p",
+                style: {
+                  className:
+                    "p-10 text-left text-2xl font-montserrat font-bold text-black",
+                },
+              },
+            }
+          : {},
+        section1List.length > 0
+          ? {
+              type: "ListComponent",
+              props: {
+                underlineActive: false,
+                items: section1List,
+                style: {
+                  className:
+                    "pl-16 pr-10 list-disc text-2xl text-left font-montserrat font-bold text-black",
+                },
+              },
+            }
+          : {},
+        aboutData[0]?.paragraph2
+          ? {
+              type: "TextComponent",
+              props: {
+                text: aboutData[0].paragraph2,
+                tag: "p",
+                style: {
+                  className:
+                    "p-10 text-left text-2xl font-montserrat font-bold text-black",
+                },
+              },
+            }
+          : {},
       ],
     },
     {
@@ -128,54 +204,53 @@ const About = () => {
         {
           type: "TextComponent",
           props: {
-            text: "OUR APPROACH",
+            text: aboutData[1]?.section_title,
             style: {
               className:
                 "absolute left-0 -top-16 text-3xl font-florisha font-bold text-main text-center m-4",
             },
           },
         },
-        {
-          type: "TextComponent",
-          props: {
-            text: "Heaven's Grace offers the following assistance plan:",
-            tag: "p",
-            style: {
-              className:
-                "px-10 py-4 text-left text-2xl font-montserrat font-bold text-black",
-            },
-          },
-        },
-        {
-          type: "ListComponent",
-          props: {
-            underlineActive: false,
-            items: [
-              {
-                text: "The first 25% of the treatement cost is covered by our organization.",
+        aboutData[1]?.paragraph1
+          ? {
+              type: "TextComponent",
+              props: {
+                // text: "Heaven's Grace is a charitable organization focused on supporting children's health. Our mission is to provide access to essential medical care for children in countries where it is most needed, giving them a chance for a healthy and happy future. We belive that even small wings can perform great miracles, and our goal is to protect every child's life and surround them with care.",
+                text: aboutData[1].paragraph1,
+                tag: "p",
+                style: {
+                  className:
+                    "p-10 text-left text-2xl font-montserrat font-bold text-black",
+                },
               },
-              { text: "The next 25-50% is funded by sponsors." },
-              {
-                text: "The remaining funds are raised through crowdfunding and promoted on social media.",
+            }
+          : {},
+        section2List.length > 0
+          ? {
+              type: "ListComponent",
+              props: {
+                underlineActive: false,
+                items: section2List,
+                style: {
+                  className:
+                    "pl-16 pr-10 list-disc text-2xl text-left font-montserrat font-bold text-black",
+                },
               },
-            ],
-            style: {
-              className:
-                "pl-16 pr-10 list-disc text-2xl text-left font-montserrat font-bold text-black",
-            },
-          },
-        },
-        {
-          type: "TextComponent",
-          props: {
-            text: "This approach ensures a transparent and efficient fundraising and support process. All photo and video reports, along with receipts, will be carefully monitored and published both on social media and during monthly conferences for progress reviews.",
-            tag: "p",
-            style: {
-              className:
-                "px-10 py-4 text-left text-2xl font-montserrat font-bold text-black",
-            },
-          },
-        },
+            }
+          : {},
+        aboutData[1]?.paragraph2
+          ? {
+              type: "TextComponent",
+              props: {
+                text: aboutData[1].paragraph2,
+                tag: "p",
+                style: {
+                  className:
+                    "p-10 text-left text-2xl font-montserrat font-bold text-black",
+                },
+              },
+            }
+          : {},
       ],
     },
     {
@@ -213,35 +288,52 @@ const About = () => {
         {
           type: "TextComponent",
           props: {
-            text: "WHY GEORGIA AND ARMENIA?",
+            text: aboutData[2]?.section_title,
             style: {
               className:
                 "absolute left-0 -top-16 text-3xl font-florisha font-bold text-main text-center m-4",
             },
           },
         },
-        {
-          type: "TextComponent",
-          props: {
-            text: "We are starting our activities in Georgia and Armenia, countries where the average salary is significantly lower than in most other regions, yet the cost of medical services remains high. In these countries, access to health insurance is limited, and even when private insurance is available, it does not cover all essential expenses.",
-            tag: "p",
-            style: {
-              className:
-                "px-10 py-4 z-10 text-left text-2xl font-montserrat font-bold text-black",
-            },
-          },
-        },
-        {
-          type: "TextComponent",
-          props: {
-            text: "The average monthly salary in Georgia is around 400 USD, while in Armenia it is around 350 USD, making access to medical care a significant financial challenge for most families. We aim to change this by providing suppot to those who need it the most.",
-            tag: "p",
-            style: {
-              className:
-                "px-10 py-4 z-10 text-left text-2xl font-montserrat font-bold text-black",
-            },
-          },
-        },
+        aboutData[2]?.paragraph1
+          ? {
+              type: "TextComponent",
+              props: {
+                text: aboutData[2].paragraph1,
+                tag: "p",
+                style: {
+                  className:
+                    "p-10 text-left text-2xl font-montserrat font-bold text-black",
+                },
+              },
+            }
+          : {},
+        section3List.length > 0
+          ? {
+              type: "ListComponent",
+              props: {
+                underlineActive: false,
+                items: section3List,
+                style: {
+                  className:
+                    "pl-16 pr-10 list-disc text-2xl text-left font-montserrat font-bold text-black",
+                },
+              },
+            }
+          : {},
+        aboutData[2]?.paragraph2
+          ? {
+              type: "TextComponent",
+              props: {
+                text: aboutData[2].paragraph2,
+                tag: "p",
+                style: {
+                  className:
+                    "p-10 text-left text-2xl font-montserrat font-bold text-black",
+                },
+              },
+            }
+          : {},
       ],
     },
   ];
@@ -286,7 +378,7 @@ const About = () => {
         {
           type: "TextComponent",
           props: {
-            text: "Heaven's Grace is a charitable organization focused on supporting children's health. Our mission is to provide access to essential medical care for children in countries where it is most needed, giving them a chance for a healthy and happy future. We belive that even small wings can perform great miracles, and our goal is to protect every child's life and surround them with care.",
+            text: aboutData[0]?.paragraph1,
             tag: "p",
             style: {
               className:
@@ -340,7 +432,7 @@ const About = () => {
         {
           type: "TextComponent",
           props: {
-            text: "OUR APPROACH",
+            text: aboutData[1]?.section_title,
             style: {
               className:
                 "text-4xl font-florisha font-bold text-main text-left my-4",
@@ -358,7 +450,7 @@ const About = () => {
             {
               type: "TextComponent",
               props: {
-                text: "Heaven's Grace offers the following assistance plan:",
+                text: aboutData[1]?.paragraph1,
                 tag: "p",
                 style: {
                   className:
@@ -366,32 +458,26 @@ const About = () => {
                 },
               },
             },
-            {
-              type: "ListComponent",
-              props: {
-                underlineActive: false,
-                items: [
-                  {
-                    text: "The first 25% of the treatement cost is covered by our organization.",
+            section2List.length > 0
+              ? {
+                  type: "ListComponent",
+                  props: {
+                    underlineActive: false,
+                    items: section2List,
+                    style: {
+                      className:
+                        "pl-6 list-disc text-2xl text-left font-montserrat text-accent",
+                    },
+                    itemStyle: {
+                      className: "text-accent",
+                    },
                   },
-                  { text: "The next 25-50% is funded by sponsors." },
-                  {
-                    text: "The remaining funds are raised through crowdfunding and promoted on social media.",
-                  },
-                ],
-                style: {
-                  className:
-                    "pl-6 list-disc text-2xl text-left font-montserrat text-accent",
-                },
-                itemStyle: {
-                  className: "text-accent",
-                },
-              },
-            },
+                }
+              : {},
             {
               type: "TextComponent",
               props: {
-                text: "This approach ensures a transparent and efficient fundraising and support process. All photo and video reports, along with receipts, will be carefully monitored and published both on social media and during monthly conferences for progress reviews.",
+                text: aboutData[1]?.paragraph2,
                 tag: "p",
                 style: {
                   className:
@@ -444,7 +530,7 @@ const About = () => {
             {
               type: "TextComponent",
               props: {
-                text: "We are starting our activities in Georgia and Armenia, countries where the average salary is significantly lower than in most other regions, yet the cost of medical services remains high. In these countries, access to health insurance is limited, and even when private insurance is available, it does not cover all essential expenses.",
+                text: aboutData[2]?.paragraph1,
                 tag: "p",
                 style: {
                   className:
@@ -455,7 +541,7 @@ const About = () => {
             {
               type: "TextComponent",
               props: {
-                text: "The average monthly salary in Georgia is around 400 USD, while in Armenia it is around 350 USD, making access to medical care a significant financial challenge for most families. We aim to change this by providing suppot to those who need it the most.",
+                text: aboutData[2]?.paragraph2,
                 tag: "p",
                 style: {
                   className:

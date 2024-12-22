@@ -12,6 +12,10 @@ import { manageHelpedChildren } from "../utilities/admin/manageHelpedChildren";
 import helpChildrenAddForm from "../utilities/admin/helpChildrenAddForm";
 import { manageHelpChildren } from "../utilities/admin/manageHelpChildren";
 
+import { manageAbout } from "../utilities/admin/about/manageAbout";
+
+import { manageDonate } from "../utilities/admin/donate/manageDonate";
+
 const Admin = () => {
   const [boardFormData, setBoardFormData] = useState({
     name: "",
@@ -77,6 +81,18 @@ const Admin = () => {
       setSelectedHelpChild,
     }).then(setChildrenHelp);
   }, [helpFormData]);
+
+  const [aboutItems, setAboutItems] = useState([]);
+
+  useEffect(() => {
+    manageAbout().then(setAboutItems);
+  }, []);
+
+  const [donateItems, setDonateItems] = useState([]);
+
+  useEffect(() => {
+    manageDonate().then(setDonateItems);
+  }, []);
 
   // Update boardFormData when selectedMember changes
   useEffect(() => {
@@ -203,43 +219,6 @@ const Admin = () => {
     }
   };
 
-  // const handleAddHelpChildSubmit = async (newHelpChildData) => {
-  //   try {
-  //     const data = await addChild(newHelpChildData);
-  //     if (data && data.length > 0) {
-  //       return true; // Success
-  //     }
-  //     return false; // No data returned
-  //   } catch (error) {
-  //     console.error("Error adding new help child:", error);
-  //     return false; // Failure
-  //   }
-  // };
-  const handleAddHelpChildSubmit = async (newHelpChildData) => {
-    try {
-      const { data, error } = await supabase
-        .from("children")
-        .insert([newHelpChildData]);
-
-      if (error) {
-        console.error("Error adding new help child:", error.message);
-        return false; // Failure
-      }
-
-      if (data === null) {
-        console.log("Child needing help added successfully.");
-        window.location.reload(); // Reload the page to reflect changes
-        return true; // Success
-      }
-
-      console.log("Unexpected result:", data);
-      return false; // Handle unexpected cases
-    } catch (error) {
-      console.error("Error adding new help child:", error);
-      return false; // Failure
-    }
-  };
-
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
@@ -294,8 +273,10 @@ const Admin = () => {
     { text: "Board Members" },
     { text: "Children We've Helped" },
     { text: "Children Needing Help" },
+    { text: "About" },
+    { text: "Donate" },
   ];
-
+  // -------------------- ADMIN BOARD MEMBERS --------------------
   const adminBoard = {
     type: "ElementComponent",
     props: {
@@ -380,7 +361,7 @@ const Admin = () => {
       },
     ],
   };
-
+  // -------------------- ADMIN HELPED CHILDREN --------------------
   const adminHelpedChildren = {
     type: "ElementComponent",
     props: {
@@ -470,7 +451,7 @@ const Admin = () => {
       },
     ],
   };
-
+  // -------------------- ADMIN NEED HELP CHILDREN --------------------
   const adminNeedHelpChildren = {
     type: "ElementComponent",
     props: {
@@ -503,12 +484,7 @@ const Admin = () => {
             props: {
               dialogChildren: [
                 // Add help child dialog
-                helpChildrenAddForm({
-                  helpFormData,
-                  setHelpFormData,
-                  onSubmit: (helpChildFormData) =>
-                    handleAddHelpChildSubmit(helpChildFormData),
-                }),
+                helpChildrenAddForm(),
               ],
               dialogStyle: {
                 className: "text-center w-3/4 h-3/4",
@@ -520,18 +496,6 @@ const Admin = () => {
                 props: {
                   text: "Add",
                   onClick: () => {
-                    setHelpFormData({
-                      name: "",
-                      header: "Children Needing Help",
-                      paragraph1_header: "",
-                      paragraph1: "",
-                      paragraph2_header: "Why Help is Needed:",
-                      paragraph2: "",
-                      cost: "",
-                      raised: "",
-                      remaining: "",
-                      image_url: "",
-                    });
                     console.log("Add need help child button clicked");
                   },
                   style: {
@@ -560,11 +524,105 @@ const Admin = () => {
       },
     ],
   };
+  // -------------------- ADMIN ABOUT --------------------
+  const adminAbout = {
+    type: "ElementComponent",
+    props: {
+      style: {
+        className:
+          "flex flex-col p-0 items-center justify-start h-full w-full bg-white",
+      },
+    },
+    children: [
+      // admin about header
+      {
+        type: "ElementComponent",
+        props: {
+          style: {
+            className: "flex flex-row justify-between w-full p-2 bg-accent",
+          },
+        },
+        children: [
+          {
+            type: "TextComponent",
+            props: {
+              text: "Edit About Page Content",
+              style: {
+                className: "text-2xl font-montserrat font-bold text-white",
+              },
+            },
+          },
+        ],
+      },
+      // admin about page content
+      {
+        type: "CarouselComponent",
+        props: {
+          carouselChildren: aboutItems,
+          childrenSettings: {
+            autoAdvanceChildren: false,
+          },
+          arrows: arrows,
+          style: {
+            className: "w-full h-full px-0",
+          },
+        },
+      },
+    ],
+  };
+  // -------------------- ADMIN DONATE --------------------
+  const adminDonate = {
+    type: "ElementComponent",
+    props: {
+      style: {
+        className:
+          "flex flex-col p-0 items-center justify-start h-full w-full bg-white",
+      },
+    },
+    children: [
+      // admin donate header
+      {
+        type: "ElementComponent",
+        props: {
+          style: {
+            className: "flex flex-row justify-between w-full p-2 bg-accent",
+          },
+        },
+        children: [
+          {
+            type: "TextComponent",
+            props: {
+              text: "Edit Donate Page Content",
+              style: {
+                className: "text-2xl font-montserrat font-bold text-white",
+              },
+            },
+          },
+        ],
+      },
+      // admin donate page content
+      {
+        type: "CarouselComponent",
+        props: {
+          carouselChildren: donateItems,
+          childrenSettings: {
+            autoAdvanceChildren: false,
+          },
+          arrows: arrows,
+          style: {
+            className: "w-full h-full px-0",
+          },
+        },
+      },
+    ],
+  };
 
   const carouselChildren = [
     adminBoard,
     adminHelpedChildren,
     adminNeedHelpChildren,
+    adminAbout,
+    adminDonate,
   ];
   // ListLineCarousel Config
   const listLineCarouselConfig = listLineCarousel({
