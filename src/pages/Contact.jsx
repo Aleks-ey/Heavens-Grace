@@ -30,11 +30,7 @@ const Contact = () => {
     type: "ElementComponent",
     props: {
       tag: "div",
-      style: {
-        display: "flex flex-row",
-        height: "h-screen md:px-10 md:py-32",
-        spacing: "justify-center items-center",
-      },
+      style: { height: "min-h-screen" },
     },
     children: [
       // background image
@@ -57,8 +53,6 @@ const Contact = () => {
           style: {
             display: "flex flex-col",
             height: "h-screen",
-            width: "w-screen",
-            padding: "",
             center: "justify-center items-center",
           },
         },

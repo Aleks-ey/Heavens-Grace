@@ -30,7 +30,7 @@ const About = () => {
         return;
       }
 
-      console.log("Fetched about data:", data); // Debug log
+      // console.log("Fetched about data:", data);
       setAboutData(data || []);
     };
 
@@ -361,14 +361,14 @@ const About = () => {
         tag: "div",
         style: {
           className:
-            "flex flex-col px-3 pt-32 pb-12 items-center h-screen z-10",
+            "flex flex-col px-3 pt-32 pb-12 justify-center items-center h-screen z-10",
         },
       },
       children: [
         {
           type: "TextComponent",
           props: {
-            text: "Our Mission",
+            text: aboutData[0]?.section_title,
             style: {
               className:
                 "pt-10 text-4xl sm:text-5xl font-florisha font-bold text-main",
@@ -512,7 +512,7 @@ const About = () => {
         {
           type: "TextComponent",
           props: {
-            text: "WHY GEORGIA AND ARMENIA?",
+            text: aboutData[2]?.section_title,
             style: {
               className:
                 "text-4xl font-florisha font-bold text-main text-right my-4",
@@ -538,6 +538,22 @@ const About = () => {
                 },
               },
             },
+            section3List.length > 0
+              ? {
+                  type: "ListComponent",
+                  props: {
+                    underlineActive: false,
+                    items: section3List,
+                    style: {
+                      className:
+                        "pl-6 text-2xl text-right font-montserrat text-accent",
+                    },
+                    itemStyle: {
+                      className: "text-accent",
+                    },
+                  },
+                }
+              : {},
             {
               type: "TextComponent",
               props: {

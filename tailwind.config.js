@@ -49,6 +49,9 @@ export default {
         "100%": { transform: "translateY(0)" },
       },
     },
+    backgroundPosition: {
+      "list-right": "100% .4em",
+    },
   },
   plugins: [],
 };

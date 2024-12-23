@@ -88,7 +88,7 @@ const Children = () => {
       props: {
         tag: "div",
         style: {
-          className: "flex flex-col items-center h-screen z-10",
+          className: "flex flex-col justify-center items-center h-screen z-10",
         },
       },
       children: [
@@ -118,7 +118,7 @@ const Children = () => {
       props: {
         tag: "div",
         style: {
-          className: "flex flex-col items-center pt-12 pb-12",
+          className: "flex flex-col items-center py-12 px-10",
         },
       },
       children: [
@@ -143,7 +143,7 @@ const Children = () => {
       props: {
         tag: "div",
         style: {
-          className: "flex flex-col justify-center items-center py-12",
+          className: "flex flex-col justify-center items-center py-12 px-10",
         },
       },
       children: [
