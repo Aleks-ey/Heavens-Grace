@@ -1,68 +1,23 @@
-import { supabase } from "../../supabaseClient";
-import helpChildrenEditForm from "./helpChildrenEditForm";
-import { deleteChild } from "./childrenApi";
+import { supabase } from "../../../supabaseClient";
+import helpedChildrenEditForm from "./helpedChildrenEditForm";
+import { deleteChild } from "../childrenApi";
 
-export const manageHelpChildren = async ({
-  helpFormData,
-  setHelpFormData,
-  setSelectedHelpChild,
-}) => {
-  // Fetch data for "Children We've help"
+export const manageHelpedChildren = async () => {
+  // Fetch data for "Children We've Helped"
   const { data, error } = await supabase
     .from("children")
     .select("*")
-    .eq("type", "help");
+    .eq("type", "helped");
 
   if (error) {
     console.error(error);
     return [];
   }
 
-  // Handle editing a child
-  //   const handleEditSubmit = async (updatedFormData, childId) => {
-  //     try {
-  //       const success = await editChild(childId, updatedFormData);
-  //       if (success) {
-  //         alert("Child data updated successfully!");
-  //         window.location.reload();
-  //       } else {
-  //         alert("Failed to update child data. Please try again.");
-  //       }
-  //     } catch (err) {
-  //       console.error("Edit error:", err);
-  //     }
-  //   };
-  const handleEditSubmit = async (updatedFormData, childId) => {
-    try {
-      const { data, error } = await supabase
-        .from("children")
-        .update(updatedFormData)
-        .eq("id", childId);
-
-      if (error) {
-        console.error("Update error:", error.message);
-        return false; // Failure
-      }
-
-      if (data === null) {
-        console.log("Update successful but returned null data.");
-        alert("Child data updated successfully!");
-        window.location.reload();
-        return true; // Treat null as success
-      }
-
-      console.log("Update successful:", data);
-      return true; // Success
-    } catch (err) {
-      console.error("Error during update:", err);
-      return false; // Failure
-    }
-  };
-
   // Handle deleting a child
   const handleDelete = async (childId) => {
     try {
-      const success = await deleteChild(childId, "children-help");
+      const success = await deleteChild(childId, "children-helped");
       if (success) {
         alert("Child deleted successfully!");
         window.location.reload();
@@ -85,7 +40,7 @@ export const manageHelpChildren = async ({
     center: "self-center justify-center",
   };
   const CardTopStyle = {
-    height: "h-full",
+    height: "h-full max-h-[80%]",
     width: "w-full",
     padding: "p-0",
     center: "self-center justify-center content-center",
@@ -183,7 +138,7 @@ export const manageHelpChildren = async ({
                   ],
                 },
                 {
-                  // paragraph 2 header and text
+                  // paargraph 2 header and text
                   type: "ElementComponent",
                   props: {
                     style: {
@@ -339,17 +294,7 @@ export const manageHelpChildren = async ({
             {
               type: "DialogComponent",
               props: {
-                dialogChildren: [
-                  helpChildrenEditForm({
-                    child,
-                    helpFormData,
-                    setHelpFormData,
-                    onSubmit: (helpedFormData) =>
-                      handleEditSubmit(helpedFormData, child.id, () =>
-                        console.log("close dialog trigger")
-                      ),
-                  }),
-                ],
+                dialogChildren: [helpedChildrenEditForm(child)],
                 dialogStyle: {
                   className: "text-center w-3/4 h-3/4",
                 },
@@ -359,7 +304,6 @@ export const manageHelpChildren = async ({
                   type: "ButtonComponent",
                   props: {
                     text: "Edit",
-                    onClick: () => setSelectedHelpChild(child),
                     style: {
                       className:
                         "bg-main hover:bg-white text-white hover:text-main border-main font-bold py-2 px-6 rounded",
@@ -376,7 +320,9 @@ export const manageHelpChildren = async ({
                     type: "TextComponent",
                     props: {
                       text: `Are you sure you want to delete ${child.name}?`,
-                      style: { className: "text-lg font-bold" },
+                      style: {
+                        className: "text-lg font-bold",
+                      },
                     },
                   },
                   {
@@ -394,7 +340,9 @@ export const manageHelpChildren = async ({
                     },
                   },
                 ],
-                dialogStyle: { className: "text-center" },
+                dialogStyle: {
+                  className: "text-center",
+                },
               },
               children: [
                 {

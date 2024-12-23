@@ -3,84 +3,67 @@ import { AppBuilder, listLineCarousel } from "@aleks-ey/dynamic-app-builder";
 import { useEffect, useState } from "react";
 import { supabase } from "../supabaseClient";
 
-import boardAddForm from "../utilities/admin/boardAddForm";
-import { manageBoard } from "../utilities/admin/manageBoard";
+import boardAddForm from "../utilities/admin/board/boardAddForm";
+import { manageBoard } from "../utilities/admin/board/manageBoard";
 
-import helpedChildrenAddForm from "../utilities/admin/helpedChildrenAddForm";
-import { manageHelpedChildren } from "../utilities/admin/manageHelpedChildren";
+import helpedChildrenAddForm from "../utilities/admin/helpedChildren/helpedChildrenAddForm";
+import { manageHelpedChildren } from "../utilities/admin/helpedChildren/manageHelpedChildren";
 
-import helpChildrenAddForm from "../utilities/admin/helpChildrenAddForm";
-import { manageHelpChildren } from "../utilities/admin/manageHelpChildren";
+import helpChildrenAddForm from "../utilities/admin/helpChildren/helpChildrenAddForm";
+import { manageHelpChildren } from "../utilities/admin/helpChildren/manageHelpChildren";
 
 import { manageAbout } from "../utilities/admin/about/manageAbout";
 
 import { manageDonate } from "../utilities/admin/donate/manageDonate";
 
 const Admin = () => {
-  const [boardFormData, setBoardFormData] = useState({
-    name: "",
-    position: "",
-    biography: "",
-    personal: "",
-    image_url: "",
-  });
+  // const [helpedFormData, setHelpedFormData] = useState({
+  //   name: "",
+  //   header: "",
+  //   paragraph1_header: "",
+  //   paragraph1: "",
+  //   paragraph2_header: "",
+  //   paragraph2: "",
+  //   cost: "",
+  //   raised: "",
+  //   remaining: "",
+  //   image_url: "",
+  // });
 
-  const [helpedFormData, setHelpedFormData] = useState({
-    name: "",
-    header: "",
-    paragraph1_header: "",
-    paragraph1: "",
-    paragraph2_header: "",
-    paragraph2: "",
-    cost: "",
-    raised: "",
-    remaining: "",
-    image_url: "",
-  });
+  // const [helpFormData, setHelpFormData] = useState({
+  //   name: "",
+  //   header: "",
+  //   paragraph1_header: "",
+  //   paragraph1: "",
+  //   paragraph2_header: "",
+  //   paragraph2: "",
+  //   cost: "",
+  //   raised: "",
+  //   remaining: "",
+  //   image_url: "",
+  // });
 
-  const [helpFormData, setHelpFormData] = useState({
-    name: "",
-    header: "",
-    paragraph1_header: "",
-    paragraph1: "",
-    paragraph2_header: "",
-    paragraph2: "",
-    cost: "",
-    raised: "",
-    remaining: "",
-    image_url: "",
-  });
+  // const [selectedHelpedChild, setSelectedHelpedChild] = useState(null);
+
+  // const [selectedHelpChild, setSelectedHelpChild] = useState(null);
 
   const [boardMembers, setBoardMembers] = useState([]);
-  const [selectedMember, setSelectedMember] = useState(null);
+
+  useEffect(() => {
+    manageBoard().then(setBoardMembers);
+  }, []);
 
   const [childrenHelped, setChildrenHelped] = useState([]);
-  const [selectedHelpedChild, setSelectedHelpedChild] = useState(null);
+
+  useEffect(() => {
+    manageHelpedChildren().then(setChildrenHelped);
+  }, []);
 
   const [childrenHelp, setChildrenHelp] = useState([]);
-  const [selectedHelpChild, setSelectedHelpChild] = useState(null);
 
   useEffect(() => {
-    manageBoard({ boardFormData, setBoardFormData, setSelectedMember }).then(
-      setBoardMembers
-    );
-  }, [boardFormData]);
-
-  useEffect(() => {
-    manageHelpedChildren({
-      helpedFormData,
-      setHelpedFormData,
-      setSelectedHelpedChild,
-    }).then(setChildrenHelped);
-  }, [helpedFormData]);
-
-  useEffect(() => {
-    manageHelpChildren({
-      helpFormData,
-      setHelpFormData,
-      setSelectedHelpChild,
-    }).then(setChildrenHelp);
-  }, [helpFormData]);
+    manageHelpChildren().then(setChildrenHelp);
+  }, []);
 
   const [aboutItems, setAboutItems] = useState([]);
 
@@ -94,94 +77,6 @@ const Admin = () => {
     manageDonate().then(setDonateItems);
   }, []);
 
-  // Update boardFormData when selectedMember changes
-  useEffect(() => {
-    if (selectedMember) {
-      setBoardFormData({
-        name: selectedMember.name || "",
-        position: selectedMember.position || "",
-        biography: selectedMember.biography || "",
-        personal: selectedMember.personal || "",
-        image_url: selectedMember.image_url || "",
-      });
-    }
-  }, [selectedMember]);
-
-  useEffect(() => {
-    if (selectedHelpedChild) {
-      setHelpedFormData({
-        name: selectedHelpedChild.name || "",
-        header: selectedHelpedChild.header || "",
-        paragraph1_header: selectedHelpedChild.paragraph1_header || "",
-        paragraph1: selectedHelpedChild.paragraph1 || "",
-        paragraph2_header: selectedHelpedChild.paragraph2_header || "",
-        paragraph2: selectedHelpedChild.paragraph2 || "",
-        cost: selectedHelpedChild.cost || "",
-        raised: selectedHelpedChild.raised || "",
-        remaining: selectedHelpedChild.remaining || "",
-        image_url: selectedHelpedChild.image_url || "",
-      });
-    }
-  }, [selectedHelpedChild]);
-
-  useEffect(() => {
-    if (selectedHelpChild) {
-      setHelpFormData({
-        name: selectedHelpChild.name || "",
-        header: selectedHelpChild.header || "",
-        paragraph1_header: selectedHelpChild.paragraph1_header || "",
-        paragraph1: selectedHelpChild.paragraph1 || "",
-        paragraph2_header: selectedHelpChild.paragraph2_header || "",
-        paragraph2: selectedHelpChild.paragraph2 || "",
-        cost: selectedHelpChild.cost || "",
-        raised: selectedHelpChild.raised || "",
-        remaining: selectedHelpChild.remaining || "",
-        image_url: selectedHelpChild.image_url || "",
-      });
-    }
-  }, [selectedHelpChild]);
-
-  // const handleAddBoardSubmit = async (newMemberData) => {
-  //   try {
-  //     const data = await addBoardMember(newMemberData);
-  //     if (data) {
-  //       console.log("Here");
-  //       return true; // Success
-  //     }
-  //     console.log("Here2");
-  //     return false; // No data returned
-  //   } catch (error) {
-  //     console.error("Error adding new board member:", error);
-  //     return false; // Failure
-  //   }
-  // };
-  const handleAddBoardSubmit = async (newMemberData) => {
-    try {
-      // Directly insert the new member data into Supabase
-      const { data, error } = await supabase
-        .from("board")
-        .insert([newMemberData]);
-
-      if (error) {
-        console.error("Supabase insert error:", error.message);
-        return false; // Return false on error
-      }
-
-      if (data === null) {
-        console.log("New board member added:", data);
-        alert("Board member added successfully!");
-        window.location.reload(); // Reload the page to reflect changes
-        return true; // Return true on success
-      }
-
-      console.log("Unexpected result:", data);
-      return false; // Handle unexpected cases
-    } catch (error) {
-      console.error("Error adding new board member:", error);
-      return false; // Return false on exception
-    }
-  };
-
   // const handleAddHelpedChildSubmit = async (newHelpedChildData) => {
   //   try {
   //     const data = await addChild(newHelpedChildData);
@@ -194,30 +89,30 @@ const Admin = () => {
   //     return false; // Failure
   //   }
   // };
-  const handleAddHelpedChildSubmit = async (newHelpedChildData) => {
-    try {
-      const { data, error } = await supabase
-        .from("children")
-        .insert([newHelpedChildData]);
+  // const handleAddHelpedChildSubmit = async (newHelpedChildData) => {
+  //   try {
+  //     const { data, error } = await supabase
+  //       .from("children")
+  //       .insert([newHelpedChildData]);
 
-      if (error) {
-        console.error("Error adding new helped child:", error.message);
-        return false; // Failure
-      }
+  //     if (error) {
+  //       console.error("Error adding new helped child:", error.message);
+  //       return false; // Failure
+  //     }
 
-      if (data === null) {
-        console.log("Helped child added successfully.");
-        window.location.reload(); // Reload the page to reflect changes
-        return true; // Success
-      }
+  //     if (data === null) {
+  //       console.log("Helped child added successfully.");
+  //       window.location.reload(); // Reload the page to reflect changes
+  //       return true; // Success
+  //     }
 
-      console.log("Unexpected result:", data);
-      return false; // Handle unexpected cases
-    } catch (error) {
-      console.error("Error adding new helped child:", error);
-      return false; // Failure
-    }
-  };
+  //     console.log("Unexpected result:", data);
+  //     return false; // Handle unexpected cases
+  //   } catch (error) {
+  //     console.error("Error adding new helped child:", error);
+  //     return false; // Failure
+  //   }
+  // };
 
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
@@ -309,12 +204,7 @@ const Admin = () => {
             props: {
               dialogChildren: [
                 // Add member dialog
-                boardAddForm({
-                  boardFormData,
-                  setBoardFormData,
-                  onSubmit: (boardFormData) =>
-                    handleAddBoardSubmit(boardFormData),
-                }),
+                boardAddForm(),
               ],
               dialogStyle: {
                 className: "text-center w-3/4 h-3/4",
@@ -326,13 +216,6 @@ const Admin = () => {
                 props: {
                   text: "Add",
                   onClick: () => {
-                    setBoardFormData({
-                      name: "",
-                      position: "",
-                      biography: "",
-                      personal: "",
-                      image_url: "",
-                    });
                     console.log("Add board member button clicked");
                   },
                   style: {
@@ -394,12 +277,7 @@ const Admin = () => {
             props: {
               dialogChildren: [
                 // Add helped child dialog
-                helpedChildrenAddForm({
-                  helpedFormData,
-                  setHelpedFormData,
-                  onSubmit: (helpedChildFormData) =>
-                    handleAddHelpedChildSubmit(helpedChildFormData),
-                }),
+                helpedChildrenAddForm(),
               ],
               dialogStyle: {
                 className: "text-center w-3/4 h-3/4",
@@ -411,18 +289,6 @@ const Admin = () => {
                 props: {
                   text: "Add",
                   onClick: () => {
-                    setHelpedFormData({
-                      name: "",
-                      header: "Children We've Helped",
-                      paragraph1_header: "",
-                      paragraph1: "",
-                      paragraph2_header: "After Recieving Help:",
-                      paragraph2: "",
-                      cost: "",
-                      raised: "",
-                      remaining: "",
-                      image_url: "",
-                    });
                     console.log("Add helped child button clicked");
                   },
                   style: {

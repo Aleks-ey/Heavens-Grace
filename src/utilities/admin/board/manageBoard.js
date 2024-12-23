@@ -1,39 +1,15 @@
-import { supabase } from "../../supabaseClient";
+import { supabase } from "../../../supabaseClient";
 import boardEditForm from "./boardEditForm";
 
 // Fetch function with added edit and delete buttons
-export const manageBoard = async ({
-  boardFormData,
-  setBoardFormData,
-  setSelectedMember,
-}) => {
+export const manageBoard = async () => {
+  // fetch data for board members
   const { data, error } = await supabase.from("board").select("*");
 
   if (error) {
     console.error(error);
     return [];
   }
-
-  const handleEditSubmit = async (updatedFormData, memberId) => {
-    try {
-      const { error } = await supabase
-        .from("board")
-        .update(updatedFormData)
-        .eq("id", memberId);
-
-      if (error) {
-        console.error("Edit failed:", error);
-        return false; // Failure
-      }
-      alert("Board member updated successfully!");
-      window.location.reload(); // Reload to reflect changes
-      return true; // Success
-    } catch (err) {
-      console.error("Edit error:", err);
-      alert("Failed to update board member.");
-      return false;
-    }
-  };
 
   const handleDelete = async (memberId) => {
     try {
@@ -53,6 +29,7 @@ export const manageBoard = async ({
     }
   };
 
+  // return a mapped configuration for each board member
   return data.map((member) => {
     return {
       type: "ElementComponent",
@@ -195,17 +172,7 @@ export const manageBoard = async ({
             {
               type: "DialogComponent",
               props: {
-                dialogChildren: [
-                  boardEditForm({
-                    member,
-                    boardFormData,
-                    setBoardFormData,
-                    onSubmit: (boardFormData) =>
-                      handleEditSubmit(boardFormData, member.id, () =>
-                        console.log("Dialog closed")
-                      ),
-                  }),
-                ],
+                dialogChildren: [boardEditForm(member)],
                 dialogStyle: {
                   className: "text-center w-3/4 h-3/4",
                 },
@@ -215,9 +182,6 @@ export const manageBoard = async ({
                   type: "ButtonComponent",
                   props: {
                     text: "Edit",
-                    onClick: () => {
-                      setSelectedMember(member);
-                    }, // Set the selected member here
                     style: {
                       className:
                         "bg-main hover:bg-white text-white hover:text-main border-main font-bold py-2 px-6 rounded",

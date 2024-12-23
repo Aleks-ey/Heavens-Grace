@@ -10,7 +10,7 @@ export const manageAbout = async () => {
     return [];
   }
 
-  // Return a mapped configuration for children
+  // Return a mapped configuration for about sections
   return data.map((section) => {
     const title = section.section_title;
     const paragraph1 = section.paragraph1;

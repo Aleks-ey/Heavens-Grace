@@ -8,7 +8,7 @@ const aboutEditForm = (section) => {
     const updatedData = {
       section_title: formData.section_title,
       paragraph1: formData.paragraph1,
-      list: formData.list_items ? JSON.parse(formData.list) : null,
+      list: formData.list,
       paragraph2: formData.paragraph2,
     };
 
@@ -60,12 +60,12 @@ const aboutEditForm = (section) => {
         },
         {
           name: "list",
-          label: "List Items (['like this'], ['item1'])",
+          label: "List Items (item1, item2, item3)",
           tag: "textarea",
           props: {
-            defaultValue: list ? JSON.stringify(list, null, 2) : "",
+            defaultValue: list || "",
             placeholder:
-              "Enter list items like this: (e.g., ['item1', 'item2'])",
+              "Enter list items like this: item1, item2, item3 (comma separated)",
           },
           labelStyle: { className: "font-bold text-left" },
           inputStyle: { className: "border rounded px-1 py-2 min-h-28" },
