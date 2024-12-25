@@ -39,7 +39,7 @@ const Contact = () => {
         props: {
           src: "https://bgwvecjqiktvopqzsexd.supabase.co/storage/v1/object/public/backgrounds/background1.jpg?t=2024-12-03T01%3A01%3A04.025Z",
           style: {
-            className: "absolute w-full h-full object-cover object-center",
+            className: "absolute w-full h-screen object-cover object-center",
             opacity: "opacity-50",
             reverse: "-scale-x-100",
             zIndex: "-z-10",
