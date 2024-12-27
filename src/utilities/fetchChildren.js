@@ -244,7 +244,7 @@ export async function fetchChildren(type) {
             props: {
               style: {
                 className:
-                  "flex flex-col lg:justify-center h-full w-full pr-4 md:space-y-4 lg:space-y-6 text-left overflow-y-auto scrollbar-thin",
+                  "flex flex-col lg:justify-start h-full w-full pr-4 md:space-y-4 lg:space-y-6 text-left overflow-y-auto scrollbar-thin",
               },
             },
             children: [

@@ -102,8 +102,7 @@ const Donate = () => {
           type: "ButtonComponent",
           props: {
             text: "Donate Now",
-            isExternal: true,
-            href: "https://example.com/donate",
+            href: "https://www.paypal.com/donate/?hosted_button_id=WESFEVUAYS63Y",
             style: {
               backgroundColor: "bg-white md:bg-main border-main",
               hoverColors: "hover:bg-white hover:text-main hover:border-main",

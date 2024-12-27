@@ -48,7 +48,7 @@ const Home = () => {
           type: "ButtonComponent",
           props: {
             text: "Donate Now",
-            onClick: () => console.log("button clicked"),
+            href: "https://www.paypal.com/donate/?hosted_button_id=WESFEVUAYS63Y",
             style: {
               className:
                 "w-fit bg-white font-montserrat text-main-dark mx-auto md:mx-0 px-4 py-2 rounded-full",
