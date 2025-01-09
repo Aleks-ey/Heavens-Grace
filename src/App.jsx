@@ -43,9 +43,23 @@ function App() {
   const navLinks = [
     { text: "About Us", link: "/about" },
     { text: "Children", link: "/children" },
-    { text: "How Donate", link: "/donate" },
+    { text: "Sponsor Info", link: "/donate" },
     // { text: "News & Media", link: "/news" },
     { text: "Contact", link: "/contact" },
+    {
+      text: "Donate Now",
+      link: "https://www.paypal.com/donate/?hosted_button_id=WESFEVUAYS63Y",
+      style: {
+        font: "font-montserrat",
+        fontSize: "text-lg",
+        backgroundColor: "bg-main",
+        color: "text-white",
+        padding: "px-4 py-2",
+        border: "rounded-full",
+        hoverColors: "bg-main hover:bg-white hover:text-main hover:border-main",
+      },
+      isExternal: true,
+    },
   ];
 
   const linkStyle = {
@@ -164,9 +178,14 @@ function App() {
         links: [
           { text: "About Us", link: "/about" },
           { text: "Children", link: "/children" },
-          { text: "How to Donate", link: "/donate" },
+          { text: "Sponsor Info", link: "/donate" },
           // { text: "News & Media", link: "/news" },
           { text: "Contact", link: "/contact" },
+          {
+            text: "Donate Now",
+            link: "https://www.paypal.com/donate/?hosted_button_id=WESFEVUAYS63Y",
+            isExternal: true,
+          },
         ],
         linkStyle: {
           font: "font-montserrat",

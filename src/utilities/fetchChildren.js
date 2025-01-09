@@ -19,13 +19,13 @@ export async function fetchChildren(type) {
     center: "self-center justify-center content-center",
     backgroundColor: "bg-white",
     translate: "translate-y-5",
-    borderRadius: "rounded-t-lg",
+    borderRadius: "rounded-t-2xl md:rounded-t-lg",
   };
   const CardBottomStyle = {
     height: "h-auto",
     width: "w-full",
     padding: "py-3 px-2",
-    translate: "-translate-y-5",
+    translate: "-translate-y-5 md:-translate-y-1",
     center: "self-center justify-center content-center",
     backgroundColor: "bg-white",
     borderRadius: "rounded-full",
@@ -208,7 +208,7 @@ export async function fetchChildren(type) {
               href: "/donate",
               style: {
                 className:
-                  "absolute right-0 bg-white hover:bg-white border-none shadow-lg text-white p-0 rounded-full",
+                  "absolute right-0 bg-white hover:bg-white border-none shadow-xl text-white p-0 rounded-full max-h-24",
               },
             },
             children: [
@@ -218,7 +218,7 @@ export async function fetchChildren(type) {
                   src: "/logos/logo-color.png",
                   alt: "Heaven's Grace Red Ladybug",
                   style: {
-                    height: "w-24 h-24 lg:h-28",
+                    height: "w-24 h-24",
                     objectFit: "object-fill",
                   },
                 },
@@ -244,7 +244,7 @@ export async function fetchChildren(type) {
             props: {
               style: {
                 className:
-                  "flex flex-col lg:justify-start h-full w-full pr-4 md:space-y-4 lg:space-y-6 text-left overflow-y-auto scrollbar-thin",
+                  "flex flex-col h-full w-full pr-4 md:space-y-4 lg:space-y-6 text-left overflow-y-auto scrollbar-thin",
               },
             },
             children: [
@@ -337,7 +337,7 @@ export async function fetchChildren(type) {
                       src: src,
                       alt: child.name,
                       style: {
-                        rounded: "rounded-t-lg",
+                        rounded: "rounded-t-2xl md:rounded-t-lg",
                         height: "min-h-96",
                       },
                     },
