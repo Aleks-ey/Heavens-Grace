@@ -25,7 +25,7 @@ export async function fetchChildren(type) {
     height: "h-auto",
     width: "w-full",
     padding: "py-3 px-2",
-    translate: "-translate-y-5 md:-translate-y-1",
+    translate: "-translate-y-5 md:-translate-y-6",
     center: "self-center justify-center content-center",
     backgroundColor: "bg-white",
     borderRadius: "rounded-full",
@@ -338,7 +338,7 @@ export async function fetchChildren(type) {
                       alt: child.name,
                       style: {
                         rounded: "rounded-t-2xl md:rounded-t-lg",
-                        height: "min-h-96",
+                        height: "min-h-96 min-w-full",
                       },
                     },
                   },
